@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Keeper's | Production Team</title>
+    <style>
+        /* CSS styling */
+        :root {
+            --bg-color: #0d0d0f;
+            --surface-color: #1a1a1f;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --accent-color: #7851A9; /* Cosmic Purple */
+            --accent-hover: #5e3f84;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(13, 13, 15, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .lang-switch {
+            background: var(--surface-color);
+            color: var(--text-main);
+            border: 1px solid #333;
+            padding: 0.3rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 1rem;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 5%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        /* Grids */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #333;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .price-tag {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-main);
+            margin: 1rem 0;
+        }
+
+        /* Contact Form */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        input, textarea {
+            background: var(--bg-color);
+            border: 1px solid #333;
+            color: var(--text-main);
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: var(--accent-hover);
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* RTL support for Hebrew */
+        [dir="rtl"] {
+            text-align: right;
+        }
+        [dir="rtl"] .nav-links a {
+            margin-left: 0;
+            margin-right: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Time Keeper's</div>
+        <div class="nav-links">
+            <a href="#about" class="lang" data-en="About" data-he="אודות" data-ru="О нас">About</a>
+            <a href="#services" class="lang" data-en="Services" data-he="שירותים" data-ru="Услуги">Services</a>
+            <a href="#pricing" class="lang" data-en="Pricing" data-he="מחירון" data-ru="Цены">Pricing</a>
+            <a href="#contact" class="lang" data-en="Contact" data-he="צור קשר" data-ru="Контакты">Contact</a>
+            <select class="lang-switch" onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="he">עברית</option>
+                <option value="ru">Русский</option>
+            </select>
+        </div>
+    </nav>
+
+    <section id="about">
+        <h1 class="lang" data-en="We are Time Keeper's" data-he="אנחנו שומרי הזמן" data-ru="Мы - Time Keeper's">We are Time Keeper's</h1>
+        <p class="lang" data-en="Your all-in-one production team. We handle everything from directing and filming to editing and social media management." data-he="צוות ההפקה המלא שלך. אנחנו מטפלים בהכל - מבימוי וצילום ועד עריכה וניהול רשתות חברתיות." data-ru="Ваша универсальная продакшн-команда. Мы занимаемся всем: от режиссуры и съемок до монтажа и ведения соцсетей.">Your all-in-one production team. We handle everything from directing and filming to editing and social media management.</p>
+    </section>
+
+    <section id="services">
+        <h2 class="lang" data-en="What We Do" data-he="מה אנחנו עושים" data-ru="Что мы делаем">What We Do</h2>
+        <div class="grid">
+            <div class="card">
+                <h3 class="lang" data-en="Video Editing" data-he="עריכת וידאו" data-ru="Видеомонтаж">Video Editing</h3>
+                <p class="lang" data-en="Professional cuts, color grading, and effects for any platform." data-he="חיתוכים מקצועיים, תיקוני צבע ואפקטים לכל פלטפורמה." data-ru="Профессиональный монтаж, цветокоррекция и эффекты для любой платформы.">Professional cuts, color grading, and effects for any platform.</p>
+                <div class="price-tag lang" data-en="From 1,200 ₪" data-he="החל מ-1,200 ₪" data-ru="От 1,200 ₪">From 1,200 ₪</div>
+            </div>
+            <div class="card">
+                <h3 class="lang" data-en="Social Media" data-he="ניהול רשתות חברתיות" data-ru="Социальные сети">Social Media</h3>
+                <p class="lang" data-en="Content strategy, posting, and community management." data-he="אסטרטגיית תוכן, פרסום וניהול קהילה." data-ru="Контент-стратегия, публикации и управление сообществом.">Content strategy, posting, and community management.</p>
+                <div class="price-tag lang" data-en="1,800 ₪ / month" data-he="1,800 ₪ / חודש" data-ru="1,800 ₪ / месяц">1,800 ₪ / month</div>
+            </div>
+            <div class="card">
+                <h3 class="lang" data-en="Directing & Filming" data-he="בימוי וצילום" data-ru="Режиссура и Съемка">Directing & Filming</h3>
+                <p class="lang" data-en="On-set direction, camera operation, and set management." data-he="בימוי על הסט, תפעול מצלמה וניהול הפקה." data-ru="Режиссура на площадке, операторская работа и управление процессом.">On-set direction, camera operation, and set management.</p>
+                <div class="price-tag lang" data-en="2,500 ₪ / day" data-he="2,500 ₪ / יום" data-ru="2,500 ₪ / день">2,500 ₪ / day</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing">
+        <h2 class="lang" data-en="Production Packages" data-he="חבילות הפקה" data-ru="Пакеты услуг">Production Packages</h2>
+        <div class="grid">
+            <div class="card">
+                <h3 class="lang" data-en="Starter Pack" data-he="חבילת בסיס" data-ru="Базовый пакет">Starter Pack</h3>
+                <div class="price-tag">2,500 ₪</div>
+                <p class="lang" data-en="Basic video editing + initial social media account setup." data-he="עריכת וידאו בסיסית + הקמת חשבונות רשתות חברתיות." data-ru="Базовый видеомонтаж + начальная настройка соцсетей.">Basic video editing + initial social media account setup.</p>
+            </div>
+            <div class="card">
+                <h3 class="lang" data-en="Pro Pack" data-he="חבילת פרו" data-ru="Пакет Про">Pro Pack</h3>
+                <div class="price-tag">4,500 ₪</div>
+                <p class="lang" data-en="1 day of filming + Full editing + 1 month social management." data-he="יום צילום 1 + עריכה מלאה + חודש ניהול רשתות." data-ru="1 день съемок + Полный монтаж + 1 месяц ведения соцсетей.">1 day of filming + Full editing + 1 month social management.</p>
+            </div>
+            <div class="card">
+                <h3 class="lang" data-en="Full House" data-he="הפקת פרימיום" data-ru="Полный цикл">Full House</h3>
+                <div class="price-tag">8,000 ₪</div>
+                <p class="lang" data-en="A-Z Production. Directing, multi-day filming, complex editing, and advanced social strategy." data-he="הפקת מאלף ועד תו. בימוי, מספר ימי צילום, עריכה מורכבת ואסטרטגיה מתקדמת." data-ru="Продакшн от А до Я. Режиссура, несколько дней съемок, сложный монтаж и продвинутая стратегия.">A-Z Production. Directing, multi-day filming, complex editing, and advanced social strategy.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="lang" data-en="Let's Start Working" data-he="בואו נתחיל לעבוד" data-ru="Давайте работать">Let's Start Working</h2>
+        <div class="contact-info">
+            <p>Email: contact@timekeepers.com | Phone: +972 50-000-0000</p>
+            <p>Instagram: @timekeepers_prod</p>
+        </div>
+        
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <input type="text" name="name" required placeholder="Your Name" class="lang-placeholder" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">
+            <input type="email" name="email" required placeholder="Your Email" class="lang-placeholder" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">
+            <textarea name="message" rows="5" required placeholder="Tell us about your project..." class="lang-placeholder" data-en="Tell us about your project..." data-he="ספר לנו על הפרויקט שלך..." data-ru="Расскажите о вашем проекте..."></textarea>
+            <button type="submit" class="lang" data-en="Send Message" data-he="שלח הודעה" data-ru="Отправить сообщение">Send Message</button>
+        </form>
+    </section>
+
+    <script>
+        function changeLanguage(lang) {
+            // Set text direction for Hebrew
+            if (lang === 'he') {
+                document.documentElement.setAttribute('dir', 'rtl');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+            }
+            
+            // Update standard text
+            const elements = document.querySelectorAll('.lang');
+            elements.forEach(el => {
+                el.innerText = el.getAttribute(`data-${lang}`);
+            });
+
+            // Update placeholders in the form
+            const placeholders = document.querySelectorAll('.lang-placeholder');
+            placeholders.forEach(el => {
+                el.placeholder = el.getAttribute(`data-${lang}`);
+            });
+        }
+    </script>
+</body>
+</html>
