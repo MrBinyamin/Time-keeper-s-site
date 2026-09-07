@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Keeper's | Production Team</title>
+    <title>Time Keeper's Production | Video, Photo &amp; Content</title>
     <style>
-        /* CSS styling */
         :root {
             --bg-color: #0d0d0f;
             --surface-color: #1a1a1f;
@@ -13,6 +12,7 @@
             --text-muted: #a1a1aa;
             --accent-color: #7851A9; /* Cosmic Purple */
             --accent-hover: #5e3f84;
+            --border: #2a2a31;
         }
 
         * {
@@ -22,11 +22,12 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
+        html { scroll-behavior: smooth; }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
-            scroll-behavior: smooth;
         }
 
         /* Navigation */
@@ -40,81 +41,131 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
             z-index: 1000;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid var(--border);
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
             color: var(--accent-color);
+            letter-spacing: 0.04em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
         }
 
         .nav-links a {
             color: var(--text-main);
             text-decoration: none;
-            margin-left: 2rem;
+            font-size: 0.95rem;
             transition: color 0.3s;
         }
 
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
+        .nav-links a:hover { color: var(--accent-color); }
 
         .lang-switch {
             background: var(--surface-color);
             color: var(--text-main);
-            border: 1px solid #333;
-            padding: 0.3rem;
+            border: 1px solid var(--border);
+            padding: 0.35rem;
             border-radius: 4px;
             cursor: pointer;
-            margin-left: 1rem;
         }
 
         /* Sections */
         section {
-            padding: 100px 5%;
+            padding: 110px 5% 90px;
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        #about {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        h1 {
-            font-size: 4rem;
+        .eyebrow {
+            color: var(--accent-color);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-size: 0.85rem;
             margin-bottom: 1rem;
         }
 
+        h1 {
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
         h2 {
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             color: var(--accent-color);
-            margin-bottom: 2rem;
+            margin-bottom: 0.75rem;
             text-align: center;
         }
 
-        p {
+        .section-sub {
             color: var(--text-muted);
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 3rem;
+        }
+
+        p { color: var(--text-muted); }
+
+        #about p {
             font-size: 1.2rem;
-            max-width: 600px;
+            max-width: 640px;
             margin-bottom: 2rem;
         }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 1.6rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1rem;
+            border: 1px solid var(--accent-color);
+            color: var(--text-main);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .btn-primary { background: var(--accent-color); }
+        .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+        .btn-ghost:hover { background: rgba(120, 81, 169, 0.15); }
 
         /* Grids */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
             gap: 2rem;
             width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         .card {
             background: var(--surface-color);
             padding: 2rem;
             border-radius: 8px;
-            border: 1px solid #333;
-            transition: transform 0.3s;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
         .card:hover {
@@ -122,26 +173,121 @@
             border-color: var(--accent-color);
         }
 
-        .price-tag {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--text-main);
-            margin: 1rem 0;
+        .card-index {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.5rem;
         }
 
-        /* Contact Form */
+        .card h3 {
+            font-size: 1.4rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .card > p { margin-top: 0.75rem; }
+
+        .price-tag {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-main);
+            margin: 1rem 0 0.25rem;
+        }
+
+        .pkg-list {
+            list-style: none;
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.25rem;
+        }
+
+        .pkg-list li {
+            color: var(--text-muted);
+            padding: 0.35rem 0 0.35rem 1.4rem;
+            position: relative;
+        }
+
+        .pkg-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.95em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-color);
+        }
+
+        /* Rate card */
+        .rate-group {
+            background: var(--surface-color);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+
+        .rate-group h3 {
+            font-size: 1.1rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .rate-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .rate-line:last-child { border-bottom: none; }
+        .rate-line span:first-child { color: var(--text-muted); }
+        .rate-line .rate-price { font-weight: bold; white-space: nowrap; }
+
+        /* Keep currency amounts in logical LTR order even in RTL mode */
+        .price-tag, .rate-price { direction: ltr; unicode-bidi: isolate; }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step-num {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            line-height: 1;
+        }
+
+        .step h4 { margin: 0.5rem 0 0.25rem; font-size: 1.1rem; }
+
+        .note {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+            max-width: 760px;
+            margin: 2.5rem auto 0;
+        }
+
+        /* Contact */
         form {
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            max-width: 500px;
+            max-width: 520px;
             margin: 0 auto;
             width: 100%;
         }
 
         input, textarea {
             background: var(--bg-color);
-            border: 1px solid #333;
+            border: 1px solid var(--border);
             color: var(--text-main);
             padding: 1rem;
             border-radius: 4px;
@@ -164,33 +310,53 @@
             transition: background 0.3s;
         }
 
-        button:hover {
-            background: var(--accent-hover);
-        }
+        button:hover { background: var(--accent-hover); }
 
         .contact-info {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .contact-info a {
+            color: var(--text-main);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .contact-info a:hover { color: var(--accent-color); }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 5%;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
         }
 
         /* RTL support for Hebrew */
-        [dir="rtl"] {
-            text-align: right;
-        }
-        [dir="rtl"] .nav-links a {
-            margin-left: 0;
-            margin-right: 2rem;
-        }
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .pkg-list li { padding: 0.35rem 1.4rem 0.35rem 0; }
+        [dir="rtl"] .pkg-list li::before { left: auto; right: 0; }
+        [dir="rtl"] h2,
+        [dir="rtl"] .section-sub,
+        [dir="rtl"] .note,
+        [dir="rtl"] .contact-info,
+        [dir="rtl"] footer { text-align: center; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">Time Keeper's</div>
+        <div class="logo">TIMEKEEPERS</div>
         <div class="nav-links">
             <a href="#about" class="lang" data-en="About" data-he="אודות" data-ru="О нас">About</a>
             <a href="#services" class="lang" data-en="Services" data-he="שירותים" data-ru="Услуги">Services</a>
-            <a href="#pricing" class="lang" data-en="Pricing" data-he="מחירון" data-ru="Цены">Pricing</a>
+            <a href="#content" class="lang" data-en="Content" data-he="תוכן" data-ru="Контент">Content</a>
+            <a href="#weddings" class="lang" data-en="Weddings" data-he="חתונות" data-ru="Свадьбы">Weddings</a>
+            <a href="#ratecard" class="lang" data-en="Rate Card" data-he="מחירון" data-ru="Прайс">Rate Card</a>
             <a href="#contact" class="lang" data-en="Contact" data-he="צור קשר" data-ru="Контакты">Contact</a>
             <select class="lang-switch" onchange="changeLanguage(this.value)">
                 <option value="en">English</option>
@@ -200,87 +366,241 @@
         </div>
     </nav>
 
+    <!-- ABOUT / HERO -->
     <section id="about">
-        <h1 class="lang" data-en="We are Time Keeper's" data-he="אנחנו שומרי הזמן" data-ru="Мы - Time Keeper's">We are Time Keeper's</h1>
-        <p class="lang" data-en="Your all-in-one production team. We handle everything from directing and filming to editing and social media management." data-he="צוות ההפקה המלא שלך. אנחנו מטפלים בהכל - מבימוי וצילום ועד עריכה וניהול רשתות חברתיות." data-ru="Ваша универсальная продакшн-команда. Мы занимаемся всем: от режиссуры и съемок до монтажа и ведения соцсетей.">Your all-in-one production team. We handle everything from directing and filming to editing and social media management.</p>
+        <div class="eyebrow">Timekeepers Production / 2026</div>
+        <h1 class="lang" data-en="We are Time Keeper's" data-he="אנחנו שומרי הזמן" data-ru="Мы — Time Keeper's">We are Time Keeper's</h1>
+        <p class="lang" data-en="Your all-in-one production team — commercial, social and branded content, from concept and direction through filming, editing and delivery." data-he="צוות ההפקה המלא שלכם — תוכן מסחרי, שיווקי ולרשתות החברתיות, מקונספט ובימוי ועד צילום, עריכה ומסירה." data-ru="Ваша универсальная продакшн-команда — коммерческий, рекламный и социальный контент: от концепции и режиссуры до съёмки, монтажа и сдачи проекта.">Your all-in-one production team — commercial, social and branded content, from concept and direction through filming, editing and delivery.</p>
+        <div class="hero-actions">
+            <a href="#content" class="btn btn-primary lang" data-en="View Packages" data-he="לצפייה בחבילות" data-ru="Смотреть пакеты">View Packages</a>
+            <a href="#ratecard" class="btn btn-ghost lang" data-en="Build Your Production" data-he="בנו את ההפקה שלכם" data-ru="Соберите свой продакшн">Build Your Production</a>
+        </div>
     </section>
 
+    <!-- SERVICES -->
     <section id="services">
         <h2 class="lang" data-en="What We Do" data-he="מה אנחנו עושים" data-ru="Что мы делаем">What We Do</h2>
+        <p class="section-sub lang" data-en="Four production areas that combine into any project — separately or as a complete package." data-he="ארבעה תחומי הפקה שמתחברים לכל פרויקט — בנפרד או כחבילה שלמה." data-ru="Четыре направления производства, которые складываются в любой проект — по отдельности или как единый пакет.">Four production areas that combine into any project — separately or as a complete package.</p>
         <div class="grid">
             <div class="card">
-                <h3 class="lang" data-en="Video Editing" data-he="עריכת וידאו" data-ru="Видеомонтаж">Video Editing</h3>
-                <p class="lang" data-en="Professional cuts, color grading, and effects for any platform." data-he="חיתוכים מקצועיים, תיקוני צבע ואפקטים לכל פלטפורמה." data-ru="Профессиональный монтаж, цветокоррекция и эффекты для любой платформы.">Professional cuts, color grading, and effects for any platform.</p>
-                <div class="price-tag lang" data-en="From 1,200 ₪" data-he="החל מ-1,200 ₪" data-ru="От 1,200 ₪">From 1,200 ₪</div>
+                <h3 class="lang" data-en="Video Production" data-he="הפקת וידאו" data-ru="Видеопродакшн">Video Production</h3>
+                <p class="lang" data-en="On-set direction, camera operation and set management — from a 3-hour session to a full production day." data-he="בימוי על הסט, תפעול מצלמה וניהול הפקה — משלוש שעות צילום ועד יום הפקה מלא." data-ru="Режиссура на площадке, операторская работа и управление съёмкой — от 3 часов до полного съёмочного дня.">On-set direction, camera operation and set management — from a 3-hour session to a full production day.</p>
             </div>
             <div class="card">
-                <h3 class="lang" data-en="Social Media" data-he="ניהול רשתות חברתיות" data-ru="Социальные сети">Social Media</h3>
-                <p class="lang" data-en="Content strategy, posting, and community management." data-he="אסטרטגיית תוכן, פרסום וניהול קהילה." data-ru="Контент-стратегия, публикации и управление сообществом.">Content strategy, posting, and community management.</p>
-                <div class="price-tag lang" data-en="1,800 ₪ / month" data-he="1,800 ₪ / חודש" data-ru="1,800 ₪ / месяц">1,800 ₪ / month</div>
+                <h3 class="lang" data-en="Crew &amp; Equipment" data-he="צוות וציוד" data-ru="Команда и оборудование">Crew &amp; Equipment</h3>
+                <p class="lang" data-en="Additional camera operators, static cameras, on-set photographer, drone and any extra gear your project needs." data-he="צלמים נוספים, מצלמות סטטיות, צלם סטילס בסט, רחפן וכל ציוד נוסף שהפרויקט דורש." data-ru="Дополнительные операторы, статичные камеры, фотограф на площадке, дрон и любое дополнительное оборудование.">Additional camera operators, static cameras, on-set photographer, drone and any extra gear your project needs.</p>
             </div>
             <div class="card">
-                <h3 class="lang" data-en="Directing & Filming" data-he="בימוי וצילום" data-ru="Режиссура и Съемка">Directing & Filming</h3>
-                <p class="lang" data-en="On-set direction, camera operation, and set management." data-he="בימוי על הסט, תפעול מצלמה וניהול הפקה." data-ru="Режиссура на площадке, операторская работа и управление процессом.">On-set direction, camera operation, and set management.</p>
-                <div class="price-tag lang" data-en="2,500 ₪ / day" data-he="2,500 ₪ / יום" data-ru="2,500 ₪ / день">2,500 ₪ / day</div>
+                <h3 class="lang" data-en="Post Production" data-he="פוסט פרודקשן" data-ru="Постпродакшн">Post Production</h3>
+                <p class="lang" data-en="Reels, long-form and interview editing, subtitles, color grading, motion graphics and AI / VFX work." data-he="רילסים, עריכת סרטונים ארוכים וראיונות, כתוביות, תיקוני צבע, מושן גרפיקס ועבודות AI ואפקטים." data-ru="Reels, длинные видео и интервью, субтитры, цветокоррекция, моушн-графика и работа с AI / VFX.">Reels, long-form and interview editing, subtitles, color grading, motion graphics and AI / VFX work.</p>
+            </div>
+            <div class="card">
+                <h3 class="lang" data-en="Creative" data-he="קריאייטיב" data-ru="Креатив">Creative</h3>
+                <p class="lang" data-en="Concept development, content planning, script writing and voice over — the thinking before the camera rolls." data-he="פיתוח קונספט, תכנון תוכן, כתיבת תסריט וקריינות — החשיבה שלפני שהמצלמה מתחילה." data-ru="Разработка концепции, планирование контента, написание сценария и закадровый голос — работа до начала съёмки.">Concept development, content planning, script writing and voice over — the thinking before the camera rolls.</p>
             </div>
         </div>
     </section>
 
-    <section id="pricing">
-        <h2 class="lang" data-en="Production Packages" data-he="חבילות הפקה" data-ru="Пакеты услуг">Production Packages</h2>
+    <!-- CONTENT PACKAGES -->
+    <section id="content">
+        <h2 class="lang" data-en="Content Packages" data-he="חבילות תוכן" data-ru="Пакеты контента">Content Packages</h2>
+        <p class="section-sub lang" data-en="Ready-to-go production solutions for brands, businesses and social content." data-he="פתרונות הפקה מוכנים למותגים, לעסקים ולתוכן לרשתות החברתיות." data-ru="Готовые продакшн-решения для брендов, бизнеса и контента для соцсетей.">Ready-to-go production solutions for brands, businesses and social content.</p>
         <div class="grid">
             <div class="card">
-                <h3 class="lang" data-en="Starter Pack" data-he="חבילת בסיס" data-ru="Базовый пакет">Starter Pack</h3>
-                <div class="price-tag">2,500 ₪</div>
-                <p class="lang" data-en="Basic video editing + initial social media account setup." data-he="עריכת וידאו בסיסית + הקמת חשבונות רשתות חברתיות." data-ru="Базовый видеомонтаж + начальная настройка соцсетей.">Basic video editing + initial social media account setup.</p>
+                <div class="card-index">01</div>
+                <h3 class="lang" data-en="Starter Content" data-he="תוכן סטארטר" data-ru="Стартовый контент">Starter Content</h3>
+                <div class="price-tag">₪2,500</div>
+                <p class="lang" data-en="A simple, efficient content session for everyday social media." data-he="יום צילום פשוט ויעיל לתוכן שוטף לרשתות החברתיות." data-ru="Простая и эффективная съёмка контента для повседневных соцсетей.">A simple, efficient content session for everyday social media.</p>
+                <ul class="pkg-list">
+                    <li class="lang" data-en="Up to 4 Hours Production" data-he="עד 4 שעות הפקה" data-ru="До 4 часов съёмки">Up to 4 Hours Production</li>
+                    <li class="lang" data-en="Up to 3 Reels" data-he="עד 3 רילסים" data-ru="До 3 Reels">Up to 3 Reels</li>
+                    <li class="lang" data-en="Basic Content Planning" data-he="תכנון תוכן בסיסי" data-ru="Базовое планирование контента">Basic Content Planning</li>
+                    <li class="lang" data-en="Basic Editing — Clean Cuts &amp; Music" data-he="עריכה בסיסית — חיתוכים ומוזיקה" data-ru="Базовый монтаж — склейки и музыка">Basic Editing — Clean Cuts &amp; Music</li>
+                    <li class="lang" data-en="Basic Subtitles" data-he="כתוביות בסיסיות" data-ru="Базовые субтитры">Basic Subtitles</li>
+                    <li class="lang" data-en="Color Correction" data-he="תיקוני צבע" data-ru="Цветокоррекция">Color Correction</li>
+                </ul>
             </div>
             <div class="card">
-                <h3 class="lang" data-en="Pro Pack" data-he="חבילת פרו" data-ru="Пакет Про">Pro Pack</h3>
-                <div class="price-tag">4,500 ₪</div>
-                <p class="lang" data-en="1 day of filming + Full editing + 1 month social management." data-he="יום צילום 1 + עריכה מלאה + חודש ניהול רשתות." data-ru="1 день съемок + Полный монтаж + 1 месяц ведения соцсетей.">1 day of filming + Full editing + 1 month social management.</p>
+                <div class="card-index">02</div>
+                <h3 class="lang" data-en="Business Content" data-he="תוכן עסקי" data-ru="Бизнес-контент">Business Content</h3>
+                <div class="price-tag">₪5,000</div>
+                <p class="lang" data-en="A full content session built for consistent business communication." data-he="יום הפקה מלא שנבנה לתקשורת עסקית עקבית." data-ru="Полноценная съёмка для последовательной бизнес-коммуникации.">A full content session built for consistent business communication.</p>
+                <ul class="pkg-list">
+                    <li class="lang" data-en="Up to 7 Hours Production" data-he="עד 7 שעות הפקה" data-ru="До 7 часов съёмки">Up to 7 Hours Production</li>
+                    <li class="lang" data-en="Up to 5 Reels" data-he="עד 5 רילסים" data-ru="До 5 Reels">Up to 5 Reels</li>
+                    <li class="lang" data-en="Content Planning" data-he="תכנון תוכן" data-ru="Планирование контента">Content Planning</li>
+                    <li class="lang" data-en="Professional Editing" data-he="עריכה מקצועית" data-ru="Профессиональный монтаж">Professional Editing</li>
+                    <li class="lang" data-en="Subtitles" data-he="כתוביות" data-ru="Субтитры">Subtitles</li>
+                    <li class="lang" data-en="Color Grading" data-he="גריידינג צבע" data-ru="Цветокоррекция (grading)">Color Grading</li>
+                    <li class="lang" data-en="Sound Design" data-he="סאונד דיזיין" data-ru="Саунд-дизайн">Sound Design</li>
+                </ul>
             </div>
             <div class="card">
-                <h3 class="lang" data-en="Full House" data-he="הפקת פרימיום" data-ru="Полный цикл">Full House</h3>
-                <div class="price-tag">8,000 ₪</div>
-                <p class="lang" data-en="A-Z Production. Directing, multi-day filming, complex editing, and advanced social strategy." data-he="הפקת מאלף ועד תו. בימוי, מספר ימי צילום, עריכה מורכבת ואסטרטגיה מתקדמת." data-ru="Продакшн от А до Я. Режиссура, несколько дней съемок, сложный монтаж и продвинутая стратегия.">A-Z Production. Directing, multi-day filming, complex editing, and advanced social strategy.</p>
+                <div class="card-index">03</div>
+                <h3 class="lang" data-en="Brand Package" data-he="חבילת מותג" data-ru="Бренд-пакет">Brand Package</h3>
+                <div class="price-tag">₪7,000+</div>
+                <p class="lang" data-en="A complete visual production for brands that need a stronger presence." data-he="הפקה ויזואלית מלאה למותגים שצריכים נוכחות חזקה יותר." data-ru="Полное визуальное производство для брендов, которым нужно более сильное присутствие.">A complete visual production for brands that need a stronger presence.</p>
+                <ul class="pkg-list">
+                    <li class="lang" data-en="Up to 8 Hours Production" data-he="עד 8 שעות הפקה" data-ru="До 8 часов съёмки">Up to 8 Hours Production</li>
+                    <li class="lang" data-en="Brand Film" data-he="סרט מותג" data-ru="Имиджевый фильм бренда">Brand Film</li>
+                    <li class="lang" data-en="Up to 3 Reels" data-he="עד 3 רילסים" data-ru="До 3 Reels">Up to 3 Reels</li>
+                    <li class="lang" data-en="Photographer" data-he="צלם סטילס" data-ru="Фотограф">Photographer</li>
+                    <li class="lang" data-en="20 Edited Photos" data-he="20 תמונות ערוכות" data-ru="20 обработанных фото">20 Edited Photos</li>
+                    <li class="lang" data-en="Creative Development" data-he="פיתוח קריאייטיבי" data-ru="Разработка креатива">Creative Development</li>
+                    <li class="lang" data-en="Professional Editing" data-he="עריכה מקצועית" data-ru="Профессиональный монтаж">Professional Editing</li>
+                    <li class="lang" data-en="Color Grading &amp; Sound Design" data-he="גריידינג צבע וסאונד דיזיין" data-ru="Цветокоррекция и саунд-дизайн">Color Grading &amp; Sound Design</li>
+                </ul>
             </div>
         </div>
+        <p class="note lang" data-en="Packages are designed for standard content production. Complex concepts, additional locations, crew, equipment or production requirements are quoted separately." data-he="החבילות מיועדות להפקת תוכן סטנדרטית. קונספטים מורכבים, לוקיישנים נוספים, צוות, ציוד או דרישות הפקה נוספות מתומחרים בנפרד." data-ru="Пакеты рассчитаны на стандартное производство контента. Сложные концепции, дополнительные локации, команда, оборудование или производственные требования оцениваются отдельно.">Packages are designed for standard content production. Complex concepts, additional locations, crew, equipment or production requirements are quoted separately.</p>
     </section>
 
+    <!-- WEDDING COLLECTIONS -->
+    <section id="weddings">
+        <h2 class="lang" data-en="Wedding Collections" data-he="חבילות חתונה" data-ru="Свадебные коллекции">Wedding Collections</h2>
+        <p class="section-sub lang" data-en="Cinematic photo &amp; video coverage created to preserve the story of your wedding day." data-he="צילום וידאו וסטילס קולנועי שנועד לשמר את הסיפור של יום החתונה שלכם." data-ru="Кинематографическая фото- и видеосъёмка, созданная, чтобы сохранить историю вашего свадебного дня.">Cinematic photo &amp; video coverage created to preserve the story of your wedding day.</p>
+        <div class="grid">
+            <div class="card">
+                <div class="card-index">01</div>
+                <h3 class="lang" data-en="Essential" data-he="אסנשיאל" data-ru="Базовая">Essential</h3>
+                <div class="price-tag">₪7,500</div>
+                <p class="lang" data-en="Focused coverage of the wedding celebration itself." data-he="כיסוי ממוקד של חגיגת החתונה עצמה." data-ru="Сфокусированная съёмка самого свадебного торжества.">Focused coverage of the wedding celebration itself.</p>
+                <ul class="pkg-list">
+                    <li class="lang" data-en="Up to 6 Hours Coverage" data-he="עד 6 שעות כיסוי" data-ru="До 6 часов съёмки">Up to 6 Hours Coverage</li>
+                    <li class="lang" data-en="1 Videographer" data-he="צלם וידאו אחד" data-ru="1 видеограф">1 Videographer</li>
+                    <li class="lang" data-en="1 Photographer" data-he="צלם סטילס אחד" data-ru="1 фотограф">1 Photographer</li>
+                    <li class="lang" data-en="Wedding Highlight Film" data-he="סרט היילייטס מהחתונה" data-ru="Highlight-фильм со свадьбы">Wedding Highlight Film</li>
+                    <li class="lang" data-en="1 Social Reel" data-he="ריל אחד לרשתות" data-ru="1 Reels для соцсетей">1 Social Reel</li>
+                    <li class="lang" data-en="50+ Edited Photos" data-he="מעל 50 תמונות ערוכות" data-ru="50+ обработанных фото">50+ Edited Photos</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-index">02</div>
+                <h3 class="lang" data-en="Signature" data-he="סיגנצ'ר" data-ru="Расширенная">Signature</h3>
+                <div class="price-tag">₪10,000</div>
+                <p class="lang" data-en="Expanded multi-camera coverage for a fuller wedding story." data-he="כיסוי מורחב במספר מצלמות לסיפור חתונה מלא יותר." data-ru="Расширенная многокамерная съёмка для более полной истории свадьбы.">Expanded multi-camera coverage for a fuller wedding story.</p>
+                <ul class="pkg-list">
+                    <li class="lang" data-en="Up to 10 Hours Coverage" data-he="עד 10 שעות כיסוי" data-ru="До 10 часов съёмки">Up to 10 Hours Coverage</li>
+                    <li class="lang" data-en="2 Videographers" data-he="2 צלמי וידאו" data-ru="2 видеографа">2 Videographers</li>
+                    <li class="lang" data-en="1 Photographer" data-he="צלם סטילס אחד" data-ru="1 фотограф">1 Photographer</li>
+                    <li class="lang" data-en="Wedding Film" data-he="סרט חתונה" data-ru="Свадебный фильм">Wedding Film</li>
+                    <li class="lang" data-en="3 Social Reels" data-he="3 רילסים לרשתות" data-ru="3 Reels для соцсетей">3 Social Reels</li>
+                    <li class="lang" data-en="100+ Edited Photos" data-he="מעל 100 תמונות ערוכות" data-ru="100+ обработанных фото">100+ Edited Photos</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-index">03</div>
+                <h3 class="lang" data-en="Cinematic" data-he="סינמטיק" data-ru="Кинематографическая">Cinematic</h3>
+                <div class="price-tag">₪14,000+</div>
+                <p class="lang" data-en="Full-day cinematic production from preparations through the celebration." data-he="הפקה קולנועית ליום שלם — מההכנות ועד סוף החגיגה." data-ru="Полнодневное кинематографическое производство — от сборов до конца праздника.">Full-day cinematic production from preparations through the celebration.</p>
+                <ul class="pkg-list">
+                    <li class="lang" data-en="Full Wedding Day Coverage" data-he="כיסוי יום חתונה מלא" data-ru="Съёмка полного свадебного дня">Full Wedding Day Coverage</li>
+                    <li class="lang" data-en="Bride &amp; Groom Preparations" data-he="הכנות כלה וחתן" data-ru="Сборы невесты и жениха">Bride &amp; Groom Preparations</li>
+                    <li class="lang" data-en="2 Videographers" data-he="2 צלמי וידאו" data-ru="2 видеографа">2 Videographers</li>
+                    <li class="lang" data-en="2 Photographers" data-he="2 צלמי סטילס" data-ru="2 фотографа">2 Photographers</li>
+                    <li class="lang" data-en="Cinematic Wedding Film" data-he="סרט חתונה קולנועי" data-ru="Кинематографический свадебный фильм">Cinematic Wedding Film</li>
+                    <li class="lang" data-en="3 Social Reels" data-he="3 רילסים לרשתות" data-ru="3 Reels для соцсетей">3 Social Reels</li>
+                    <li class="lang" data-en="Drone Coverage" data-he="צילומי רחפן" data-ru="Съёмка с дрона">Drone Coverage</li>
+                    <li class="lang" data-en="Additional Production Equipment" data-he="ציוד הפקה נוסף" data-ru="Дополнительное производственное оборудование">Additional Production Equipment</li>
+                    <li class="lang" data-en="300+ Edited Photos" data-he="מעל 300 תמונות ערוכות" data-ru="300+ обработанных фото">300+ Edited Photos</li>
+                </ul>
+            </div>
+        </div>
+        <p class="note lang" data-en="Wedding collections are based on standard production requirements. Additional hours, locations, crew, travel or special production requirements are quoted separately." data-he="חבילות החתונה מבוססות על דרישות הפקה סטנדרטיות. שעות נוספות, לוקיישנים, צוות, נסיעות או דרישות הפקה מיוחדות מתומחרים בנפרד." data-ru="Свадебные коллекции рассчитаны на стандартные производственные требования. Дополнительные часы, локации, команда, поездки или особые требования оцениваются отдельно.">Wedding collections are based on standard production requirements. Additional hours, locations, crew, travel or special production requirements are quoted separately.</p>
+    </section>
+
+    <!-- RATE CARD -->
+    <section id="ratecard">
+        <h2 class="lang" data-en="Build Your Production" data-he="בנו את ההפקה שלכם" data-ru="Соберите свой продакшн">Build Your Production</h2>
+        <p class="section-sub lang" data-en="Flexible production pricing for commercial, social and branded content." data-he="תמחור הפקה גמיש לתוכן מסחרי, שיווקי ולרשתות החברתיות." data-ru="Гибкое ценообразование для коммерческого, социального и брендового контента.">Flexible production pricing for commercial, social and branded content.</p>
+        <div class="grid">
+            <div class="rate-group">
+                <h3 class="lang" data-en="01 — Video Production" data-he="01 — הפקת וידאו" data-ru="01 — Видеопродакшн">01 — Video Production</h3>
+                <div class="rate-line"><span class="lang" data-en="Production / Up to 3 Hours" data-he="הפקה / עד 3 שעות" data-ru="Съёмка / до 3 часов">Production / Up to 3 Hours</span><span class="rate-price">₪1,200</span></div>
+                <div class="rate-line"><span class="lang" data-en="Half Day / Up to 6 Hours" data-he="חצי יום / עד 6 שעות" data-ru="Полдня / до 6 часов">Half Day / Up to 6 Hours</span><span class="rate-price">₪2,000</span></div>
+                <div class="rate-line"><span class="lang" data-en="Full Day / Up to 10 Hours" data-he="יום מלא / עד 10 שעות" data-ru="Полный день / до 10 часов">Full Day / Up to 10 Hours</span><span class="rate-price">₪3,500</span></div>
+            </div>
+            <div class="rate-group">
+                <h3 class="lang" data-en="02 — Crew &amp; Equipment" data-he="02 — צוות וציוד" data-ru="02 — Команда и оборудование">02 — Crew &amp; Equipment</h3>
+                <div class="rate-line"><span class="lang" data-en="Additional Camera Operator" data-he="צלם וידאו נוסף" data-ru="Дополнительный оператор">Additional Camera Operator</span><span class="rate-price">₪900+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Additional Static Camera" data-he="מצלמה סטטית נוספת" data-ru="Дополнительная статичная камера">Additional Static Camera</span><span class="rate-price">₪300+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Photographer / On Set — Up to 3 Hours" data-he="צלם סטילס בסט / עד 3 שעות" data-ru="Фотограф на площадке / до 3 часов">Photographer / On Set — Up to 3 Hours</span><span class="rate-price">₪700+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Edited Photo" data-he="תמונה ערוכה" data-ru="Обработанное фото">Edited Photo</span><span class="rate-price">₪50+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Drone" data-he="רחפן" data-ru="Дрон">Drone</span><span class="rate-price">₪300+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Additional Equipment" data-he="ציוד נוסף" data-ru="Дополнительное оборудование">Additional Equipment</span><span class="rate-price lang" data-en="Custom" data-he="בהתאמה" data-ru="По запросу">Custom</span></div>
+            </div>
+            <div class="rate-group">
+                <h3 class="lang" data-en="03 — Post Production" data-he="03 — פוסט פרודקשן" data-ru="03 — Постпродакшн">03 — Post Production</h3>
+                <div class="rate-line"><span class="lang" data-en="Reel / Up to 60 sec." data-he="ריל / עד 60 שניות" data-ru="Reels / до 60 сек.">Reel / Up to 60 sec.</span><span class="rate-price">₪350+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Advanced Reel" data-he="ריל מתקדם" data-ru="Продвинутый Reels">Advanced Reel</span><span class="rate-price">₪500+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Long-form / Interview" data-he="סרטון ארוך / ראיון" data-ru="Длинное видео / интервью">Long-form / Interview</span><span class="rate-price">₪800+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Color Grading" data-he="גריידינג צבע" data-ru="Цветокоррекция">Color Grading</span><span class="rate-price">₪300+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Motion Graphics" data-he="מושן גרפיקס" data-ru="Моушн-графика">Motion Graphics</span><span class="rate-price">₪400+</span></div>
+                <div class="rate-line"><span class="lang" data-en="AI / VFX" data-he="AI / אפקטים" data-ru="AI / VFX">AI / VFX</span><span class="rate-price lang" data-en="Custom" data-he="בהתאמה" data-ru="По запросу">Custom</span></div>
+            </div>
+            <div class="rate-group">
+                <h3 class="lang" data-en="04 — Creative" data-he="04 — קריאייטיב" data-ru="04 — Креатив">04 — Creative</h3>
+                <div class="rate-line"><span class="lang" data-en="Concept Development" data-he="פיתוח קונספט" data-ru="Разработка концепции">Concept Development</span><span class="rate-price">₪500+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Script Writing" data-he="כתיבת תסריט" data-ru="Написание сценария">Script Writing</span><span class="rate-price">₪500+</span></div>
+                <div class="rate-line"><span class="lang" data-en="Voice Over" data-he="קריינות" data-ru="Закадровый голос">Voice Over</span><span class="rate-price lang" data-en="Custom" data-he="בהתאמה" data-ru="По запросу">Custom</span></div>
+            </div>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">01</div>
+                <h4 class="lang" data-en="Choose production time" data-he="בוחרים זמן הפקה" data-ru="Выбираете время съёмки">Choose production time</h4>
+                <p class="lang" data-en="3 Hours / Half Day / Full Day" data-he="3 שעות / חצי יום / יום מלא" data-ru="3 часа / полдня / полный день">3 Hours / Half Day / Full Day</p>
+            </div>
+            <div class="step">
+                <div class="step-num">02</div>
+                <h4 class="lang" data-en="Add crew &amp; equipment" data-he="מוסיפים צוות וציוד" data-ru="Добавляете команду и оборудование">Add crew &amp; equipment</h4>
+                <p class="lang" data-en="Camera / Operator / Photographer / Drone" data-he="מצלמה / צלם / צלם סטילס / רחפן" data-ru="Камера / оператор / фотограф / дрон">Camera / Operator / Photographer / Drone</p>
+            </div>
+            <div class="step">
+                <div class="step-num">03</div>
+                <h4 class="lang" data-en="Choose post production" data-he="בוחרים פוסט פרודקשן" data-ru="Выбираете постпродакшн">Choose post production</h4>
+                <p class="lang" data-en="Reels / Editing / Motion Graphics / AI" data-he="רילסים / עריכה / מושן גרפיקס / AI" data-ru="Reels / монтаж / моушн-графика / AI">Reels / Editing / Motion Graphics / AI</p>
+            </div>
+        </div>
+
+        <p class="note lang" data-en="Prices exclude VAT. Final pricing may vary depending on project requirements, location and production complexity." data-he="המחירים אינם כוללים מע״מ. התמחור הסופי עשוי להשתנות בהתאם לדרישות הפרויקט, הלוקיישן ומורכבות ההפקה." data-ru="Цены указаны без НДС. Итоговая стоимость может отличаться в зависимости от требований проекта, локации и сложности производства.">Prices exclude VAT. Final pricing may vary depending on project requirements, location and production complexity.</p>
+    </section>
+
+    <!-- CONTACT -->
     <section id="contact">
         <h2 class="lang" data-en="Let's Start Working" data-he="בואו נתחיל לעבוד" data-ru="Давайте работать">Let's Start Working</h2>
         <div class="contact-info">
-            <p>Email: contact@timekeepers.com | Phone: +972 50-000-0000</p>
-            <p>Instagram: @timekeepers_prod</p>
+            <div><a href="tel:+972532219255" dir="ltr">+972 53 221 9255</a></div>
+            <div><a href="mailto:timekeepersproduction.co.il@gmail.com" dir="ltr">timekeepersproduction.co.il@gmail.com</a></div>
+            <div><a href="https://instagram.com/timekeepers_production" target="_blank" rel="noopener" dir="ltr">@timekeepers_production</a></div>
         </div>
-        
+
         <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
             <input type="text" name="name" required placeholder="Your Name" class="lang-placeholder" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">
             <input type="email" name="email" required placeholder="Your Email" class="lang-placeholder" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">
-            <textarea name="message" rows="5" required placeholder="Tell us about your project..." class="lang-placeholder" data-en="Tell us about your project..." data-he="ספר לנו על הפרויקט שלך..." data-ru="Расскажите о вашем проекте..."></textarea>
-            <button type="submit" class="lang" data-en="Send Message" data-he="שלח הודעה" data-ru="Отправить сообщение">Send Message</button>
+            <textarea name="message" rows="5" required placeholder="Tell us about your project..." class="lang-placeholder" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте..."></textarea>
+            <button type="submit" class="lang" data-en="Send Message" data-he="שליחת הודעה" data-ru="Отправить сообщение">Send Message</button>
         </form>
     </section>
 
+    <footer>
+        <p class="lang" data-en="Timekeepers Production / 2026 — Prices exclude VAT." data-he="Timekeepers Production / 2026 — המחירים אינם כוללים מע״מ." data-ru="Timekeepers Production / 2026 — цены указаны без НДС.">Timekeepers Production / 2026 — Prices exclude VAT.</p>
+    </footer>
+
     <script>
         function changeLanguage(lang) {
-            // Set text direction for Hebrew
-            if (lang === 'he') {
-                document.documentElement.setAttribute('dir', 'rtl');
-            } else {
-                document.documentElement.setAttribute('dir', 'ltr');
-            }
-            
-            // Update standard text
-            const elements = document.querySelectorAll('.lang');
-            elements.forEach(el => {
-                el.innerText = el.getAttribute(`data-${lang}`);
+            document.documentElement.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('lang', lang);
+
+            document.querySelectorAll('.lang').forEach(el => {
+                const value = el.getAttribute('data-' + lang);
+                if (value !== null) el.innerText = value;
             });
 
-            // Update placeholders in the form
-            const placeholders = document.querySelectorAll('.lang-placeholder');
-            placeholders.forEach(el => {
-                el.placeholder = el.getAttribute(`data-${lang}`);
+            document.querySelectorAll('.lang-placeholder').forEach(el => {
+                const value = el.getAttribute('data-' + lang);
+                if (value !== null) el.placeholder = value;
             });
         }
     </script>
