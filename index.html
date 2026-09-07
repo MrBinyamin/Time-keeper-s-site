@@ -1,417 +1,1061 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Keeper's Production | Video, Photo &amp; Content</title>
-    <style>
-        :root {
-            --bg-color: #0d0d0f;
-            --surface-color: #1a1a1f;
-            --text-main: #f4f4f5;
-            --text-muted: #a1a1aa;
-            --accent-color: #7851A9; /* Cosmic Purple */
-            --accent-hover: #5e3f84;
-            --border: #2a2a31;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Keeper's Production | Video, Photo &amp; Content</title>
+<meta name="description" content="Timekeepers Production — commercial, social and branded content, wedding films and photography. Content packages, wedding collections and a flexible 2026 rate card.">
+<meta name="theme-color" content="#08090a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2308090a'/%3E%3Cpath transform='translate(17 8) scale(.47)' fill='%23f4f2ee' fill-rule='evenodd' d='M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z'/%3E%3C/svg%3E">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+<!-- Gates every entrance animation. Without JS the page renders complete
+     and static, never stranded at opacity 0. -->
+<script>document.documentElement.className += ' js';</script>
 
-        html { scroll-behavior: smooth; }
+<link rel="preload" as="image" href="assets/hero/poster.webp" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Rubik:wght@400;500;700&family=Syne:wght@700;800&display=swap">
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
+<style>
+/* ═══════════════════════════════════════════════════════════
+   TOKENS
+   ═══════════════════════════════════════════════════════════ */
+:root {
+    /* Night — the auditorium */
+    --bg:         #08090a;
+    --surface:    #111417;
+    --surface-2:  #171b1f;
+    --line:       #23282d;
+    --line-soft:  #191d21;
+    --text:       #f4f2ee;
+    --muted:      #a3a29c;
+    --faint:      #6c6d6b;
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(13, 13, 15, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
+    /* Tungsten — the practical light on set */
+    --gold:       #d6a95e;
+    --gold-bright:#f0d6a4;
+    --gold-wash:  rgba(214, 169, 94, 0.10);
+    --gold-line:  rgba(214, 169, 94, 0.34);
+    --cool:       rgba(74, 104, 140, 0.14);
 
-        .logo {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--accent-color);
-            letter-spacing: 0.04em;
-        }
+    /* Day — the house lights, for the closing band */
+    --bone:       #ece7dd;
+    --ink:        #101112;
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
+    --font-display: 'Syne', 'Rubik', system-ui, sans-serif;
+    --font-body:    'Inter', 'Rubik', system-ui, -apple-system, sans-serif;
+    --font-mono:    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 
-        .nav-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
+    --pad:   clamp(1.25rem, 5vw, 4.5rem);
+    --maxw:  1240px;
+    --nav-h: 68px;
 
-        .nav-links a:hover { color: var(--accent-color); }
+    /* Motion language: confident, decelerating, never bouncy */
+    --e-out:   cubic-bezier(.19, 1, .22, 1);
+    --e-inout: cubic-bezier(.65, 0, .35, 1);
+    --d-slow:  1.05s;
+    --d-mid:   0.8s;
+    --d-fast:  0.4s;
+}
 
-        .lang-switch {
-            background: var(--surface-color);
-            color: var(--text-main);
-            border: 1px solid var(--border);
-            padding: 0.35rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+*, *::before, *::after { box-sizing: border-box; }
 
-        /* Sections */
-        section {
-            padding: 110px 5% 90px;
-            max-width: 1240px;
-            margin: 0 auto;
-        }
+html { -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
-        #about {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
 
-        .eyebrow {
-            color: var(--accent-color);
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-        }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; margin: 0; line-height: 1.02; letter-spacing: -0.03em; }
+p { margin: 0; }
+a { color: inherit; }
+ul { margin: 0; padding: 0; list-style: none; }
 
-        h1 {
-            font-size: clamp(2.4rem, 6vw, 4rem);
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-        }
+/* Rubik carries Hebrew and Cyrillic; it wants neither Syne's display
+   weight nor the negative tracking Syne is drawn for. */
+:root[lang="he"] h1, :root[lang="he"] h2, :root[lang="he"] h3, :root[lang="he"] h4, :root[lang="he"] .display,
+:root[lang="ru"] h1, :root[lang="ru"] h2, :root[lang="ru"] h3, :root[lang="ru"] h4, :root[lang="ru"] .display {
+    font-weight: 700; letter-spacing: -0.01em; line-height: 1.1;
+}
 
-        h2 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            color: var(--accent-color);
-            margin-bottom: 0.75rem;
-            text-align: center;
-        }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 2px; }
+.sec--light :focus-visible { outline-color: var(--ink); }
 
-        .section-sub {
-            color: var(--text-muted);
-            text-align: center;
-            max-width: 640px;
-            margin: 0 auto 3rem;
-        }
+.skip {
+    position: absolute; inset-inline-start: -9999px; top: 0; z-index: 3000;
+    background: var(--gold); color: #0b0c0d; padding: 0.75rem 1.25rem;
+    font-weight: 600; text-decoration: none;
+}
+.skip:focus { inset-inline-start: 0; }
 
-        p { color: var(--text-muted); }
+.vh {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
 
-        #about p {
-            font-size: 1.2rem;
-            max-width: 640px;
-            margin-bottom: 2rem;
-        }
+/* Film grain over the whole print */
+.grain {
+    position: fixed; inset: 0; z-index: 900; pointer-events: none; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
+/* ═══════════════════════════════════════════════════════════
+   APERTURE — a stylised iris breathing behind the whole page,
+   with pulses of light leaving the lens. Fixed, behind everything,
+   never interactive. The blades live in one small SVG (its repaint
+   is local); the pulses are plain composited divs, so their motion
+   is transform + opacity only.
+   ═══════════════════════════════════════════════════════════ */
+.aperture {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; pointer-events: none; overflow: hidden;
+    transform: translateZ(0);
+}
+.iris {
+    position: absolute; left: 50%; top: 50%;
+    width: 118vmin; height: 118vmin;
+    transform: translate(-50%, -50%) translateZ(0);
+    will-change: transform;
+}
+.iris-ring { fill: none; stroke: #6b727a; stroke-opacity: 0.2; stroke-width: 1.2; }
+.iris-ring--outer { stroke-opacity: 0.11; }
+.blade { transform-box: view-box; transform-origin: 500px 500px; transform: rotate(calc(var(--b) * 45deg)); }
+/* Each blade pivots on the ring; the opening is what the eight edges leave */
+.blade-body {
+    fill: #5a6068; fill-opacity: 0.014;
+    stroke: #6b727a; stroke-opacity: 0.22; stroke-width: 1.4;
+    transform-box: view-box; transform-origin: 800px 500px;
+    animation: iris 11s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+@keyframes iris {
+    0%, 100% { transform: rotate(9deg); }
+    50%      { transform: rotate(40deg); }
+}
+.pulse {
+    position: absolute; left: 50%; top: 50%;
+    width: 160vmax; height: 160vmax; margin: -80vmax 0 0 -80vmax;
+    border-radius: 50%;
+    border: 1.5px solid rgba(77, 238, 234, 0.85);
+    box-shadow: 0 0 46px rgba(0, 210, 255, 0.22), inset 0 0 46px rgba(0, 210, 255, 0.16);
+    opacity: 0;
+    transform: scale(0.02) translateZ(0);
+    will-change: transform, opacity;
+    animation: pulse 9s cubic-bezier(.2, .7, .3, 1) infinite;
+    animation-delay: calc(var(--n) * -3s);
+}
+@keyframes pulse {
+    0%   { transform: scale(0.02) translateZ(0); opacity: 0; }
+    10%  { opacity: 0.3; }
+    100% { transform: scale(1) translateZ(0); opacity: 0; }
+}
 
-        .btn {
-            display: inline-block;
-            padding: 0.9rem 1.6rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 1rem;
-            border: 1px solid var(--accent-color);
-            color: var(--text-main);
-            transition: background 0.3s, color 0.3s;
-        }
+/* ═══════════════════════════════════════════════════════════
+   LAYOUT SHELL
+   ═══════════════════════════════════════════════════════════ */
+.band { padding: clamp(5rem, 11vw, 9.5rem) 0; scroll-margin-top: var(--nav-h); position: relative; }
+.wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--pad); }
+/* A column-flex child defaults to min-width:auto and would grow to fit its
+   widest unbreakable word; the hero must never be wider than the screen. */
+.hero > .wrap { width: 100%; min-width: 0; }
 
-        .btn-primary { background: var(--accent-color); }
-        .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
-        .btn-ghost:hover { background: rgba(120, 81, 169, 0.15); }
+/* Section headers: title left, standfirst right, hairline under */
+.head {
+    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(1rem, 4vw, 4rem); align-items: end;
+    padding-bottom: clamp(1.75rem, 3vw, 2.5rem);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+}
+.head h2 { font-size: clamp(2rem, 5vw, 3.6rem); }
+.lede { color: var(--muted); max-width: 46ch; font-size: 1.0625rem; }
 
-        /* Grids */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-            gap: 2rem;
-            width: 100%;
-        }
+.note {
+    margin-top: clamp(2.5rem, 5vw, 4rem); padding-top: 1.5rem;
+    border-top: 1px solid var(--line-soft);
+    color: var(--faint); font-size: 0.8125rem; line-height: 1.6; max-width: 78ch;
+}
 
-        .card {
-            background: var(--surface-color);
-            padding: 2rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            transition: transform 0.3s, border-color 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
+/* ═══════════════════════════════════════════════════════════
+   MOTION LANGUAGE
+   One trigger per group; children sequence off it.
+   ═══════════════════════════════════════════════════════════ */
+.js [data-reveal] .fade {
+    opacity: 0; transform: translateY(14px);
+    transition: opacity var(--d-mid) var(--e-out), transform var(--d-mid) var(--e-out);
+    transition-delay: calc(var(--i, 0) * 70ms + var(--lag, 0ms));
+}
+.js [data-reveal].in .fade { opacity: 1; transform: none; }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-        }
+/* Display type rises out of a mask, word by word */
+[data-split] .w {
+    display: inline-block; overflow: hidden; vertical-align: bottom;
+    padding-bottom: 0.16em; margin-bottom: -0.16em;
+}
+[data-split] .w > i { display: inline-block; font-style: normal; }
+.js [data-reveal] [data-split] .w > i {
+    transform: translateY(115%);
+    transition: transform var(--d-slow) var(--e-out);
+    transition-delay: calc(var(--wi, 0) * 60ms + var(--lag, 0ms));
+}
+.js [data-reveal].in [data-split] .w > i { transform: none; }
 
-        .card-index {
-            color: var(--accent-color);
-            font-size: 0.85rem;
-            letter-spacing: 0.2em;
-            margin-bottom: 0.5rem;
-        }
+/* ═══════════════════════════════════════════════════════════
+   NAV
+   ═══════════════════════════════════════════════════════════ */
+.nav {
+    position: fixed; top: 0; inset-inline: 0; z-index: 1000; height: var(--nav-h);
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 0 var(--pad);
+    background: rgba(8, 9, 10, 0.72);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    border-bottom: 1px solid transparent;
+    transition: background var(--d-fast) linear, border-color var(--d-fast) linear;
+}
+.nav.stuck { background: rgba(8, 9, 10, 0.88); border-bottom-color: var(--line-soft); }
 
-        .card h3 {
-            font-size: 1.4rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
+.logo {
+    display: inline-flex; align-items: baseline;
+    font-family: 'Bebas Neue', var(--font-display); font-weight: 400; font-size: 1.55rem;
+    letter-spacing: 0.04em; line-height: 1; text-decoration: none; color: var(--text);
+    white-space: nowrap; direction: ltr;
+}
+/* The film-strip M from the logo, drawn inline so it takes the current
+   text colour — white on the night sections, ink on the bone ones. */
+.mark { display: inline-block; height: 0.7em; width: auto; fill: currentColor; vertical-align: baseline; margin: 0 0.035em; }
 
-        .card > p { margin-top: 0.75rem; }
+.nav-links { display: flex; align-items: center; gap: 1.75rem; }
 
-        .price-tag {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--text-main);
-            margin: 1rem 0 0.25rem;
-        }
+.nav-links a {
+    position: relative; font-size: 0.875rem; color: var(--muted);
+    text-decoration: none; padding: 0.3rem 0;
+    transition: color var(--d-fast) var(--e-out);
+}
+/* Underline wipes in from the leading edge */
+.nav-links a::after {
+    content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 1px;
+    background: var(--gold); transform: scaleX(0); transform-origin: inline-start;
+    transition: transform var(--d-fast) var(--e-out);
+}
+.nav-links a:hover, .nav-links a:focus-visible { color: var(--text); }
+.nav-links a:hover::after, .nav-links a:focus-visible::after { transform: scaleX(1); }
 
-        .pkg-list {
-            list-style: none;
-            margin-top: 1.5rem;
-            border-top: 1px solid var(--border);
-            padding-top: 1.25rem;
-        }
+.lang-switch {
+    appearance: none; -webkit-appearance: none; font-family: inherit; font-size: 0.8125rem;
+    color: var(--muted); background-color: transparent;
+    background-image: linear-gradient(45deg, transparent 50%, var(--faint) 50%),
+                      linear-gradient(135deg, var(--faint) 50%, transparent 50%);
+    background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+    background-position: right 0.85rem center, right calc(0.85rem + 4px) center;
+    border: 1px solid var(--line); border-radius: 2px;
+    padding: 0.45rem 2.1rem 0.45rem 0.75rem; cursor: pointer;
+    transition: border-color var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out);
+}
+.lang-switch:hover { border-color: var(--gold-line); color: var(--text); }
+.lang-switch option { background: var(--surface); color: var(--text); }
+[dir="rtl"] .lang-switch {
+    background-position: left 0.85rem center, left calc(0.85rem + 4px) center;
+    padding: 0.45rem 0.75rem 0.45rem 2.1rem;
+}
 
-        .pkg-list li {
-            color: var(--text-muted);
-            padding: 0.35rem 0 0.35rem 1.4rem;
-            position: relative;
-        }
+.nav-toggle {
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    width: 42px; height: 42px; padding: 0 9px; background: none;
+    border: 1px solid var(--line); border-radius: 2px; cursor: pointer;
+}
+.nav-toggle span { display: block; height: 1px; background: var(--text); transition: transform var(--d-fast) var(--e-inout); }
+.nav-toggle[aria-expanded="true"] span:first-child { transform: translateY(3px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:last-child { transform: translateY(-3px) rotate(-45deg); }
 
-        .pkg-list li::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0.95em;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--accent-color);
-        }
+/* ═══════════════════════════════════════════════════════════
+   THE OPENING
+   ═══════════════════════════════════════════════════════════ */
+.hero {
+    position: relative; min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: calc(var(--nav-h) + clamp(2.5rem, 7vh, 5rem)) 0 clamp(2rem, 5vh, 3.5rem);
+    overflow: hidden; isolation: isolate;
+}
 
-        /* Rate card */
-        .rate-group {
-            background: var(--surface-color);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-        }
+/* Key light warm, fill cool — the two sources on a set */
+.hero-light {
+    position: absolute; inset: -30%; z-index: -2;
+    background:
+        radial-gradient(44% 38% at 24% 30%, rgba(214, 169, 94, 0.17), transparent 68%),
+        radial-gradient(50% 44% at 84% 72%, var(--cool), transparent 70%);
+    animation: drift 38s var(--e-inout) infinite alternate;
+}
+@keyframes drift {
+    from { transform: translate3d(-2.5%, -1.5%, 0) scale(1); }
+    to   { transform: translate3d(3%, 2.5%, 0) scale(1.09); }
+}
+.hero-vignette {
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(to bottom, transparent 58%, var(--bg) 100%);
+}
 
-        .rate-group h3 {
-            font-size: 1.1rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-        }
+/* 35mm film edge running down the margin */
+.filmedge {
+    position: absolute; top: 0; bottom: 0; inset-inline-start: 0; width: clamp(14px, 2.4vw, 26px);
+    z-index: -1;
+    border-inline-end: 1px solid var(--line-soft);
+    background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(244, 242, 238, 0.055) 0 8px,
+        transparent 8px 30px
+    );
+}
 
-        .rate-line {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 1rem;
-            padding: 0.6rem 0;
-            border-bottom: 1px dashed var(--border);
-        }
+.hero-hud {
+    display: flex; align-items: center; gap: 0.7rem;
+    font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.1em;
+    color: var(--gold); font-variant-numeric: tabular-nums;
+    direction: ltr; unicode-bidi: isolate; width: fit-content;
+    margin-bottom: clamp(1.75rem, 5vh, 3.25rem);
+}
+[dir="rtl"] .hero-hud { margin-inline-start: auto; }
+.hero-hud .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+    animation: pulse 2.6s var(--e-inout) infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
 
-        .rate-line:last-child { border-bottom: none; }
-        .rate-line span:first-child { color: var(--text-muted); }
-        .rate-line .rate-price { font-weight: bold; white-space: nowrap; }
+/* The headline is the image: a tungsten key light rakes across the
+   letterforms, upper left to lower right, falling off into shadow.
+   Each word carries a slice of one shared gradient — the slices are
+   aligned in JS (rakeLight) so the light reads as continuous. */
+.display {
+    /* Scales against height as well as width, so the lede and the calls
+       to action are never pushed out of a short viewport. */
+    /* 13.2vw: the widest word ("Keeper's", 6.5em in Syne) must fit a 320px phone */
+    font-size: clamp(2.6rem, min(13.2vw, 14vh), 10.5rem);
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    max-width: min(7ch, 100%);
+    color: var(--text);
+}
+.display .w > i {
+    background-image: linear-gradient(112deg, #fbf7ef 4%, #ece0ca 28%, #a89e8c 62%, #6b6660 94%);
+    background-repeat: no-repeat;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+    .display .w > i { color: var(--text); background-image: none; }
+}
 
-        /* Keep currency amounts in logical LTR order even in RTL mode */
-        .price-tag, .rate-price { direction: ltr; unicode-bidi: isolate; }
+.hero-foot {
+    display: grid; grid-template-columns: 1fr; gap: clamp(1.75rem, 4vh, 2.75rem);
+    margin-top: clamp(2.25rem, 6vh, 4rem);
+}
+.hero-lede { color: var(--muted); max-width: 46ch; font-size: clamp(1rem, 1.4vw, 1.1875rem); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.875rem; margin-top: 1.5rem; }
+.slate {
+    font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em;
+    color: var(--faint); direction: ltr; unicode-bidi: isolate;
+}
+[dir="rtl"] .slate { text-align: right; }
 
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
+@media (min-width: 900px) {
+    .display { max-width: min(10ch, 100%); }
+    .hero-foot {
+        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+        align-items: start;
+        padding-top: clamp(1.5rem, 3vh, 2.5rem);
+        border-top: 1px solid var(--line-soft);
+    }
+}
 
-        .step-num {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: var(--accent-color);
-            line-height: 1;
-        }
+/* ═══════════════════════════════════════════════════════════
+   BUTTONS — one wipe language, two directions
+   ═══════════════════════════════════════════════════════════ */
+.btn {
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
+    font-family: inherit; font-size: 0.9375rem; font-weight: 600; text-decoration: none;
+    padding: 1rem 2rem; border-radius: 2px; border: 1px solid transparent;
+    cursor: pointer; overflow: hidden; isolation: isolate;
+    transition: color var(--d-fast) var(--e-out), border-color var(--d-fast) var(--e-out);
+}
+.btn::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.5s var(--e-out);
+}
+.btn:hover::before, .btn:focus-visible::before { transform: scaleY(1); }
 
-        .step h4 { margin: 0.5rem 0 0.25rem; font-size: 1.1rem; }
+.btn-solid { background: var(--gold); color: #0b0c0d; }
+.btn-solid::before { background: var(--gold-bright); }
 
-        .note {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            text-align: center;
-            max-width: 760px;
-            margin: 2.5rem auto 0;
-        }
+.btn-line { border-color: var(--line); color: var(--text); }
+.btn-line::before { background: var(--gold-wash); }
+.btn-line:hover, .btn-line:focus-visible { border-color: var(--gold-line); }
 
-        /* Contact */
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 520px;
-            margin: 0 auto;
-            width: 100%;
-        }
+/* ═══════════════════════════════════════════════════════════
+   WHAT WE DO — sticky title, quiet editorial list
+   ═══════════════════════════════════════════════════════════ */
+.capabilities { display: grid; gap: clamp(2.5rem, 5vw, 4rem); }
 
-        input, textarea {
-            background: var(--bg-color);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 1rem;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
+.cap {
+    display: grid; gap: 0.75rem 3rem;
+    padding-top: 1.5rem; border-top: 1px solid var(--line);
+}
+.cap h3 { font-size: clamp(1.375rem, 2.6vw, 2rem); }
+.cap p { color: var(--muted); max-width: 52ch; }
 
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
+@media (min-width: 820px) {
+    .capabilities { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: start; }
+    .cap { grid-column: 2; grid-template-columns: minmax(0, 1fr); }
+    .capabilities > .head-sticky { grid-column: 1; grid-row: 1 / span 4; position: sticky; top: calc(var(--nav-h) + 3rem); }
+}
+.head-sticky h2 { font-size: clamp(2rem, 5vw, 3.6rem); }
+.head-sticky .lede { margin-top: 1.25rem; max-width: 30ch; }
 
-        button {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 4px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
+/* ═══════════════════════════════════════════════════════════
+   CONTENT PACKAGES — editorial rows, oversized prices
+   ═══════════════════════════════════════════════════════════ */
+.rows { border-top: 1px solid var(--line); }
 
-        button:hover { background: var(--accent-hover); }
+.row {
+    display: grid; gap: 1.25rem 2.5rem;
+    padding: clamp(2rem, 3.5vw, 3rem) 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    transition: background-color 0.5s var(--e-out);
+}
+.row::before {
+    content: ""; position: absolute; inset-inline: calc(var(--pad) * -0.35); inset-block: 0;
+    background: linear-gradient(to bottom, transparent, var(--gold-wash));
+    opacity: 0; transition: opacity 0.5s var(--e-out); pointer-events: none;
+}
+.row:hover::before { opacity: 1; }
 
-        .contact-info {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
+.row-name { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+.row-desc { color: var(--muted); margin-top: 0.75rem; max-width: 34ch; }
 
-        .contact-info a {
-            color: var(--text-main);
-            text-decoration: none;
-            border-bottom: 1px solid var(--accent-color);
-        }
+.row-price {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4.25rem); letter-spacing: -0.04em; line-height: 0.9;
+    font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate;
+    transition: transform 0.5s var(--e-out);
+}
+.row:hover .row-price { transform: translateY(-4px); }
+.row-price .cur { font-size: 0.42em; color: var(--gold); vertical-align: 0.5em; margin-inline-end: 0.1em; }
 
-        .contact-info a:hover { color: var(--accent-color); }
+.incl { display: grid; gap: 0.55rem; }
+.incl li { position: relative; padding-inline-start: 1.1rem; color: var(--muted); font-size: 0.9375rem; line-height: 1.5; }
+.incl li::before {
+    content: ""; position: absolute; inset-inline-start: 0; top: 0.62em;
+    width: 5px; height: 1px; background: var(--gold);
+}
 
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 2rem 5%;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
+@media (min-width: 900px) {
+    .row { grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr) auto; align-items: start; }
+    .incl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem 1.75rem; }
+    .row-price { text-align: end; }
+}
 
-        /* RTL support for Hebrew */
-        [dir="rtl"] { text-align: right; }
-        [dir="rtl"] .pkg-list li { padding: 0.35rem 1.4rem 0.35rem 0; }
-        [dir="rtl"] .pkg-list li::before { left: auto; right: 0; }
-        [dir="rtl"] h2,
-        [dir="rtl"] .section-sub,
-        [dir="rtl"] .note,
-        [dir="rtl"] .contact-info,
-        [dir="rtl"] footer { text-align: center; }
-    </style>
+/* ═══════════════════════════════════════════════════════════
+   THE SHOWCASE — wedding collections as a premiere selector
+   ═══════════════════════════════════════════════════════════ */
+.premiere { display: grid; gap: clamp(2rem, 4vw, 3.5rem); }
+
+.reel { display: grid; align-content: start; border-top: 1px solid var(--line); }
+
+.reel-tab {
+    display: flex; align-items: baseline; gap: 1rem;
+    width: 100%; text-align: start; background: none; border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: clamp(1.1rem, 2.2vw, 1.6rem) 0;
+    font-family: var(--font-display); font-weight: 800;
+    /* Sized so the widest name clears its column beside the collection's loop */
+    font-size: clamp(1.7rem, 3.4vw, 2.9rem); letter-spacing: -0.04em; line-height: 1;
+    color: var(--faint); cursor: pointer;
+    transition: color 0.45s var(--e-out), padding-inline-start 0.45s var(--e-out);
+}
+/* Selection tick drawn as a pseudo-element: the label is a .lang node whose
+   text gets replaced on a language switch, so it must hold no child markup. */
+.reel-tab::before {
+    content: ""; flex: none; width: clamp(14px, 2.5vw, 26px); height: 1px; background: currentColor;
+    transform: scaleX(0); transform-origin: inline-start;
+    transition: transform 0.45s var(--e-out);
+}
+.reel-tab:hover { color: var(--muted); }
+.reel-tab[aria-selected="true"] { color: var(--text); }
+.reel-tab[aria-selected="true"]::before { transform: scaleX(1); background: var(--gold); }
+
+.reel-panel[hidden] { display: none; }
+
+.panel-price {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(2.4rem, 4.6vw, 3.9rem); letter-spacing: -0.045em; line-height: 0.88;
+    font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate;
+    margin-bottom: 1.25rem;
+}
+[dir="rtl"] .panel-price { text-align: right; }
+.panel-price .cur { font-size: 0.4em; color: var(--gold); vertical-align: 0.55em; margin-inline-end: 0.1em; }
+.panel-desc { color: var(--muted); max-width: 42ch; font-size: 1.0625rem; }
+.panel-list { margin-top: clamp(1.75rem, 3vw, 2.5rem); padding-top: 1.5rem; border-top: 1px solid var(--line); }
+
+/* Panel contents re-stage on every switch. Hidden only when JS is
+   present to un-hide them again. */
+.js .reel-panel .stage { opacity: 0; transform: translateY(16px); }
+.js .reel-panel.playing .stage {
+    opacity: 1; transform: none;
+    transition: opacity 0.7s var(--e-out), transform 0.7s var(--e-out);
+    transition-delay: calc(var(--i, 0) * 60ms);
+}
+
+@media (min-width: 900px) {
+    .premiere { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(3rem, 6vw, 6rem); }
+    .reel-tab:hover { padding-inline-start: 0.5rem; }
+    .panel-list { columns: 2; column-gap: 2.5rem; }
+    .panel-list li { break-inside: avoid; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RATE CARD — the spec sheet
+   ═══════════════════════════════════════════════════════════ */
+.ledger { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: clamp(2.25rem, 4vw, 3.5rem) clamp(2.5rem, 5vw, 4.5rem); }
+
+.ledger-group h3 {
+    display: flex; align-items: baseline; gap: 0.85rem; font-size: 1.0625rem;
+    padding-bottom: 0.9rem; margin-bottom: 0.4rem; border-bottom: 1px solid var(--line);
+}
+.ledger-num { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 400; letter-spacing: 0.08em; color: var(--gold); direction: ltr; }
+
+.rate-line { display: flex; align-items: baseline; gap: 0.75rem; padding: 0.7rem 0; }
+.rate-label { color: var(--muted); font-size: 0.9375rem; transition: color var(--d-fast) var(--e-out); }
+.rate-line:hover .rate-label { color: var(--text); }
+.leader {
+    flex: 1 1 auto; min-width: 1rem; height: 1px; transform: translateY(-0.2em);
+    background-image: linear-gradient(to right, var(--line) 50%, transparent 50%);
+    background-size: 5px 1px; background-repeat: repeat-x;
+}
+.rate-price { font-family: var(--font-mono); font-size: 0.9375rem; font-variant-numeric: tabular-nums; white-space: nowrap; direction: ltr; unicode-bidi: isolate; }
+
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: clamp(1.75rem, 3.5vw, 3rem); margin-top: clamp(3rem, 6vw, 5rem); }
+.step { padding-top: 1.4rem; border-top: 1px solid var(--gold-line); }
+.step-num { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold); direction: ltr; }
+.step h4 { font-size: 1.0625rem; margin: 0.6rem 0 0.4rem; }
+.step p { color: var(--muted); font-size: 0.875rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   THE CLOSING — house lights up
+   ═══════════════════════════════════════════════════════════ */
+.sec--light {
+    --text:      #101112;
+    --muted:     #55524c;
+    --faint:     #6f6b63;
+    --line:      #cbc3b3;
+    --line-soft: #dcd5c7;
+    --surface:   #e3ddd1;
+    --gold:      #7d5a17;
+    --gold-line: rgba(125, 90, 23, 0.4);
+    --gold-wash: rgba(125, 90, 23, 0.09);
+    background: var(--bone);
+    color: var(--text);
+}
+.sec--light .btn-solid { background: var(--ink); color: var(--bone); }
+.sec--light .btn-solid::before { background: #2f2a20; }
+
+.closing-head {
+    font-size: clamp(2.75rem, 10vw, 8rem); line-height: 0.88; letter-spacing: -0.045em;
+    max-width: 11ch; margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.closing-grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); }
+@media (min-width: 900px) {
+    .closing-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); align-items: start; }
+}
+
+.contact-info { display: grid; gap: clamp(0.75rem, 2vw, 1.25rem); }
+.contact-info a {
+    position: relative; display: inline-block; width: fit-content; max-width: 100%;
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1rem, 1.9vw, 1.375rem); letter-spacing: -0.025em;
+    text-decoration: none; padding-bottom: 0.35rem; overflow-wrap: break-word;
+}
+.contact-info a::after {
+    content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 1px;
+    background: currentColor; transform: scaleX(1); transform-origin: inline-end;
+    transition: transform 0.5s var(--e-out);
+}
+.contact-info a:hover::after, .contact-info a:focus-visible::after { transform: scaleX(0); }
+
+form { display: grid; gap: 1.5rem; }
+.field { display: grid; }
+input, textarea {
+    font-family: inherit; font-size: 1rem; color: var(--text);
+    background: transparent; border: 0; border-bottom: 1px solid var(--line);
+    border-radius: 0; padding: 0.75rem 0; width: 100%;
+    transition: border-color var(--d-fast) var(--e-out);
+}
+input::placeholder, textarea::placeholder { color: var(--faint); }
+input:focus, textarea:focus { outline: none; border-bottom-color: var(--ink); }
+input:focus-visible, textarea:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+textarea { resize: vertical; min-height: 6rem; }
+form .btn { width: fit-content; margin-top: 0.5rem; }
+
+/* Footer: the end card. The contact band above already carries the
+   bottom padding, so this one opens flush against it. */
+.site-footer { padding-top: 0; padding-bottom: 0; overflow: hidden; }
+.footer-meta {
+    display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; justify-content: space-between;
+    padding-bottom: clamp(2rem, 5vw, 3.5rem);
+    border-top: 1px solid var(--line); padding-top: 1.5rem;
+    color: var(--faint); font-size: 0.8125rem;
+}
+/* Sized in JS (fitEndmark) to span the viewport exactly, whatever the
+   language or the font's actual metrics. */
+.endmark {
+    font-family: 'Bebas Neue', var(--font-display); font-weight: 400; font-size: 13vw;
+    letter-spacing: 0.02em; line-height: 0.78; white-space: nowrap;
+    color: var(--text); opacity: 0.16; margin-bottom: -0.16em; user-select: none;
+    direction: ltr; text-align: center;
+}
+.endmark .mark { margin: 0 0.02em; }
+
+/* ═══════════════════════════════════════════════════════════
+   TIMELINE RAIL — reading the page is scrubbing the reel
+   ═══════════════════════════════════════════════════════════ */
+.rail { display: none; }
+@media (min-width: 1280px) and (prefers-reduced-motion: no-preference) {
+    .rail {
+        display: block; position: fixed; z-index: 950;
+        inset-inline-end: calc(var(--pad) * 0.45); top: 22vh; bottom: 22vh; width: 1px;
+        background: var(--line); pointer-events: none;
+    }
+    .rail-fill {
+        position: absolute; inset-inline: 0; top: 0; height: 100%; background: var(--gold);
+        transform: scaleY(0); transform-origin: top; will-change: transform;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTAGE — the studio's own reels, muted, cut short
+   ═══════════════════════════════════════════════════════════ */
+.hero-film {
+    position: absolute; inset: 0; z-index: -3; overflow: hidden;
+    background: var(--blur) center / cover no-repeat;
+}
+.hero-video {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.5) saturate(0.8) contrast(1.05);
+}
+/* Scrim from the leading edge keeps the headline the brightest thing in frame */
+.hero-vignette {
+    background:
+        linear-gradient(to right, rgba(8, 9, 10, 0.78) 0%, rgba(8, 9, 10, 0.42) 42%, rgba(8, 9, 10, 0.08) 72%, transparent 100%),
+        linear-gradient(to bottom, rgba(8, 9, 10, 0.35) 0%, transparent 28%, transparent 56%, var(--bg) 100%);
+}
+[dir="rtl"] .hero-vignette {
+    background:
+        linear-gradient(to left, rgba(8, 9, 10, 0.78) 0%, rgba(8, 9, 10, 0.42) 42%, rgba(8, 9, 10, 0.08) 72%, transparent 100%),
+        linear-gradient(to bottom, rgba(8, 9, 10, 0.35) 0%, transparent 28%, transparent 56%, var(--bg) 100%);
+}
+.hero-ctl {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; margin-inline-start: 0.35rem; padding: 0;
+    background: none; border: 1px solid var(--gold-line); border-radius: 50%; color: var(--gold); cursor: pointer;
+    transition: border-color var(--d-fast) var(--e-out), background-color var(--d-fast) var(--e-out);
+}
+.hero-ctl:hover { border-color: var(--gold); background: var(--gold-wash); }
+.hero-ctl .ico { position: relative; width: 8px; height: 9px; }
+.hero-ctl .ico::before, .hero-ctl .ico::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: currentColor; }
+.hero-ctl .ico::before { left: 0; }
+.hero-ctl .ico::after { right: 0; }
+.hero-ctl[aria-pressed="true"] .ico::before {
+    left: 1px; width: 0; height: 0; bottom: auto; background: none;
+    border-style: solid; border-width: 4.5px 0 4.5px 8px; border-color: transparent transparent transparent currentColor;
+}
+.hero-ctl[aria-pressed="true"] .ico::after { display: none; }
+
+/* The strip: a run of film — frames at one height, widths by aspect */
+.band--work { padding-bottom: clamp(3.5rem, 7vw, 6rem); }
+.strip-shell { position: relative; }
+.strip {
+    --edge: max(var(--pad), calc((100% - var(--maxw)) / 2 + var(--pad)));
+    display: flex; gap: 6px; align-items: stretch;
+    overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity; scroll-padding-inline: var(--edge);
+    padding: 20px var(--edge);
+    scrollbar-width: none;
+    background:
+        repeating-linear-gradient(to right, rgba(244, 242, 238, 0.07) 0 10px, transparent 10px 26px) top / 100% 8px no-repeat,
+        repeating-linear-gradient(to right, rgba(244, 242, 238, 0.07) 0 10px, transparent 10px 26px) bottom / 100% 8px no-repeat,
+        var(--surface);
+}
+.strip::-webkit-scrollbar { display: none; }
+.strip:focus-visible { outline-offset: -3px; }
+.frame {
+    position: relative; flex: none; isolation: isolate;
+    height: clamp(300px, 56vh, 560px); aspect-ratio: var(--ar);
+    scroll-snap-align: start; overflow: hidden; border-radius: 2px;
+    background: var(--blur) center / cover no-repeat;
+    color: var(--text); text-decoration: none;
+}
+.frame img, .frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.frame img { transform: scale(1.02); transition: transform 1.4s var(--e-out); }
+.frame:hover img, .frame:focus-visible img { transform: scale(1.07); }
+.frame video { opacity: 0; transition: opacity 0.6s var(--e-out); }
+.frame.playing video { opacity: 1; }
+.frame-cap {
+    position: absolute; inset-inline: 0; bottom: 0; z-index: 1;
+    display: flex; align-items: baseline; gap: 0.6rem;
+    padding: 3rem 0.9rem 0.85rem; font-size: 0.8125rem; line-height: 1.35;
+    background: linear-gradient(to top, rgba(8, 9, 10, 0.82), rgba(8, 9, 10, 0.35) 55%, transparent);
+    opacity: 0.88; transition: opacity var(--d-fast) var(--e-out);
+}
+.frame:hover .frame-cap, .frame:focus-visible .frame-cap { opacity: 1; }
+.frame-idx { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--gold); direction: ltr; }
+.strip-foot { padding-top: 1.25rem; }
+.strip-bar { height: 1px; background: var(--line); position: relative; overflow: hidden; }
+.strip-bar i { position: absolute; inset: 0; background: var(--gold); transform-origin: inline-start; transform: scaleX(0); transition: transform 0.25s var(--e-out); }
+.strip-nav { display: flex; align-items: center; gap: 0.6rem; margin-top: 1rem; }
+.strip-count { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--faint); margin-inline-end: auto; direction: ltr; }
+.strip-btn {
+    display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0;
+    background: none; border: 1px solid var(--line); border-radius: 50%; color: var(--text); cursor: pointer;
+    transition: border-color var(--d-fast) var(--e-out), background-color var(--d-fast) var(--e-out);
+}
+.strip-btn:hover { border-color: var(--gold-line); background: var(--gold-wash); }
+.strip-btn--prev svg { transform: scaleX(-1); }
+[dir="rtl"] .strip-btn svg { transform: scaleX(-1); }
+[dir="rtl"] .strip-btn--prev svg { transform: none; }
+
+/* Wedding panels: one loop per collection beside the price */
+.reel-panel { display: grid; gap: clamp(1.25rem, 3vw, 2.25rem); align-items: start; }
+.panel-media {
+    position: relative; overflow: hidden; border-radius: 2px; aspect-ratio: 4 / 5; max-height: 62vh;
+    background: var(--blur) center / cover no-repeat;
+}
+.panel-media img, .panel-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.panel-media video { opacity: 0; transition: opacity 0.7s var(--e-out); }
+.panel-media.playing video { opacity: 1; }
+@media (min-width: 900px) {
+    .premiere { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); }
+    .reel-panel { grid-template-columns: minmax(210px, 0.72fr) minmax(0, 1.28fr); }
+    .panel-media { aspect-ratio: 9 / 16; max-height: none; }
+}
+@media (max-width: 899px) {
+    .panel-list { columns: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 899px) {
+    .head { grid-template-columns: 1fr; align-items: start; }
+    .head h2 { max-width: 12ch; }
+}
+
+@media (max-width: 860px) {
+    .nav-toggle { display: flex; }
+    .nav-links {
+        display: none; position: absolute; top: 100%; inset-inline: 0;
+        flex-direction: column; align-items: stretch; gap: 0;
+        padding: 0.25rem var(--pad) 1.5rem;
+        background: var(--bg); border-bottom: 1px solid var(--line);
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-size: 1.0625rem; padding: 0.95rem 0; border-bottom: 1px solid var(--line-soft); }
+    .nav-links a::after { display: none; }
+    .lang-switch { margin-top: 1.25rem; width: 100%; }
+}
+
+@media (max-width: 620px) {
+    .hero-actions .btn { flex: 1 1 auto; }
+    /* A wide frame is centre-cropped on a phone rather than becoming a panorama */
+    .frame { max-width: calc(100vw - 2 * var(--pad)); }
+}
+
+/* Landscape phones: too short to hold a full frame — let it flow */
+@media (max-height: 520px) {
+    .hero { min-height: 0; }
+}
+
+/* Short viewports: tighten the opening so the whole frame still fits */
+@media (max-height: 800px) {
+    .hero { padding-top: calc(var(--nav-h) + 1.5rem); padding-bottom: 1.5rem; }
+    .hero-hud { margin-bottom: 1rem; }
+    .hero-foot { margin-top: 1.5rem; padding-top: 1.25rem; }
+    .hero-actions { margin-top: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js [data-reveal] .fade,
+    .js [data-reveal] [data-split] .w > i,
+    .js .reel-panel .stage { opacity: 1; transform: none; transition: none; }
+    .hero-light, .hero-hud .dot { animation: none; }
+    .frame img, .frame:hover img { transform: none; transition: none; }
+    .blade-body { animation: none; transform: rotate(24deg); }
+    .pulse { display: none; }
+    .btn::before { display: none; }
+    * { transition-duration: 0.01ms !important; }
+}
+</style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">TIMEKEEPERS</div>
-        <div class="nav-links">
-            <a href="#about" class="lang" data-en="About" data-he="אודות" data-ru="О нас">About</a>
-            <a href="#services" class="lang" data-en="Services" data-he="שירותים" data-ru="Услуги">Services</a>
-            <a href="#content" class="lang" data-en="Content" data-he="תוכן" data-ru="Контент">Content</a>
-            <a href="#weddings" class="lang" data-en="Weddings" data-he="חתונות" data-ru="Свадьбы">Weddings</a>
-            <a href="#ratecard" class="lang" data-en="Rate Card" data-he="מחירון" data-ru="Прайс">Rate Card</a>
-            <a href="#contact" class="lang" data-en="Contact" data-he="צור קשר" data-ru="Контакты">Contact</a>
-            <select class="lang-switch" onchange="changeLanguage(this.value)">
-                <option value="en">English</option>
-                <option value="he">עברית</option>
-                <option value="ru">Русский</option>
-            </select>
-        </div>
-    </nav>
+<a class="skip lang" href="#main" data-en="Skip to content" data-he="דילוג לתוכן" data-ru="Перейти к содержанию">Skip to content</a>
 
-    <!-- ABOUT / HERO -->
-    <section id="about">
-        <div class="eyebrow">Timekeepers Production / 2026</div>
-        <h1 class="lang" data-en="We are Time Keeper's" data-he="אנחנו שומרי הזמן" data-ru="Мы — Time Keeper's">We are Time Keeper's</h1>
-        <p class="lang" data-en="Your all-in-one production team — commercial, social and branded content, from concept and direction through filming, editing and delivery." data-he="צוות ההפקה המלא שלכם — תוכן מסחרי, שיווקי ולרשתות החברתיות, מקונספט ובימוי ועד צילום, עריכה ומסירה." data-ru="Ваша универсальная продакшн-команда — коммерческий, рекламный и социальный контент: от концепции и режиссуры до съёмки, монтажа и сдачи проекта.">Your all-in-one production team — commercial, social and branded content, from concept and direction through filming, editing and delivery.</p>
-        <div class="hero-actions">
-            <a href="#content" class="btn btn-primary lang" data-en="View Packages" data-he="לצפייה בחבילות" data-ru="Смотреть пакеты">View Packages</a>
-            <a href="#ratecard" class="btn btn-ghost lang" data-en="Build Your Production" data-he="בנו את ההפקה שלכם" data-ru="Соберите свой продакшн">Build Your Production</a>
-        </div>
-    </section>
+<div class="grain" aria-hidden="true"></div>
 
-    <!-- SERVICES -->
-    <section id="services">
-        <h2 class="lang" data-en="What We Do" data-he="מה אנחנו עושים" data-ru="Что мы делаем">What We Do</h2>
-        <p class="section-sub lang" data-en="Four production areas that combine into any project — separately or as a complete package." data-he="ארבעה תחומי הפקה שמתחברים לכל פרויקט — בנפרד או כחבילה שלמה." data-ru="Четыре направления производства, которые складываются в любой проект — по отдельности или как единый пакет.">Four production areas that combine into any project — separately or as a complete package.</p>
-        <div class="grid">
-            <div class="card">
+<div class="aperture" aria-hidden="true">
+    <div class="pulse" style="--n:0"></div>
+    <div class="pulse" style="--n:1"></div>
+    <div class="pulse" style="--n:2"></div>
+    <svg class="iris" viewBox="0 0 1000 1000" focusable="false">
+        <defs><clipPath id="irisClip"><circle cx="500" cy="500" r="300"/></clipPath></defs>
+        <circle class="iris-ring iris-ring--outer" cx="500" cy="500" r="352"/>
+        <circle class="iris-ring" cx="500" cy="500" r="300"/>
+        <g clip-path="url(#irisClip)">
+            <g class="blade" style="--b:0"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:1"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:2"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:3"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:4"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:5"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:6"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:7"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+        </g>
+    </svg>
+</div>
+
+<div class="rail" aria-hidden="true"><div class="rail-fill" id="railFill"></div></div>
+
+<nav class="nav" id="nav">
+    <a class="logo" href="#top" aria-label="Timekeepers Production">TI<svg class="mark" viewBox="0 0 64 100" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z"/></svg>EKEEPERS</a>
+
+    <button class="nav-toggle lang-aria" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks"
+            data-en="Menu" data-he="תפריט" data-ru="Меню" aria-label="Menu">
+        <span></span><span></span>
+    </button>
+
+    <div class="nav-links" id="navLinks">
+        <a href="#about" class="lang" data-en="About" data-he="אודות" data-ru="О нас">About</a>
+        <a href="#services" class="lang" data-en="Services" data-he="שירותים" data-ru="Услуги">Services</a>
+        <a href="#work" class="lang" data-en="Work" data-he="עבודות" data-ru="Работы">Work</a>
+        <a href="#content" class="lang" data-en="Content" data-he="תוכן" data-ru="Контент">Content</a>
+        <a href="#weddings" class="lang" data-en="Weddings" data-he="חתונות" data-ru="Свадьбы">Weddings</a>
+        <a href="#ratecard" class="lang" data-en="Rate Card" data-he="מחירון" data-ru="Прайс">Rate Card</a>
+        <a href="#contact" class="lang" data-en="Contact" data-he="צור קשר" data-ru="Контакты">Contact</a>
+        <select class="lang-switch lang-aria" id="langSwitch" onchange="changeLanguage(this.value)"
+                data-en="Language" data-he="שפה" data-ru="Язык" aria-label="Language">
+            <option value="en">English</option>
+            <option value="he">עברית</option>
+            <option value="ru">Русский</option>
+        </select>
+    </div>
+</nav>
+
+<main id="main">
+
+<!-- ══════════ THE OPENING ══════════ -->
+<header class="hero" id="about" data-reveal>
+    <div class="hero-film" aria-hidden="true" style="--blur:url('data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAAAQBQCdASogABIAPtlcpE2oJaOiN/qoAQAbCWUAyJgh3zMGT/QkCZG+dpV6yeWeTQUwAP7yrWieQgqw8s7Yq9uprFFBwVGXpaw4Xps3Y+eT28TZBw0U2niVSIQcwnF5yISYlYAA')">
+        <video class="hero-video" id="heroVideo" muted playsinline loop preload="none" poster="assets/hero/poster.webp" width="1276" height="720"
+               data-src-lg="assets/hero/loop-1280.mp4" data-src-sm="assets/hero/loop-640.mp4" tabindex="-1"></video>
+    </div>
+    <div class="hero-light" aria-hidden="true"></div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="filmedge" id="filmedge" aria-hidden="true"></div>
+
+    <div class="wrap">
+        <div class="hero-hud fade" style="--i:0">
+            <span class="dot" aria-hidden="true"></span><span id="tc" aria-hidden="true">00:00:00:00</span>
+            <button class="hero-ctl" id="heroCtl" type="button" aria-pressed="false" aria-label="Pause background video" hidden><span class="ico" aria-hidden="true"></span></button>
+        </div>
+
+        <h1 class="display lang" data-split style="--lag:120ms"
+            data-en="We are Time Keeper's" data-he="אנחנו שומרי הזמן" data-ru="Мы — Time Keeper's">We are Time Keeper's</h1>
+
+        <div class="hero-foot">
+            <div class="slate fade" style="--i:6">Timekeepers Production / 2026</div>
+            <div>
+                <p class="hero-lede lang fade" style="--i:5"
+                   data-en="Your all-in-one production team — commercial, social and branded content, from concept and direction through filming, editing and delivery."
+                   data-he="צוות ההפקה המלא שלכם — תוכן מסחרי, שיווקי ולרשתות החברתיות, מקונספט ובימוי ועד צילום, עריכה ומסירה."
+                   data-ru="Ваша универсальная продакшн-команда — коммерческий, рекламный и социальный контент: от концепции и режиссуры до съёмки, монтажа и сдачи проекта.">Your all-in-one production team — commercial, social and branded content, from concept and direction through filming, editing and delivery.</p>
+                <div class="hero-actions fade" style="--i:7">
+                    <a href="#content" class="btn btn-solid lang" data-en="View Packages" data-he="לצפייה בחבילות" data-ru="Смотреть пакеты">View Packages</a>
+                    <a href="#ratecard" class="btn btn-line lang" data-en="Build Your Production" data-he="בנו את ההפקה שלכם" data-ru="Соберите свой продакшн">Build Your Production</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ══════════ WHAT WE DO ══════════ -->
+<section class="band" id="services">
+    <div class="wrap">
+        <div class="capabilities" data-reveal>
+            <div class="head-sticky">
+                <h2 class="lang" data-split data-en="What We Do" data-he="מה אנחנו עושים" data-ru="Что мы делаем">What We Do</h2>
+                <p class="lede fade lang" style="--i:1;--lag:120ms"
+                   data-en="Four production areas that combine into any project — separately or as a complete package."
+                   data-he="ארבעה תחומי הפקה שמתחברים לכל פרויקט — בנפרד או כחבילה שלמה."
+                   data-ru="Четыре направления производства, которые складываются в любой проект — по отдельности или как единый пакет.">Four production areas that combine into any project — separately or as a complete package.</p>
+            </div>
+
+            <article class="cap fade" style="--i:2;--lag:120ms">
                 <h3 class="lang" data-en="Video Production" data-he="הפקת וידאו" data-ru="Видеопродакшн">Video Production</h3>
                 <p class="lang" data-en="On-set direction, camera operation and set management — from a 3-hour session to a full production day." data-he="בימוי על הסט, תפעול מצלמה וניהול הפקה — משלוש שעות צילום ועד יום הפקה מלא." data-ru="Режиссура на площадке, операторская работа и управление съёмкой — от 3 часов до полного съёмочного дня.">On-set direction, camera operation and set management — from a 3-hour session to a full production day.</p>
-            </div>
-            <div class="card">
+            </article>
+            <article class="cap fade" style="--i:3;--lag:120ms">
                 <h3 class="lang" data-en="Crew &amp; Equipment" data-he="צוות וציוד" data-ru="Команда и оборудование">Crew &amp; Equipment</h3>
                 <p class="lang" data-en="Additional camera operators, static cameras, on-set photographer, drone and any extra gear your project needs." data-he="צלמים נוספים, מצלמות סטטיות, צלם סטילס בסט, רחפן וכל ציוד נוסף שהפרויקט דורש." data-ru="Дополнительные операторы, статичные камеры, фотограф на площадке, дрон и любое дополнительное оборудование.">Additional camera operators, static cameras, on-set photographer, drone and any extra gear your project needs.</p>
-            </div>
-            <div class="card">
+            </article>
+            <article class="cap fade" style="--i:4;--lag:120ms">
                 <h3 class="lang" data-en="Post Production" data-he="פוסט פרודקשן" data-ru="Постпродакшн">Post Production</h3>
                 <p class="lang" data-en="Reels, long-form and interview editing, subtitles, color grading, motion graphics and AI / VFX work." data-he="רילסים, עריכת סרטונים ארוכים וראיונות, כתוביות, תיקוני צבע, מושן גרפיקס ועבודות AI ואפקטים." data-ru="Reels, длинные видео и интервью, субтитры, цветокоррекция, моушн-графика и работа с AI / VFX.">Reels, long-form and interview editing, subtitles, color grading, motion graphics and AI / VFX work.</p>
-            </div>
-            <div class="card">
+            </article>
+            <article class="cap fade" style="--i:5;--lag:120ms">
                 <h3 class="lang" data-en="Creative" data-he="קריאייטיב" data-ru="Креатив">Creative</h3>
                 <p class="lang" data-en="Concept development, content planning, script writing and voice over — the thinking before the camera rolls." data-he="פיתוח קונספט, תכנון תוכן, כתיבת תסריט וקריינות — החשיבה שלפני שהמצלמה מתחילה." data-ru="Разработка концепции, планирование контента, написание сценария и закадровый голос — работа до начала съёмки.">Concept development, content planning, script writing and voice over — the thinking before the camera rolls.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ THE SHOWCASE: SELECTED WORK ══════════ -->
+<section class="band band--work" id="work">
+    <div class="wrap">
+        <div class="head" data-reveal>
+            <h2 class="lang" data-split data-en="Selected Work" data-he="עבודות נבחרות" data-ru="Избранные работы">Selected Work</h2>
+            <p class="lede fade lang" style="--lag:160ms"
+               data-en="Muted previews cut from recent reels. Every frame opens the full piece on Instagram."
+               data-he="תצוגות מקדימות ללא קול מהרילסים האחרונים. כל פריים פותח את העבודה המלאה באינסטגרם."
+               data-ru="Беззвучные превью из последних Reels. Каждый кадр открывает полную работу в Instagram.">Muted previews cut from recent reels. Every frame opens the full piece on Instagram.</p>
+        </div>
+    </div>
+
+    <div class="strip-shell" data-reveal>
+        <div class="strip fade lang-aria" id="strip" role="region" tabindex="0" aria-label="Selected work, scrolls sideways"
+             data-en="Selected work, scrolls sideways" data-he="עבודות נבחרות, גלילה לצדדים" data-ru="Избранные работы, горизонтальная прокрутка">
+            <a class="frame" href="https://www.instagram.com/reel/DRc6xPBjAR6/" target="_blank" rel="noopener"
+               style="--ar:540/960;--blur:url('data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAAAwBACdASoNABgAPu1qrU8ppiQiMAgBMB2JYwCsAGjso6ww8mbsPyWw3AAA/v2y78/xH9ai6hohNxh4awEOUqYJfPJVZBb6LDVojFr+mUkEKIY8gqyBnVWE3PD6ELbcOwAAAA==')" data-video="assets/work/visions.mp4">
+                <img src="assets/work/visions.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">01</span><span class="lang" data-en="Where visions become reality" data-he="איפה שחזון הופך למציאות" data-ru="Где замыслы становятся реальностью">Where visions become reality</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DSzwzA8DDgp/" target="_blank" rel="noopener"
+               style="--ar:854/336;--blur:url('data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAACwAwCdASoYAAkAPu1iqU2ppaOiMAgBMB2JQBOgA3R71vpo9eWxgAD+0Dr6+83u2+hlHPhWlsT51or/wvfHR3wz1Ok+DALTY/lW1O7AgsA4AA==')" data-video="assets/work/fighter.mp4">
+                <img src="assets/work/fighter.webp" width="854" height="336" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">02</span><span class="lang" data-en="One light. One fighter. No excuses" data-he="אור אחד. לוחם אחד. בלי תירוצים" data-ru="Один свет. Один боец. Без оправданий">One light. One fighter. No excuses</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DTWGAycjH8X/" target="_blank" rel="noopener"
+               style="--ar:540/960;--blur:url('data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADQAwCdASoNABgAPu1yrU+pp6QiMAgBMB2JZQAAW63FQfbBJ6htnAAA/vDQ1J7iGfCEioM1gXZMP1DHhkyNuFr0VV2g6KHMBSjeJ/FbdehHsqVHnGgAAA==')" data-video="assets/work/barbershop.mp4">
+                <img src="assets/work/barbershop.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">03</span><span class="lang" data-en="Precision. Style. Atmosphere." data-he="דיוק. סטייל. אווירה." data-ru="Точность. Стиль. Атмосфера.">Precision. Style. Atmosphere.</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DSNvHfzAqDl/" target="_blank" rel="noopener"
+               style="--ar:540/960;--blur:url('data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAwBACdASoNABgAPu1iqU2ppaOiMAgBMB2JYgCdAB6Jhhuwnb7eSw2uXgAA/uUx7sgZILm6YYB8KGv0i/RKUV8feSq0cjLYTwA8e2uL8ZC0c2cqMiKIyAAA')" data-video="assets/work/barista.mp4">
+                <img src="assets/work/barista.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">04</span><span class="lang" data-en="Where moments become cinema" data-he="איפה שרגעים הופכים לקולנוע" data-ru="Где мгновения становятся кино">Where moments become cinema</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DTINlVzDJuV/" target="_blank" rel="noopener"
+               style="--ar:854/480;--blur:url('data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAABwAwCdASoYAA4APu1iqk2ppaQiMAgBMB2JZQAAXK+VYsePshAA/ryaPFOZRLW3purC82HcIGskAAAA')" data-video="assets/work/frame.mp4">
+                <img src="assets/work/frame.webp" width="854" height="480" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">05</span><span class="lang" data-en="Running through a frame called now" data-he="רצים דרך פריים שנקרא עכשיו" data-ru="Бежим сквозь кадр по имени «сейчас»">Running through a frame called now</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DSRrBYUDDw0/" target="_blank" rel="noopener"
+               style="--ar:540/960;--blur:url('data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAACQAwCdASoNABgAPu1krU6ppaSiMAgBMB2JQBOgAbUZP+NS0m0AAP67DSlx/ST2d1Q1DgoulbADBDU9WVZTpVvwkGakfvBb8KsAea4LCTiomsHzAAA=')" data-video="assets/work/mornings.mp4">
+                <img src="assets/work/mornings.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">06</span><span class="lang" data-en="Where mornings feel like a film scene" data-he="כשהבוקר מרגיש כמו סצנה מסרט" data-ru="Когда утро похоже на сцену из фильма">Where mornings feel like a film scene</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DRupTltjHVo/" target="_blank" rel="noopener"
+               style="--ar:540/960;--blur:url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAgCdASoNABgALrV2u12jqampiYC0SzgGRMIdXNsGMAD+i3zKt/UWV3aJTXB1xb4mt1c8R56OE8ytXlWVMKjg1y2PaQIAAAA=')" data-video="assets/work/emotion.mp4">
+                <img src="assets/work/emotion.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">07</span><span class="lang" data-en="Emotion in front of you. Art behind the camera" data-he="רגש מול העדשה. אמנות מאחורי המצלמה" data-ru="Эмоция перед объективом. Искусство за камерой">Emotion in front of you. Art behind the camera</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DYAfMXmIUR4/" target="_blank" rel="noopener"
+               style="--ar:854/480;--blur:url('data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADQAwCdASoYAA4APu1iqk2ppaQiMAgBMB2JYwCdABszFi6+cYAcuYAA/HIC1X12LWPGe4fUNhDNDRc2CPBEqR6qpGNnyqTi8VpJgAAA')" data-video="assets/work/lalaland.mp4">
+                <img src="assets/work/lalaland.webp" width="854" height="480" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">08</span><span class="lang" data-en="When in Lalaland" data-he="כשנמצאים בלה לה לנד" data-ru="Когда ты в Ла-Ла Ленде">When in Lalaland</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DRVEhuqDf4M/" target="_blank" rel="noopener"
+               style="--ar:540/960;--blur:url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACQAwCdASoNABgAPu1iqU2ppaOiMAgBMB2JQBOnKAAbmCjjaQEAAPpdpdWV6nlc63kCGGRSpGCiVVZk2VF/+OGc5/uLrRUBgAA=')" data-video="assets/work/serve.mp4">
+                <img src="assets/work/serve.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">09</span><span class="lang" data-en="Faith. Focus. Serve." data-he="אמונה. ריכוז. הגשה." data-ru="Вера. Фокус. Подача.">Faith. Focus. Serve.</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DSk5_88jLPi/" target="_blank" rel="noopener"
+               style="--ar:854/482;--blur:url('data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADQAwCdASoYAA4APu1kqk2ppaQiMAgBMB2JYwCw7BYr5CMaXfXzDgAA9xyJZdrVC0GmDT1K5/U/Tt3gmDKiYb+vy7eRLWQwjuWWlY0AXLcOZR2TXAA=')" data-video="assets/work/weekends.mp4">
+                <img src="assets/work/weekends.webp" width="854" height="482" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">10</span><span class="lang" data-en="Weekends, the production way" data-he="סופי שבוע, בדרך של הפקה" data-ru="Выходные по-продакшн">Weekends, the production way</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DRkzCNrDIGt/" target="_blank" rel="noopener"
+               style="--ar:854/482;--blur:url('data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAADQAwCdASoYAA4APu1kqk2ppaQiMAgBMB2JZQCdABcwQ5auip+aDQAA/tEkNsx3SxyfmPaUabMEqL7BD+rJJgnpDY6dts6/XF430z/Xvb9gOEDAnohiH5poAAA=')" data-video="assets/work/motion.mp4">
+                <img src="assets/work/motion.webp" width="854" height="482" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">11</span><span class="lang" data-en="Motion meets motivation" data-he="תנועה פוגשת מוטיבציה" data-ru="Движение встречает мотивацию">Motion meets motivation</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DSfrPR5jCDr/" target="_blank" rel="noopener"
+               style="--ar:540/960;--blur:url('data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAADwAwCdASoNABgAPu1iqU2ppaOiMAgBMB2JZwAASrBngK8GZus9F+hOAP7kWS1TqQMMcqd2XoDVt0yLtmD4TMqTLzdwHZr9yE79XLASpvYygckPSKAbgCAA')" data-video="assets/work/theshot.mp4">
+                <img src="assets/work/theshot.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">12</span><span class="lang" data-en="The shot &amp; the shot" data-he="השוט והשוט" data-ru="Кадр и кадр">The shot &amp; the shot</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DWO09NEiNtB/" target="_blank" rel="noopener"
+               style="--ar:540/960;--blur:url('data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAABQAwCdASoNABgALrV2u12jqampiYC0SygGJsIXlMBaQIW7GAD+8R05X/n97mnow55nFYGCIEfgxW0yq5Z7Xk7R3c4E9z5hxFqdSgcGUEKlxkndEi2KQjFP1ZNQgwfFjhgAAA==')" data-video="assets/work/community.mp4">
+                <img src="assets/work/community.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">13</span><span class="lang" data-en="For the people, by the people" data-he="למען האנשים, על ידי האנשים" data-ru="Для людей, руками людей">For the people, by the people</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+            <a class="frame" href="https://www.instagram.com/reel/DXwlSSIooVN/" target="_blank" rel="noopener"
+               style="--ar:540/960;--blur:url('data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAABQAwCdASoNABgAPu1kqU2ppaOiMAgBMB2JQBhmg2/eMZPUoAD6jGhw4E1t+kFkCmd7fl9rQidy0hhwN/2tHJwA')" data-video="assets/work/thattime.mp4">
+                <img src="assets/work/thattime.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                <span class="frame-cap"><span class="frame-idx" aria-hidden="true">14</span><span class="lang" data-en="It's that time" data-he="הגיע הזמן" data-ru="Настало время">It's that time</span><span class="vh lang" data-en=" — opens on Instagram" data-he=" — נפתח באינסטגרם" data-ru=" — откроется в Instagram"> — opens on Instagram</span></span>
+            </a>
+        </div>
+        <div class="wrap strip-foot fade" style="--i:1">
+            <div class="strip-bar" aria-hidden="true"><i id="stripFill"></i></div>
+            <div class="strip-nav">
+                <span class="strip-count" aria-hidden="true"><span id="stripIdx">01</span> / 14</span>
+                <button class="strip-btn strip-btn--prev lang-aria" id="stripPrev" type="button" aria-label="Previous" data-en="Previous" data-he="הקודם" data-ru="Назад"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <button class="strip-btn lang-aria" id="stripNext" type="button" aria-label="Next" data-en="Next" data-he="הבא" data-ru="Вперёд"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- CONTENT PACKAGES -->
-    <section id="content">
-        <h2 class="lang" data-en="Content Packages" data-he="חבילות תוכן" data-ru="Пакеты контента">Content Packages</h2>
-        <p class="section-sub lang" data-en="Ready-to-go production solutions for brands, businesses and social content." data-he="פתרונות הפקה מוכנים למותגים, לעסקים ולתוכן לרשתות החברתיות." data-ru="Готовые продакшн-решения для брендов, бизнеса и контента для соцсетей.">Ready-to-go production solutions for brands, businesses and social content.</p>
-        <div class="grid">
-            <div class="card">
-                <div class="card-index">01</div>
-                <h3 class="lang" data-en="Starter Content" data-he="תוכן סטארטר" data-ru="Стартовый контент">Starter Content</h3>
-                <div class="price-tag">₪2,500</div>
-                <p class="lang" data-en="A simple, efficient content session for everyday social media." data-he="יום צילום פשוט ויעיל לתוכן שוטף לרשתות החברתיות." data-ru="Простая и эффективная съёмка контента для повседневных соцсетей.">A simple, efficient content session for everyday social media.</p>
-                <ul class="pkg-list">
+<!-- ══════════ CONTENT PACKAGES ══════════ -->
+<section class="band" id="content">
+    <div class="wrap">
+        <div class="head" data-reveal>
+            <h2 class="lang" data-split data-en="Content Packages" data-he="חבילות תוכן" data-ru="Пакеты контента">Content Packages</h2>
+            <p class="lede fade lang" style="--lag:160ms"
+               data-en="Ready-to-go production solutions for brands, businesses and social content."
+               data-he="פתרונות הפקה מוכנים למותגים, לעסקים ולתוכן לרשתות החברתיות."
+               data-ru="Готовые продакшн-решения для брендов, бизнеса и контента для соцсетей.">Ready-to-go production solutions for brands, businesses and social content.</p>
+        </div>
+
+        <div class="rows">
+            <article class="row fade" data-reveal>
+                <div>
+                    <h3 class="row-name lang" data-en="Starter Content" data-he="תוכן סטארטר" data-ru="Стартовый контент">Starter Content</h3>
+                    <p class="row-desc lang" data-en="A simple, efficient content session for everyday social media." data-he="יום צילום פשוט ויעיל לתוכן שוטף לרשתות החברתיות." data-ru="Простая и эффективная съёмка контента для повседневных соцсетей.">A simple, efficient content session for everyday social media.</p>
+                </div>
+                <ul class="incl">
                     <li class="lang" data-en="Up to 4 Hours Production" data-he="עד 4 שעות הפקה" data-ru="До 4 часов съёмки">Up to 4 Hours Production</li>
                     <li class="lang" data-en="Up to 3 Reels" data-he="עד 3 רילסים" data-ru="До 3 Reels">Up to 3 Reels</li>
                     <li class="lang" data-en="Basic Content Planning" data-he="תכנון תוכן בסיסי" data-ru="Базовое планирование контента">Basic Content Planning</li>
@@ -419,13 +1063,15 @@
                     <li class="lang" data-en="Basic Subtitles" data-he="כתוביות בסיסיות" data-ru="Базовые субтитры">Basic Subtitles</li>
                     <li class="lang" data-en="Color Correction" data-he="תיקוני צבע" data-ru="Цветокоррекция">Color Correction</li>
                 </ul>
-            </div>
-            <div class="card">
-                <div class="card-index">02</div>
-                <h3 class="lang" data-en="Business Content" data-he="תוכן עסקי" data-ru="Бизнес-контент">Business Content</h3>
-                <div class="price-tag">₪5,000</div>
-                <p class="lang" data-en="A full content session built for consistent business communication." data-he="יום הפקה מלא שנבנה לתקשורת עסקית עקבית." data-ru="Полноценная съёмка для последовательной бизнес-коммуникации.">A full content session built for consistent business communication.</p>
-                <ul class="pkg-list">
+                <div class="row-price"><span class="cur">₪</span>2,500</div>
+            </article>
+
+            <article class="row fade" data-reveal>
+                <div>
+                    <h3 class="row-name lang" data-en="Business Content" data-he="תוכן עסקי" data-ru="Бизнес-контент">Business Content</h3>
+                    <p class="row-desc lang" data-en="A full content session built for consistent business communication." data-he="יום הפקה מלא שנבנה לתקשורת עסקית עקבית." data-ru="Полноценная съёмка для последовательной бизнес-коммуникации.">A full content session built for consistent business communication.</p>
+                </div>
+                <ul class="incl">
                     <li class="lang" data-en="Up to 7 Hours Production" data-he="עד 7 שעות הפקה" data-ru="До 7 часов съёмки">Up to 7 Hours Production</li>
                     <li class="lang" data-en="Up to 5 Reels" data-he="עד 5 רילסים" data-ru="До 5 Reels">Up to 5 Reels</li>
                     <li class="lang" data-en="Content Planning" data-he="תכנון תוכן" data-ru="Планирование контента">Content Planning</li>
@@ -434,13 +1080,15 @@
                     <li class="lang" data-en="Color Grading" data-he="גריידינג צבע" data-ru="Цветокоррекция (grading)">Color Grading</li>
                     <li class="lang" data-en="Sound Design" data-he="סאונד דיזיין" data-ru="Саунд-дизайн">Sound Design</li>
                 </ul>
-            </div>
-            <div class="card">
-                <div class="card-index">03</div>
-                <h3 class="lang" data-en="Brand Package" data-he="חבילת מותג" data-ru="Бренд-пакет">Brand Package</h3>
-                <div class="price-tag">₪7,000+</div>
-                <p class="lang" data-en="A complete visual production for brands that need a stronger presence." data-he="הפקה ויזואלית מלאה למותגים שצריכים נוכחות חזקה יותר." data-ru="Полное визуальное производство для брендов, которым нужно более сильное присутствие.">A complete visual production for brands that need a stronger presence.</p>
-                <ul class="pkg-list">
+                <div class="row-price"><span class="cur">₪</span>5,000</div>
+            </article>
+
+            <article class="row fade" data-reveal>
+                <div>
+                    <h3 class="row-name lang" data-en="Brand Package" data-he="חבילת מותג" data-ru="Бренд-пакет">Brand Package</h3>
+                    <p class="row-desc lang" data-en="A complete visual production for brands that need a stronger presence." data-he="הפקה ויזואלית מלאה למותגים שצריכים נוכחות חזקה יותר." data-ru="Полное визуальное производство для брендов, которым нужно более сильное присутствие.">A complete visual production for brands that need a stronger presence.</p>
+                </div>
+                <ul class="incl">
                     <li class="lang" data-en="Up to 8 Hours Production" data-he="עד 8 שעות הפקה" data-ru="До 8 часов съёмки">Up to 8 Hours Production</li>
                     <li class="lang" data-en="Brand Film" data-he="סרט מותג" data-ru="Имиджевый фильм бренда">Brand Film</li>
                     <li class="lang" data-en="Up to 3 Reels" data-he="עד 3 רילסים" data-ru="До 3 Reels">Up to 3 Reels</li>
@@ -450,159 +1098,646 @@
                     <li class="lang" data-en="Professional Editing" data-he="עריכה מקצועית" data-ru="Профессиональный монтаж">Professional Editing</li>
                     <li class="lang" data-en="Color Grading &amp; Sound Design" data-he="גריידינג צבע וסאונד דיזיין" data-ru="Цветокоррекция и саунд-дизайн">Color Grading &amp; Sound Design</li>
                 </ul>
-            </div>
-        </div>
-        <p class="note lang" data-en="Packages are designed for standard content production. Complex concepts, additional locations, crew, equipment or production requirements are quoted separately." data-he="החבילות מיועדות להפקת תוכן סטנדרטית. קונספטים מורכבים, לוקיישנים נוספים, צוות, ציוד או דרישות הפקה נוספות מתומחרים בנפרד." data-ru="Пакеты рассчитаны на стандартное производство контента. Сложные концепции, дополнительные локации, команда, оборудование или производственные требования оцениваются отдельно.">Packages are designed for standard content production. Complex concepts, additional locations, crew, equipment or production requirements are quoted separately.</p>
-    </section>
-
-    <!-- WEDDING COLLECTIONS -->
-    <section id="weddings">
-        <h2 class="lang" data-en="Wedding Collections" data-he="חבילות חתונה" data-ru="Свадебные коллекции">Wedding Collections</h2>
-        <p class="section-sub lang" data-en="Cinematic photo &amp; video coverage created to preserve the story of your wedding day." data-he="צילום וידאו וסטילס קולנועי שנועד לשמר את הסיפור של יום החתונה שלכם." data-ru="Кинематографическая фото- и видеосъёмка, созданная, чтобы сохранить историю вашего свадебного дня.">Cinematic photo &amp; video coverage created to preserve the story of your wedding day.</p>
-        <div class="grid">
-            <div class="card">
-                <div class="card-index">01</div>
-                <h3 class="lang" data-en="Essential" data-he="אסנשיאל" data-ru="Базовая">Essential</h3>
-                <div class="price-tag">₪7,500</div>
-                <p class="lang" data-en="Focused coverage of the wedding celebration itself." data-he="כיסוי ממוקד של חגיגת החתונה עצמה." data-ru="Сфокусированная съёмка самого свадебного торжества.">Focused coverage of the wedding celebration itself.</p>
-                <ul class="pkg-list">
-                    <li class="lang" data-en="Up to 6 Hours Coverage" data-he="עד 6 שעות כיסוי" data-ru="До 6 часов съёмки">Up to 6 Hours Coverage</li>
-                    <li class="lang" data-en="1 Videographer" data-he="צלם וידאו אחד" data-ru="1 видеограф">1 Videographer</li>
-                    <li class="lang" data-en="1 Photographer" data-he="צלם סטילס אחד" data-ru="1 фотограф">1 Photographer</li>
-                    <li class="lang" data-en="Wedding Highlight Film" data-he="סרט היילייטס מהחתונה" data-ru="Highlight-фильм со свадьбы">Wedding Highlight Film</li>
-                    <li class="lang" data-en="1 Social Reel" data-he="ריל אחד לרשתות" data-ru="1 Reels для соцсетей">1 Social Reel</li>
-                    <li class="lang" data-en="50+ Edited Photos" data-he="מעל 50 תמונות ערוכות" data-ru="50+ обработанных фото">50+ Edited Photos</li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-index">02</div>
-                <h3 class="lang" data-en="Signature" data-he="סיגנצ'ר" data-ru="Расширенная">Signature</h3>
-                <div class="price-tag">₪10,000</div>
-                <p class="lang" data-en="Expanded multi-camera coverage for a fuller wedding story." data-he="כיסוי מורחב במספר מצלמות לסיפור חתונה מלא יותר." data-ru="Расширенная многокамерная съёмка для более полной истории свадьбы.">Expanded multi-camera coverage for a fuller wedding story.</p>
-                <ul class="pkg-list">
-                    <li class="lang" data-en="Up to 10 Hours Coverage" data-he="עד 10 שעות כיסוי" data-ru="До 10 часов съёмки">Up to 10 Hours Coverage</li>
-                    <li class="lang" data-en="2 Videographers" data-he="2 צלמי וידאו" data-ru="2 видеографа">2 Videographers</li>
-                    <li class="lang" data-en="1 Photographer" data-he="צלם סטילס אחד" data-ru="1 фотограф">1 Photographer</li>
-                    <li class="lang" data-en="Wedding Film" data-he="סרט חתונה" data-ru="Свадебный фильм">Wedding Film</li>
-                    <li class="lang" data-en="3 Social Reels" data-he="3 רילסים לרשתות" data-ru="3 Reels для соцсетей">3 Social Reels</li>
-                    <li class="lang" data-en="100+ Edited Photos" data-he="מעל 100 תמונות ערוכות" data-ru="100+ обработанных фото">100+ Edited Photos</li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-index">03</div>
-                <h3 class="lang" data-en="Cinematic" data-he="סינמטיק" data-ru="Кинематографическая">Cinematic</h3>
-                <div class="price-tag">₪14,000+</div>
-                <p class="lang" data-en="Full-day cinematic production from preparations through the celebration." data-he="הפקה קולנועית ליום שלם — מההכנות ועד סוף החגיגה." data-ru="Полнодневное кинематографическое производство — от сборов до конца праздника.">Full-day cinematic production from preparations through the celebration.</p>
-                <ul class="pkg-list">
-                    <li class="lang" data-en="Full Wedding Day Coverage" data-he="כיסוי יום חתונה מלא" data-ru="Съёмка полного свадебного дня">Full Wedding Day Coverage</li>
-                    <li class="lang" data-en="Bride &amp; Groom Preparations" data-he="הכנות כלה וחתן" data-ru="Сборы невесты и жениха">Bride &amp; Groom Preparations</li>
-                    <li class="lang" data-en="2 Videographers" data-he="2 צלמי וידאו" data-ru="2 видеографа">2 Videographers</li>
-                    <li class="lang" data-en="2 Photographers" data-he="2 צלמי סטילס" data-ru="2 фотографа">2 Photographers</li>
-                    <li class="lang" data-en="Cinematic Wedding Film" data-he="סרט חתונה קולנועי" data-ru="Кинематографический свадебный фильм">Cinematic Wedding Film</li>
-                    <li class="lang" data-en="3 Social Reels" data-he="3 רילסים לרשתות" data-ru="3 Reels для соцсетей">3 Social Reels</li>
-                    <li class="lang" data-en="Drone Coverage" data-he="צילומי רחפן" data-ru="Съёмка с дрона">Drone Coverage</li>
-                    <li class="lang" data-en="Additional Production Equipment" data-he="ציוד הפקה נוסף" data-ru="Дополнительное производственное оборудование">Additional Production Equipment</li>
-                    <li class="lang" data-en="300+ Edited Photos" data-he="מעל 300 תמונות ערוכות" data-ru="300+ обработанных фото">300+ Edited Photos</li>
-                </ul>
-            </div>
-        </div>
-        <p class="note lang" data-en="Wedding collections are based on standard production requirements. Additional hours, locations, crew, travel or special production requirements are quoted separately." data-he="חבילות החתונה מבוססות על דרישות הפקה סטנדרטיות. שעות נוספות, לוקיישנים, צוות, נסיעות או דרישות הפקה מיוחדות מתומחרים בנפרד." data-ru="Свадебные коллекции рассчитаны на стандартные производственные требования. Дополнительные часы, локации, команда, поездки или особые требования оцениваются отдельно.">Wedding collections are based on standard production requirements. Additional hours, locations, crew, travel or special production requirements are quoted separately.</p>
-    </section>
-
-    <!-- RATE CARD -->
-    <section id="ratecard">
-        <h2 class="lang" data-en="Build Your Production" data-he="בנו את ההפקה שלכם" data-ru="Соберите свой продакшн">Build Your Production</h2>
-        <p class="section-sub lang" data-en="Flexible production pricing for commercial, social and branded content." data-he="תמחור הפקה גמיש לתוכן מסחרי, שיווקי ולרשתות החברתיות." data-ru="Гибкое ценообразование для коммерческого, социального и брендового контента.">Flexible production pricing for commercial, social and branded content.</p>
-        <div class="grid">
-            <div class="rate-group">
-                <h3 class="lang" data-en="01 — Video Production" data-he="01 — הפקת וידאו" data-ru="01 — Видеопродакшн">01 — Video Production</h3>
-                <div class="rate-line"><span class="lang" data-en="Production / Up to 3 Hours" data-he="הפקה / עד 3 שעות" data-ru="Съёмка / до 3 часов">Production / Up to 3 Hours</span><span class="rate-price">₪1,200</span></div>
-                <div class="rate-line"><span class="lang" data-en="Half Day / Up to 6 Hours" data-he="חצי יום / עד 6 שעות" data-ru="Полдня / до 6 часов">Half Day / Up to 6 Hours</span><span class="rate-price">₪2,000</span></div>
-                <div class="rate-line"><span class="lang" data-en="Full Day / Up to 10 Hours" data-he="יום מלא / עד 10 שעות" data-ru="Полный день / до 10 часов">Full Day / Up to 10 Hours</span><span class="rate-price">₪3,500</span></div>
-            </div>
-            <div class="rate-group">
-                <h3 class="lang" data-en="02 — Crew &amp; Equipment" data-he="02 — צוות וציוד" data-ru="02 — Команда и оборудование">02 — Crew &amp; Equipment</h3>
-                <div class="rate-line"><span class="lang" data-en="Additional Camera Operator" data-he="צלם וידאו נוסף" data-ru="Дополнительный оператор">Additional Camera Operator</span><span class="rate-price">₪900+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Additional Static Camera" data-he="מצלמה סטטית נוספת" data-ru="Дополнительная статичная камера">Additional Static Camera</span><span class="rate-price">₪300+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Photographer / On Set — Up to 3 Hours" data-he="צלם סטילס בסט / עד 3 שעות" data-ru="Фотограф на площадке / до 3 часов">Photographer / On Set — Up to 3 Hours</span><span class="rate-price">₪700+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Edited Photo" data-he="תמונה ערוכה" data-ru="Обработанное фото">Edited Photo</span><span class="rate-price">₪50+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Drone" data-he="רחפן" data-ru="Дрон">Drone</span><span class="rate-price">₪300+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Additional Equipment" data-he="ציוד נוסף" data-ru="Дополнительное оборудование">Additional Equipment</span><span class="rate-price lang" data-en="Custom" data-he="בהתאמה" data-ru="По запросу">Custom</span></div>
-            </div>
-            <div class="rate-group">
-                <h3 class="lang" data-en="03 — Post Production" data-he="03 — פוסט פרודקשן" data-ru="03 — Постпродакшн">03 — Post Production</h3>
-                <div class="rate-line"><span class="lang" data-en="Reel / Up to 60 sec." data-he="ריל / עד 60 שניות" data-ru="Reels / до 60 сек.">Reel / Up to 60 sec.</span><span class="rate-price">₪350+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Advanced Reel" data-he="ריל מתקדם" data-ru="Продвинутый Reels">Advanced Reel</span><span class="rate-price">₪500+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Long-form / Interview" data-he="סרטון ארוך / ראיון" data-ru="Длинное видео / интервью">Long-form / Interview</span><span class="rate-price">₪800+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Color Grading" data-he="גריידינג צבע" data-ru="Цветокоррекция">Color Grading</span><span class="rate-price">₪300+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Motion Graphics" data-he="מושן גרפיקס" data-ru="Моушн-графика">Motion Graphics</span><span class="rate-price">₪400+</span></div>
-                <div class="rate-line"><span class="lang" data-en="AI / VFX" data-he="AI / אפקטים" data-ru="AI / VFX">AI / VFX</span><span class="rate-price lang" data-en="Custom" data-he="בהתאמה" data-ru="По запросу">Custom</span></div>
-            </div>
-            <div class="rate-group">
-                <h3 class="lang" data-en="04 — Creative" data-he="04 — קריאייטיב" data-ru="04 — Креатив">04 — Creative</h3>
-                <div class="rate-line"><span class="lang" data-en="Concept Development" data-he="פיתוח קונספט" data-ru="Разработка концепции">Concept Development</span><span class="rate-price">₪500+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Script Writing" data-he="כתיבת תסריט" data-ru="Написание сценария">Script Writing</span><span class="rate-price">₪500+</span></div>
-                <div class="rate-line"><span class="lang" data-en="Voice Over" data-he="קריינות" data-ru="Закадровый голос">Voice Over</span><span class="rate-price lang" data-en="Custom" data-he="בהתאמה" data-ru="По запросу">Custom</span></div>
-            </div>
+                <div class="row-price"><span class="cur">₪</span>7,000+</div>
+            </article>
         </div>
 
-        <div class="steps">
-            <div class="step">
+        <p class="note lang fade" data-reveal
+           data-en="Packages are designed for standard content production. Complex concepts, additional locations, crew, equipment or production requirements are quoted separately."
+           data-he="החבילות מיועדות להפקת תוכן סטנדרטית. קונספטים מורכבים, לוקיישנים נוספים, צוות, ציוד או דרישות הפקה נוספות מתומחרים בנפרד."
+           data-ru="Пакеты рассчитаны на стандартное производство контента. Сложные концепции, дополнительные локации, команда, оборудование или производственные требования оцениваются отдельно.">Packages are designed for standard content production. Complex concepts, additional locations, crew, equipment or production requirements are quoted separately.</p>
+    </div>
+</section>
+
+<!-- ══════════ THE SHOWCASE ══════════ -->
+<section class="band" id="weddings">
+    <div class="wrap">
+        <div class="head" data-reveal>
+            <h2 class="lang" data-split data-en="Wedding Collections" data-he="חבילות חתונה" data-ru="Свадебные коллекции">Wedding Collections</h2>
+            <p class="lede fade lang" style="--lag:200ms"
+               data-en="Cinematic photo &amp; video coverage created to preserve the story of your wedding day."
+               data-he="צילום וידאו וסטילס קולנועי שנועד לשמר את הסיפור של יום החתונה שלכם."
+               data-ru="Кинематографическая фото- и видеосъёмка, созданная, чтобы сохранить историю вашего свадебного дня.">Cinematic photo &amp; video coverage created to preserve the story of your wedding day.</p>
+        </div>
+
+        <div class="premiere" data-reveal>
+            <div class="reel fade" role="tablist" aria-orientation="vertical" id="reel">
+                <button class="reel-tab lang" type="button" role="tab" id="tab-essential"
+                        aria-controls="panel-essential" aria-selected="true" tabindex="0"
+                        data-en="Essential" data-he="אסנשיאל" data-ru="Базовая">Essential</button>
+                <button class="reel-tab lang" type="button" role="tab" id="tab-signature"
+                        aria-controls="panel-signature" aria-selected="false" tabindex="-1"
+                        data-en="Signature" data-he="סיגנצ'ר" data-ru="Расширенная">Signature</button>
+                <button class="reel-tab lang" type="button" role="tab" id="tab-cinematic"
+                        aria-controls="panel-cinematic" aria-selected="false" tabindex="-1"
+                        data-en="Cinematic" data-he="סינמטיק" data-ru="Кинематографическая">Cinematic</button>
+            </div>
+
+            <div class="reels fade" style="--i:1">
+                <div class="reel-panel" role="tabpanel" id="panel-essential" aria-labelledby="tab-essential" tabindex="0">
+                    <div class="panel-media stage" style="--i:0;--blur:url('data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADQAwCdASoNABgAPu1iqk4ppaQiMAgBMB2JZACdOUAAeEddrLz2ypAA/t+q8v+5OmAZTbvxJqhxAhmL3sk6KQYN7af7q1oiqH0R0D6+tO/FvjrV+AAAAA==')" data-video="assets/weddings/essential.mp4" aria-hidden="true">
+                        <img src="assets/weddings/essential.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                        <video muted playsinline loop preload="none" tabindex="-1"></video>
+                    </div>
+                    <div class="panel-text">
+                    <div class="panel-price stage" style="--i:1"><span class="cur">₪</span>7,500</div>
+                    <p class="panel-desc stage lang" style="--i:2" data-en="Focused coverage of the wedding celebration itself." data-he="כיסוי ממוקד של חגיגת החתונה עצמה." data-ru="Сфокусированная съёмка самого свадебного торжества.">Focused coverage of the wedding celebration itself.</p>
+                    <ul class="incl panel-list stage" style="--i:3">
+                        <li class="lang" data-en="Up to 6 Hours Coverage" data-he="עד 6 שעות כיסוי" data-ru="До 6 часов съёмки">Up to 6 Hours Coverage</li>
+                        <li class="lang" data-en="1 Videographer" data-he="צלם וידאו אחד" data-ru="1 видеограф">1 Videographer</li>
+                        <li class="lang" data-en="1 Photographer" data-he="צלם סטילס אחד" data-ru="1 фотограф">1 Photographer</li>
+                        <li class="lang" data-en="Wedding Highlight Film" data-he="סרט היילייטס מהחתונה" data-ru="Highlight-фильм со свадьбы">Wedding Highlight Film</li>
+                        <li class="lang" data-en="1 Social Reel" data-he="ריל אחד לרשתות" data-ru="1 Reels для соцсетей">1 Social Reel</li>
+                        <li class="lang" data-en="50+ Edited Photos" data-he="מעל 50 תמונות ערוכות" data-ru="50+ обработанных фото">50+ Edited Photos</li>
+                    </ul>
+                    </div>
+                </div>
+
+                <div class="reel-panel" role="tabpanel" id="panel-signature" aria-labelledby="tab-signature" tabindex="0" hidden>
+                    <div class="panel-media stage" style="--i:0;--blur:url('data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAABwBACdASoYAA4APu1krU6ppaSiMAgBMB2JYgCdMoMYAEEV/ieh9AFtMgcIHAD19tGruP9MnJUEMtK0Rkc20eqbzqYL7HBkfFJ+oRe2Dv/XF/Xy4JbkUv/y8y+8cvmG/cGqEKjrcFaBQAAA')" data-video="assets/weddings/signature.mp4" aria-hidden="true">
+                        <img src="assets/weddings/signature.webp" width="1702" height="960" alt="" loading="lazy" decoding="async">
+                        <video muted playsinline loop preload="none" tabindex="-1"></video>
+                    </div>
+                    <div class="panel-text">
+                    <div class="panel-price stage" style="--i:1"><span class="cur">₪</span>10,000</div>
+                    <p class="panel-desc stage lang" style="--i:2" data-en="Expanded multi-camera coverage for a fuller wedding story." data-he="כיסוי מורחב במספר מצלמות לסיפור חתונה מלא יותר." data-ru="Расширенная многокамерная съёмка для более полной истории свадьбы.">Expanded multi-camera coverage for a fuller wedding story.</p>
+                    <ul class="incl panel-list stage" style="--i:3">
+                        <li class="lang" data-en="Up to 10 Hours Coverage" data-he="עד 10 שעות כיסוי" data-ru="До 10 часов съёмки">Up to 10 Hours Coverage</li>
+                        <li class="lang" data-en="2 Videographers" data-he="2 צלמי וידאו" data-ru="2 видеографа">2 Videographers</li>
+                        <li class="lang" data-en="1 Photographer" data-he="צלם סטילס אחד" data-ru="1 фотограф">1 Photographer</li>
+                        <li class="lang" data-en="Wedding Film" data-he="סרט חתונה" data-ru="Свадебный фильм">Wedding Film</li>
+                        <li class="lang" data-en="3 Social Reels" data-he="3 רילסים לרשתות" data-ru="3 Reels для соцсетей">3 Social Reels</li>
+                        <li class="lang" data-en="100+ Edited Photos" data-he="מעל 100 תמונות ערוכות" data-ru="100+ обработанных фото">100+ Edited Photos</li>
+                    </ul>
+                    </div>
+                </div>
+
+                <div class="reel-panel" role="tabpanel" id="panel-cinematic" aria-labelledby="tab-cinematic" tabindex="0" hidden>
+                    <div class="panel-media stage" style="--i:0;--blur:url('data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAwBACdASoYAA4APu1iqk4ppaQiMAgBMB2JYgCdMoADg/o8jYxr74xt4AAA/mRg/JcfIiYE6Jyy0iWZI+2C7HqdcxdXaWFMlYrItGCiauMVt2hS6VZp3kvU/LtkZ73wAAA=')" data-video="assets/weddings/cinematic.mp4" aria-hidden="true">
+                        <img src="assets/weddings/cinematic.webp" width="854" height="480" alt="" loading="lazy" decoding="async">
+                        <video muted playsinline loop preload="none" tabindex="-1"></video>
+                    </div>
+                    <div class="panel-text">
+                    <div class="panel-price stage" style="--i:1"><span class="cur">₪</span>14,000+</div>
+                    <p class="panel-desc stage lang" style="--i:2" data-en="Full-day cinematic production from preparations through the celebration." data-he="הפקה קולנועית ליום שלם — מההכנות ועד סוף החגיגה." data-ru="Полнодневное кинематографическое производство — от сборов до конца праздника.">Full-day cinematic production from preparations through the celebration.</p>
+                    <ul class="incl panel-list stage" style="--i:3">
+                        <li class="lang" data-en="Full Wedding Day Coverage" data-he="כיסוי יום חתונה מלא" data-ru="Съёмка полного свадебного дня">Full Wedding Day Coverage</li>
+                        <li class="lang" data-en="Bride &amp; Groom Preparations" data-he="הכנות כלה וחתן" data-ru="Сборы невесты и жениха">Bride &amp; Groom Preparations</li>
+                        <li class="lang" data-en="2 Videographers" data-he="2 צלמי וידאו" data-ru="2 видеографа">2 Videographers</li>
+                        <li class="lang" data-en="2 Photographers" data-he="2 צלמי סטילס" data-ru="2 фотографа">2 Photographers</li>
+                        <li class="lang" data-en="Cinematic Wedding Film" data-he="סרט חתונה קולנועי" data-ru="Кинематографический свадебный фильм">Cinematic Wedding Film</li>
+                        <li class="lang" data-en="3 Social Reels" data-he="3 רילסים לרשתות" data-ru="3 Reels для соцсетей">3 Social Reels</li>
+                        <li class="lang" data-en="Drone Coverage" data-he="צילומי רחפן" data-ru="Съёмка с дрона">Drone Coverage</li>
+                        <li class="lang" data-en="Additional Production Equipment" data-he="ציוד הפקה נוסף" data-ru="Дополнительное производственное оборудование">Additional Production Equipment</li>
+                        <li class="lang" data-en="300+ Edited Photos" data-he="מעל 300 תמונות ערוכות" data-ru="300+ обработанных фото">300+ Edited Photos</li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="note lang fade" data-reveal
+           data-en="Wedding collections are based on standard production requirements. Additional hours, locations, crew, travel or special production requirements are quoted separately."
+           data-he="חבילות החתונה מבוססות על דרישות הפקה סטנדרטיות. שעות נוספות, לוקיישנים, צוות, נסיעות או דרישות הפקה מיוחדות מתומחרים בנפרד."
+           data-ru="Свадебные коллекции рассчитаны на стандартные производственные требования. Дополнительные часы, локации, команда, поездки или особые требования оцениваются отдельно.">Wedding collections are based on standard production requirements. Additional hours, locations, crew, travel or special production requirements are quoted separately.</p>
+    </div>
+</section>
+
+<!-- ══════════ RATE CARD ══════════ -->
+<section class="band" id="ratecard">
+    <div class="wrap">
+        <div class="head" data-reveal>
+            <h2 class="lang" data-split data-en="Build Your Production" data-he="בנו את ההפקה שלכם" data-ru="Соберите свой продакшн">Build Your Production</h2>
+            <p class="lede fade lang" style="--lag:200ms"
+               data-en="Flexible production pricing for commercial, social and branded content."
+               data-he="תמחור הפקה גמיש לתוכן מסחרי, שיווקי ולרשתות החברתיות."
+               data-ru="Гибкое ценообразование для коммерческого, социального и брендового контента.">Flexible production pricing for commercial, social and branded content.</p>
+        </div>
+
+        <div class="ledger" data-reveal>
+            <div class="ledger-group fade" style="--i:0">
+                <h3><span class="ledger-num">01</span><span class="lang" data-en="Video Production" data-he="הפקת וידאו" data-ru="Видеопродакшн">Video Production</span></h3>
+                <div class="rate-line"><span class="rate-label lang" data-en="Production / Up to 3 Hours" data-he="הפקה / עד 3 שעות" data-ru="Съёмка / до 3 часов">Production / Up to 3 Hours</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪1,200</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Half Day / Up to 6 Hours" data-he="חצי יום / עד 6 שעות" data-ru="Полдня / до 6 часов">Half Day / Up to 6 Hours</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪2,000</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Full Day / Up to 10 Hours" data-he="יום מלא / עד 10 שעות" data-ru="Полный день / до 10 часов">Full Day / Up to 10 Hours</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪3,500</span></div>
+            </div>
+
+            <div class="ledger-group fade" style="--i:1">
+                <h3><span class="ledger-num">02</span><span class="lang" data-en="Crew &amp; Equipment" data-he="צוות וציוד" data-ru="Команда и оборудование">Crew &amp; Equipment</span></h3>
+                <div class="rate-line"><span class="rate-label lang" data-en="Additional Camera Operator" data-he="צלם וידאו נוסף" data-ru="Дополнительный оператор">Additional Camera Operator</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪900+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Additional Static Camera" data-he="מצלמה סטטית נוספת" data-ru="Дополнительная статичная камера">Additional Static Camera</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪300+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Photographer / On Set — Up to 3 Hours" data-he="צלם סטילס בסט / עד 3 שעות" data-ru="Фотограф на площадке / до 3 часов">Photographer / On Set — Up to 3 Hours</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪700+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Edited Photo" data-he="תמונה ערוכה" data-ru="Обработанное фото">Edited Photo</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪50+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Drone" data-he="רחפן" data-ru="Дрон">Drone</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪300+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Additional Equipment" data-he="ציוד נוסף" data-ru="Дополнительное оборудование">Additional Equipment</span><i class="leader" aria-hidden="true"></i><span class="rate-price lang" data-en="Custom" data-he="בהתאמה" data-ru="По запросу">Custom</span></div>
+            </div>
+
+            <div class="ledger-group fade" style="--i:2">
+                <h3><span class="ledger-num">03</span><span class="lang" data-en="Post Production" data-he="פוסט פרודקשן" data-ru="Постпродакшн">Post Production</span></h3>
+                <div class="rate-line"><span class="rate-label lang" data-en="Reel / Up to 60 sec." data-he="ריל / עד 60 שניות" data-ru="Reels / до 60 сек.">Reel / Up to 60 sec.</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪350+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Advanced Reel" data-he="ריל מתקדם" data-ru="Продвинутый Reels">Advanced Reel</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪500+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Long-form / Interview" data-he="סרטון ארוך / ראיון" data-ru="Длинное видео / интервью">Long-form / Interview</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪800+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Color Grading" data-he="גריידינג צבע" data-ru="Цветокоррекция">Color Grading</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪300+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Motion Graphics" data-he="מושן גרפיקס" data-ru="Моушн-графика">Motion Graphics</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪400+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="AI / VFX" data-he="AI / אפקטים" data-ru="AI / VFX">AI / VFX</span><i class="leader" aria-hidden="true"></i><span class="rate-price lang" data-en="Custom" data-he="בהתאמה" data-ru="По запросу">Custom</span></div>
+            </div>
+
+            <div class="ledger-group fade" style="--i:3">
+                <h3><span class="ledger-num">04</span><span class="lang" data-en="Creative" data-he="קריאייטיב" data-ru="Креатив">Creative</span></h3>
+                <div class="rate-line"><span class="rate-label lang" data-en="Concept Development" data-he="פיתוח קונספט" data-ru="Разработка концепции">Concept Development</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪500+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Script Writing" data-he="כתיבת תסריט" data-ru="Написание сценария">Script Writing</span><i class="leader" aria-hidden="true"></i><span class="rate-price">₪500+</span></div>
+                <div class="rate-line"><span class="rate-label lang" data-en="Voice Over" data-he="קריינות" data-ru="Закадровый голос">Voice Over</span><i class="leader" aria-hidden="true"></i><span class="rate-price lang" data-en="Custom" data-he="בהתאמה" data-ru="По запросу">Custom</span></div>
+            </div>
+        </div>
+
+        <div class="steps" data-reveal>
+            <div class="step fade" style="--i:0">
                 <div class="step-num">01</div>
                 <h4 class="lang" data-en="Choose production time" data-he="בוחרים זמן הפקה" data-ru="Выбираете время съёмки">Choose production time</h4>
                 <p class="lang" data-en="3 Hours / Half Day / Full Day" data-he="3 שעות / חצי יום / יום מלא" data-ru="3 часа / полдня / полный день">3 Hours / Half Day / Full Day</p>
             </div>
-            <div class="step">
+            <div class="step fade" style="--i:1">
                 <div class="step-num">02</div>
                 <h4 class="lang" data-en="Add crew &amp; equipment" data-he="מוסיפים צוות וציוד" data-ru="Добавляете команду и оборудование">Add crew &amp; equipment</h4>
                 <p class="lang" data-en="Camera / Operator / Photographer / Drone" data-he="מצלמה / צלם / צלם סטילס / רחפן" data-ru="Камера / оператор / фотограф / дрон">Camera / Operator / Photographer / Drone</p>
             </div>
-            <div class="step">
+            <div class="step fade" style="--i:2">
                 <div class="step-num">03</div>
                 <h4 class="lang" data-en="Choose post production" data-he="בוחרים פוסט פרודקשן" data-ru="Выбираете постпродакшн">Choose post production</h4>
                 <p class="lang" data-en="Reels / Editing / Motion Graphics / AI" data-he="רילסים / עריכה / מושן גרפיקס / AI" data-ru="Reels / монтаж / моушн-графика / AI">Reels / Editing / Motion Graphics / AI</p>
             </div>
         </div>
 
-        <p class="note lang" data-en="Prices exclude VAT. Final pricing may vary depending on project requirements, location and production complexity." data-he="המחירים אינם כוללים מע״מ. התמחור הסופי עשוי להשתנות בהתאם לדרישות הפרויקט, הלוקיישן ומורכבות ההפקה." data-ru="Цены указаны без НДС. Итоговая стоимость может отличаться в зависимости от требований проекта, локации и сложности производства.">Prices exclude VAT. Final pricing may vary depending on project requirements, location and production complexity.</p>
-    </section>
+        <p class="note lang fade" data-reveal
+           data-en="Prices exclude VAT. Final pricing may vary depending on project requirements, location and production complexity."
+           data-he="המחירים אינם כוללים מע״מ. התמחור הסופי עשוי להשתנות בהתאם לדרישות הפרויקט, הלוקיישן ומורכבות ההפקה."
+           data-ru="Цены указаны без НДС. Итоговая стоимость может отличаться в зависимости от требований проекта, локации и сложности производства.">Prices exclude VAT. Final pricing may vary depending on project requirements, location and production complexity.</p>
+    </div>
+</section>
 
-    <!-- CONTACT -->
-    <section id="contact">
-        <h2 class="lang" data-en="Let's Start Working" data-he="בואו נתחיל לעבוד" data-ru="Давайте работать">Let's Start Working</h2>
-        <div class="contact-info">
-            <div><a href="tel:+972532219255" dir="ltr">+972 53 221 9255</a></div>
-            <div><a href="mailto:timekeepersproduction.co.il@gmail.com" dir="ltr">timekeepersproduction.co.il@gmail.com</a></div>
-            <div><a href="https://instagram.com/timekeepers_production" target="_blank" rel="noopener" dir="ltr">@timekeepers_production</a></div>
+<!-- ══════════ THE CLOSING — house lights up ══════════ -->
+<section class="band sec--light" id="contact">
+    <div class="wrap" data-reveal>
+        <h2 class="closing-head lang" data-split data-en="Let's Start Working" data-he="בואו נתחיל לעבוד" data-ru="Давайте работать">Let's Start Working</h2>
+
+        <div class="closing-grid">
+            <div class="contact-info fade" style="--i:1;--lag:200ms">
+                <a href="tel:+972532219255" dir="ltr">+972 53 221 9255</a>
+                <a href="mailto:timekeepersproduction.co.il@gmail.com" dir="ltr">timekeepersproduction.co.il@gmail.com</a>
+                <a href="https://instagram.com/timekeepers_production" target="_blank" rel="noopener" dir="ltr">@timekeepers_production</a>
+            </div>
+
+            <form class="fade" style="--i:2;--lag:200ms" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="field">
+                    <label class="vh lang" for="f-name" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">Your Name</label>
+                    <input id="f-name" type="text" name="name" required placeholder="Your Name" class="lang-placeholder" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">
+                </div>
+                <div class="field">
+                    <label class="vh lang" for="f-email" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">Your Email</label>
+                    <input id="f-email" type="email" name="email" required placeholder="Your Email" class="lang-placeholder" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">
+                </div>
+                <div class="field">
+                    <label class="vh lang" for="f-msg" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте...">Tell us about your project...</label>
+                    <textarea id="f-msg" name="message" rows="4" required placeholder="Tell us about your project..." class="lang-placeholder" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-solid lang" data-en="Send Message" data-he="שליחת הודעה" data-ru="Отправить сообщение">Send Message</button>
+            </form>
         </div>
+    </div>
+</section>
 
-        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-            <input type="text" name="name" required placeholder="Your Name" class="lang-placeholder" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">
-            <input type="email" name="email" required placeholder="Your Email" class="lang-placeholder" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">
-            <textarea name="message" rows="5" required placeholder="Tell us about your project..." class="lang-placeholder" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте..."></textarea>
-            <button type="submit" class="lang" data-en="Send Message" data-he="שליחת הודעה" data-ru="Отправить сообщение">Send Message</button>
-        </form>
-    </section>
+</main>
 
-    <footer>
-        <p class="lang" data-en="Timekeepers Production / 2026 — Prices exclude VAT." data-he="Timekeepers Production / 2026 — המחירים אינם כוללים מע״מ." data-ru="Timekeepers Production / 2026 — цены указаны без НДС.">Timekeepers Production / 2026 — Prices exclude VAT.</p>
-    </footer>
+<footer class="band sec--light site-footer">
+    <div class="wrap">
+        <div class="footer-meta">
+            <p class="lang" data-en="Timekeepers Production / 2026 — Prices exclude VAT." data-he="Timekeepers Production / 2026 — המחירים אינם כוללים מע״מ." data-ru="Timekeepers Production / 2026 — цены указаны без НДС.">Timekeepers Production / 2026 — Prices exclude VAT.</p>
+        </div>
+    </div>
+    <div class="endmark" aria-hidden="true"><span>TI<svg class="mark" viewBox="0 0 64 100" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z"/></svg>EKEEPERS</span></div>
+</footer>
 
-    <script>
-        function changeLanguage(lang) {
-            document.documentElement.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
-            document.documentElement.setAttribute('lang', lang);
+<script>
+(function () {
+    'use strict';
 
-            document.querySelectorAll('.lang').forEach(el => {
-                const value = el.getAttribute('data-' + lang);
-                if (value !== null) el.innerText = value;
+    var root = document.documentElement;
+    var langHooks = [];
+    var reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var reduce = reduceQuery.matches;
+
+    /* ─────────────────────────────────────────────
+       Display type: wrap each word in a mask so it
+       can rise. Rebuilt after every language switch.
+       ───────────────────────────────────────────── */
+    function typeset(el) {
+        var text = el.textContent.trim();
+        if (!text) return;
+        var frag = document.createDocumentFragment();
+        text.split(/\s+/).forEach(function (word, i) {
+            if (i) frag.appendChild(document.createTextNode(' '));
+            var mask = document.createElement('span');
+            mask.className = 'w';
+            mask.style.setProperty('--wi', i);
+            var inner = document.createElement('i');
+            inner.textContent = word;
+            mask.appendChild(inner);
+            frag.appendChild(mask);
+        });
+        el.textContent = '';
+        el.appendChild(frag);
+    }
+
+    /* Align each word's gradient slice to its position in the headline,
+       so one light appears to rake across the whole line. */
+    function rakeLight() {
+        document.querySelectorAll('.display').forEach(function (el) {
+            var box = el.getBoundingClientRect();
+            if (!box.width) return;
+            el.querySelectorAll('.w').forEach(function (mask) {
+                var inner = mask.firstElementChild;
+                if (!inner) return;
+                var m = mask.getBoundingClientRect();
+                inner.style.backgroundSize = box.width + 'px ' + box.height + 'px';
+                inner.style.backgroundPosition =
+                    -(m.left - box.left) + 'px ' + -(m.top - box.top) + 'px';
             });
+        });
+    }
 
-            document.querySelectorAll('.lang-placeholder').forEach(el => {
-                const value = el.getAttribute('data-' + lang);
-                if (value !== null) el.placeholder = value;
+    function typesetAll() {
+        document.querySelectorAll('[data-split]').forEach(typeset);
+        rakeLight();
+    }
+
+    /* ─────────────────────────────────────────────
+       Language
+       ───────────────────────────────────────────── */
+    window.changeLanguage = function (lang) {
+        root.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
+        root.setAttribute('lang', lang);
+
+        document.querySelectorAll('.lang').forEach(function (el) {
+            var v = el.getAttribute('data-' + lang);
+            if (v !== null) el.innerText = v;
+        });
+        document.querySelectorAll('.lang-placeholder').forEach(function (el) {
+            var v = el.getAttribute('data-' + lang);
+            if (v !== null) el.placeholder = v;
+        });
+        document.querySelectorAll('.lang-aria').forEach(function (el) {
+            var v = el.getAttribute('data-' + lang);
+            if (v !== null) el.setAttribute('aria-label', v);
+        });
+
+        // .lang replaced innerText, so the word masks need rebuilding.
+        typesetAll();
+
+        langHooks.forEach(function (fn) { fn(lang); });
+
+        try { localStorage.setItem('tk-lang', lang); } catch (e) {}
+    };
+
+    var saved = null;
+    try { saved = localStorage.getItem('tk-lang'); } catch (e) {}
+    if (saved && saved !== 'en') {
+        var sel = document.getElementById('langSwitch');
+        if (sel) sel.value = saved;
+        changeLanguage(saved);
+    } else {
+        typesetAll();
+    }
+
+    /* ─────────────────────────────────────────────
+       Mobile menu
+       ───────────────────────────────────────────── */
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+
+    function closeMenu() {
+        if (!links.classList.contains('open')) return;
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle.addEventListener('click', function () {
+        var open = links.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.addEventListener('click', function (e) { if (e.target.tagName === 'A') closeMenu(); });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && links.classList.contains('open')) { closeMenu(); toggle.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+        if (!links.contains(e.target) && !toggle.contains(e.target)) closeMenu();
+    });
+
+    /* ─────────────────────────────────────────────
+       Choreographed reveals: one trigger per group,
+       children sequence off it in CSS.
+       ───────────────────────────────────────────── */
+    var groups = document.querySelectorAll('[data-reveal]');
+
+    if (reduce || !('IntersectionObserver' in window)) {
+        groups.forEach(function (g) { g.classList.add('in'); });
+    } else {
+        var hero = document.querySelector('.hero');
+        requestAnimationFrame(function () { hero.classList.add('in'); });
+
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('in');
+                io.unobserve(entry.target);
             });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.06 });
+
+        groups.forEach(function (g) { if (g !== hero) io.observe(g); });
+    }
+
+    /* ─────────────────────────────────────────────
+       The showcase: wedding collections as a reel
+       ───────────────────────────────────────────── */
+    var reel = document.getElementById('reel');
+    var tabs = Array.prototype.slice.call(reel.querySelectorAll('[role="tab"]'));
+
+    function play(panel) {
+        panel.classList.remove('playing');
+        if (reduce) { panel.classList.add('playing'); return; }
+        void panel.offsetWidth;           // restart the stage transition
+        panel.classList.add('playing');
+    }
+
+    function select(tab, focus) {
+        tabs.forEach(function (t) {
+            var on = t === tab;
+            var panel = document.getElementById(t.getAttribute('aria-controls'));
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+            t.tabIndex = on ? 0 : -1;
+            panel.hidden = !on;
+            if (on) { play(panel); panelPlay(panel); } else panelStop(panel);
+        });
+        if (focus) tab.focus();
+    }
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () { select(tab, false); });
+    });
+
+    reel.addEventListener('keydown', function (e) {
+        var i = tabs.indexOf(document.activeElement);
+        if (i < 0) return;
+        var next = null;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+        else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+        else if (e.key === 'Home') next = tabs[0];
+        else if (e.key === 'End') next = tabs[tabs.length - 1];
+        if (!next) return;
+        e.preventDefault();
+        select(next, true);
+    });
+
+    // Stage the initially open panel once its section arrives
+    var firstPanel = document.getElementById('panel-essential');
+    if (reduce || !('IntersectionObserver' in window)) {
+        firstPanel.classList.add('playing');
+    } else {
+        var pio = new IntersectionObserver(function (entries) {
+            if (!entries[0].isIntersecting) return;
+            play(firstPanel); panelPlay(firstPanel);
+            pio.disconnect();
+        }, { threshold: 0.15 });
+        pio.observe(firstPanel);
+    }
+
+    /* ─────────────────────────────────────────────
+       Timecode: 24fps since the page loaded
+       ───────────────────────────────────────────── */
+    var tc = document.getElementById('tc');
+    var FPS = 24;
+    var start = performance.now();
+    var lastFrame = -1;
+    var tcRaf = null;
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function tick(now) {
+        var f = Math.floor((now - start) / 1000 * FPS);
+        if (f !== lastFrame) {
+            lastFrame = f;
+            tc.textContent = pad(Math.floor(f / (FPS * 3600)) % 24) + ':' +
+                             pad(Math.floor(f / (FPS * 60)) % 60) + ':' +
+                             pad(Math.floor(f / FPS) % 60) + ':' +
+                             pad(f % FPS);
         }
-    </script>
+        tcRaf = requestAnimationFrame(tick);
+    }
+    function playTc() { if (tcRaf === null && !reduce) tcRaf = requestAnimationFrame(tick); }
+    function pauseTc() { if (tcRaf !== null) { cancelAnimationFrame(tcRaf); tcRaf = null; } }
+
+    if (!reduce) {
+        playTc();
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver(function (entries) {
+                entries[0].isIntersecting ? playTc() : pauseTc();
+            }).observe(document.querySelector('.hero'));
+        }
+        document.addEventListener('visibilitychange', function () {
+            document.hidden ? pauseTc() : playTc();
+        });
+    }
+
+    /* ─────────────────────────────────────────────
+       One scroll frame: nav state, rail, film-edge drift
+       ───────────────────────────────────────────── */
+    var nav = document.getElementById('nav');
+    var railFill = document.getElementById('railFill');
+    var filmedge = document.getElementById('filmedge');
+    var scrollRaf = null;
+
+    function onFrame() {
+        scrollRaf = null;
+        var y = window.scrollY || 0;
+
+        nav.classList.toggle('stuck', y > 24);
+
+        if (railFill) {
+            var max = document.documentElement.scrollHeight - window.innerHeight;
+            railFill.style.transform = 'scaleY(' + (max > 0 ? Math.min(1, y / max) : 0) + ')';
+        }
+        // Depth: the film edge trails the page slightly
+        if (filmedge && !reduce && y < window.innerHeight) {
+            filmedge.style.transform = 'translate3d(0,' + (y * 0.14) + 'px,0)';
+        }
+    }
+
+    /* The end card: size the wordmark to span the frame exactly */
+    var endmark = document.querySelector('.endmark');
+    function fitEndmark() {
+        if (!endmark) return;
+        var span = endmark.firstElementChild;   // inline: reports true text width
+        if (!span) return;
+        endmark.style.fontSize = '100px';
+        var natural = span.getBoundingClientRect().width;
+        if (!natural) return;
+        endmark.style.fontSize = (100 * document.documentElement.clientWidth / natural) + 'px';
+    }
+    fitEndmark();
+
+    // Word positions and the wordmark both change when the frame resizes
+    var reflowTimer = null;
+    window.addEventListener('resize', function () {
+        clearTimeout(reflowTimer);
+        reflowTimer = setTimeout(function () { rakeLight(); fitEndmark(); }, 120);
+    }, { passive: true });
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { rakeLight(); fitEndmark(); });
+    }
+
+    function onScroll() { if (scrollRaf === null) scrollRaf = requestAnimationFrame(onFrame); }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onFrame();
+
+
+    /* ─────────────────────────────────────────────
+       Footage. Nothing downloads until it is wanted:
+       hover or focus on a desktop, mostly-in-view on
+       touch, the chosen collection in the showcase.
+       ───────────────────────────────────────────── */
+    var canAuto = !reduce && !(navigator.connection && navigator.connection.saveData);
+    var hoverable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    function attach(holder) {
+        var v = holder.querySelector('video');
+        if (v && !v.getAttribute('src')) { v.src = holder.getAttribute('data-video'); v.load(); }
+        return v;
+    }
+    function playIn(holder) {
+        if (!canAuto) return;
+        var v = attach(holder); if (!v) return;
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+        holder.classList.add('playing');
+    }
+    function stopIn(holder) {
+        var v = holder.querySelector('video');
+        if (v && v.getAttribute('src')) v.pause();
+        holder.classList.remove('playing');
+    }
+
+    /* Hero loop */
+    var heroVideo = document.getElementById('heroVideo');
+    var heroCtl = document.getElementById('heroCtl');
+    var heroWanted = canAuto, heroSeen = true;
+    var CTL = { en: ['Pause background video', 'Play background video'],
+                he: ['השהיית וידאו הרקע', 'הפעלת וידאו הרקע'],
+                ru: ['Остановить фоновое видео', 'Запустить фоновое видео'] };
+    function ctlLabel() {
+        var l = CTL[root.getAttribute('lang')] || CTL.en;
+        heroCtl.setAttribute('aria-label', heroWanted ? l[0] : l[1]);
+        heroCtl.setAttribute('aria-pressed', heroWanted ? 'false' : 'true');
+    }
+    function heroPlay() {
+        if (!heroWanted || !heroSeen || document.hidden) return;
+        if (!heroVideo.getAttribute('src')) {
+            heroVideo.src = window.matchMedia('(min-width: 900px)').matches ? heroVideo.getAttribute('data-src-lg') : heroVideo.getAttribute('data-src-sm');
+            heroVideo.preload = 'auto';
+        }
+        var p = heroVideo.play(); if (p && p.catch) p.catch(function () {});
+    }
+    if (canAuto) {
+        var heroStart = function () { setTimeout(function () { heroPlay(); heroCtl.hidden = false; ctlLabel(); }, 250); };
+        if (document.readyState === 'complete') heroStart(); else window.addEventListener('load', heroStart);
+        heroCtl.addEventListener('click', function () {
+            heroWanted = !heroWanted; ctlLabel();
+            if (heroWanted) heroPlay(); else heroVideo.pause();
+        });
+        langHooks.push(ctlLabel);
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver(function (entries) {
+                heroSeen = entries[0].isIntersecting;
+                if (heroSeen) heroPlay(); else heroVideo.pause();
+            }, { threshold: 0.05 }).observe(document.querySelector('.hero'));
+        }
+        document.addEventListener('visibilitychange', function () { if (document.hidden) heroVideo.pause(); else heroPlay(); });
+    }
+
+    /* The strip */
+    var strip = document.getElementById('strip');
+    var frames = Array.prototype.slice.call(strip.querySelectorAll('.frame'));
+    var stripSeen = false;
+
+    if (hoverable) {
+        frames.forEach(function (f) {
+            f.addEventListener('pointerenter', function () { playIn(f); });
+            f.addEventListener('pointerleave', function () { stopIn(f); });
+            f.addEventListener('focus', function () { playIn(f); });
+            f.addEventListener('blur', function () { stopIn(f); });
+        });
+    } else if (canAuto && 'IntersectionObserver' in window) {
+        // Touch: the frames mostly in view play by themselves; the rest rest
+        var inStrip = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                e.target.inView = e.isIntersecting;
+                if (e.isIntersecting && stripSeen) playIn(e.target); else stopIn(e.target);
+            });
+        }, { root: strip, threshold: 0.6 });
+        frames.forEach(function (f) { inStrip.observe(f); });
+    }
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+            stripSeen = entries[0].isIntersecting;
+            frames.forEach(function (f) {
+                if (stripSeen && f.inView && !hoverable) playIn(f);
+                else if (!stripSeen) stopIn(f);
+            });
+        }, { threshold: 0.1 }).observe(strip);
+    }
+
+    var stripFill = document.getElementById('stripFill');
+    var stripIdx = document.getElementById('stripIdx');
+    var stripRaf = null;
+    function stripFrame() {
+        stripRaf = null;
+        var max = strip.scrollWidth - strip.clientWidth;
+        var frac = max > 0 ? Math.min(1, Math.abs(strip.scrollLeft) / max) : 0;
+        stripFill.style.transform = 'scaleX(' + frac + ')';
+        var n = Math.round(frac * (frames.length - 1)) + 1;
+        stripIdx.textContent = n < 10 ? '0' + n : '' + n;
+    }
+    strip.addEventListener('scroll', function () { if (stripRaf === null) stripRaf = requestAnimationFrame(stripFrame); }, { passive: true });
+    stripFrame();
+
+    function stripStep(sign) {
+        var dirSign = root.getAttribute('dir') === 'rtl' ? -1 : 1;
+        strip.scrollBy({ left: sign * dirSign * strip.clientWidth * 0.7, behavior: reduce ? 'auto' : 'smooth' });
+    }
+    document.getElementById('stripPrev').addEventListener('click', function () { stripStep(-1); });
+    document.getElementById('stripNext').addEventListener('click', function () { stripStep(1); });
+
+    /* Showcase panels */
+    var panelsSeen = true;
+    function panelPlay(panel) { var m = panel.querySelector('.panel-media'); if (m) playIn(m); }
+    function panelStop(panel) { var m = panel.querySelector('.panel-media'); if (m) stopIn(m); }
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+            panelsSeen = entries[0].isIntersecting;
+            document.querySelectorAll('.reel-panel').forEach(function (p) {
+                if (panelsSeen && !p.hidden) panelPlay(p); else panelStop(p);
+            });
+        }, { threshold: 0.1 }).observe(document.getElementById('weddings'));
+    }
+
+    /* Honour a mid-session reduced-motion change */
+    var onMotionChange = function () {
+        reduce = reduceQuery.matches;
+        if (reduce) { pauseTc(); tc.textContent = '00:00:00:00'; }
+        else playTc();
+    };
+    if (reduceQuery.addEventListener) reduceQuery.addEventListener('change', onMotionChange);
+    else if (reduceQuery.addListener) reduceQuery.addListener(onMotionChange);
+})();
+</script>
 </body>
 </html>
