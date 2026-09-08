@@ -74,16 +74,16 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; margin: 0; line-height: 1.02; letter-spacing: -0.03em; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; margin: 0; line-height: 1.15; letter-spacing: -0.005em; }
 p { margin: 0; }
 a { color: inherit; }
 ul { margin: 0; padding: 0; list-style: none; }
 
 /* Rubik carries Hebrew and Cyrillic; it wants neither Syne's display
-   weight nor the negative tracking Syne is drawn for. */
+   weight nor any negative tracking. */
 :root[lang="he"] h1, :root[lang="he"] h2, :root[lang="he"] h3, :root[lang="he"] h4, :root[lang="he"] .display,
 :root[lang="ru"] h1, :root[lang="ru"] h2, :root[lang="ru"] h3, :root[lang="ru"] h4, :root[lang="ru"] .display {
-    font-weight: 700; letter-spacing: -0.01em; line-height: 1.1;
+    font-weight: 700; letter-spacing: 0; line-height: 1.2;
 }
 
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 2px; }
@@ -337,6 +337,7 @@ ul { margin: 0; padding: 0; list-style: none; }
        to action are never pushed out of a short viewport. */
     /* 13.2vw: the widest word ("Keeper's", 6.5em in Syne) must fit a 320px phone */
     font-size: clamp(2.6rem, min(13.2vw, 14vh), 10.5rem);
+    font-weight: 800;
     line-height: 0.86;
     letter-spacing: -0.045em;
     max-width: min(7ch, 100%);
@@ -474,9 +475,9 @@ ul { margin: 0; padding: 0; list-style: none; }
     width: 100%; text-align: start; background: none; border: 0;
     border-bottom: 1px solid var(--line);
     padding: clamp(1.1rem, 2.2vw, 1.6rem) 0;
-    font-family: var(--font-display); font-weight: 800;
+    font-family: var(--font-display); font-weight: 700;
     /* Sized so the widest name clears its column beside the collection's loop */
-    font-size: clamp(1.7rem, 3.4vw, 2.9rem); letter-spacing: -0.04em; line-height: 1;
+    font-size: clamp(1.7rem, 3.4vw, 2.9rem); letter-spacing: -0.01em; line-height: 1.1;
     color: var(--faint); cursor: pointer;
     transition: color 0.45s var(--e-out), padding-inline-start 0.45s var(--e-out);
 }
@@ -567,7 +568,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .sec--light .btn-solid::before { background: #2f2a20; }
 
 .closing-head {
-    font-size: clamp(2.75rem, 10vw, 8rem); line-height: 0.88; letter-spacing: -0.045em;
+    font-size: clamp(2.75rem, 10vw, 8rem); line-height: 1.0; letter-spacing: -0.02em;
     max-width: 11ch; margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
 }
 
@@ -877,7 +878,7 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
         </div>
 
         <h1 class="display lang" data-split style="--lag:120ms"
-            data-en="We are Time Keeper's" data-he="אנחנו שומרי הזמן" data-ru="Мы — Time Keeper's">We are Time Keeper's</h1>
+            data-en="We are Time Keeper's" data-he="We are Time Keeper's" data-ru="We are Time Keeper's">We are Time Keeper's</h1>
 
         <div class="hero-foot">
             <div class="slate fade" style="--i:6">Timekeepers Production / 2026</div>
@@ -1330,19 +1331,42 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
        Display type: wrap each word in a mask so it
        can rise. Rebuilt after every language switch.
        ───────────────────────────────────────────── */
+    var HAS_RTL = /[\u0590-\u08FF\uFB1D-\uFDFF\uFE70-\uFEFF]/;
+    var HAS_LTR = /[A-Za-z\u00C0-\u024F\u0370-\u052F]/;
+
     function typeset(el) {
         var text = el.textContent.trim();
         if (!text) return;
+        var rtl = root.getAttribute('dir') === 'rtl';
         var frag = document.createDocumentFragment();
+        var run = null;
         text.split(/\s+/).forEach(function (word, i) {
-            if (i) frag.appendChild(document.createTextNode(' '));
             var mask = document.createElement('span');
             mask.className = 'w';
             mask.style.setProperty('--wi', i);
             var inner = document.createElement('i');
             inner.textContent = word;
             mask.appendChild(inner);
-            frag.appendChild(mask);
+
+            /* On an RTL line every word box is an atomic neutral, so a run of
+               Latin words — the brand name — would be laid out right to left,
+               one word at a time. Keep such a run inside one dir="ltr" span
+               (the UA isolates it) so it reads left to right as a unit. */
+            if (rtl && HAS_LTR.test(word) && !HAS_RTL.test(word)) {
+                if (run) {
+                    run.appendChild(document.createTextNode(' '));
+                } else {
+                    run = document.createElement('span');
+                    run.setAttribute('dir', 'ltr');
+                    if (i) frag.appendChild(document.createTextNode(' '));
+                    frag.appendChild(run);
+                }
+                run.appendChild(mask);
+            } else {
+                run = null;
+                if (i) frag.appendChild(document.createTextNode(' '));
+                frag.appendChild(mask);
+            }
         });
         el.textContent = '';
         el.appendChild(frag);
