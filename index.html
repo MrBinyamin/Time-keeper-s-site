@@ -156,6 +156,13 @@ ul { margin: 0; padding: 0; list-style: none; }
     10%  { opacity: 0.3; }
     100% { transform: scale(1) translateZ(0); opacity: 0; }
 }
+/* Phones and tablets: three viewport-sized blurred circles plus the blade
+   animation repainting every frame is more than a mobile compositor keeps
+   up with — Chrome drops text tiles and pops them back in. display:none
+   also stops the animations, so the effect costs nothing here. */
+@media (max-width: 899px), (hover: none) and (pointer: coarse) {
+    .aperture { display: none; }
+}
 
 /* ═══════════════════════════════════════════════════════════
    LAYOUT SHELL
