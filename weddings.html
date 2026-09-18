@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Collections | Timekeepers</title>
+<meta name="description" content="Timekeepers wedding collections — Essential, Signature and Cinematic: cinematic photo and video coverage of your wedding day.">
+<meta name="theme-color" content="#08090a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2308090a'/%3E%3Cpath transform='translate(17 8) scale(.47)' fill='%23f4f2ee' fill-rule='evenodd' d='M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z'/%3E%3C/svg%3E">
+
+<!-- Gates every entrance animation. Without JS the page renders complete
+     and static, never stranded at opacity 0. -->
+<script>document.documentElement.className += ' js';</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Rubik:wght@400;500;700&family=Syne:wght@700;800&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<a class="skip lang" href="#main" data-en="Skip to content" data-he="דילוג לתוכן" data-ru="Перейти к содержанию">Skip to content</a>
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="aperture" aria-hidden="true">
+    <div class="pulse" style="--n:0"></div>
+    <div class="pulse" style="--n:1"></div>
+    <div class="pulse" style="--n:2"></div>
+    <svg class="iris" viewBox="0 0 1000 1000" focusable="false">
+        <defs><clipPath id="irisClip"><circle cx="500" cy="500" r="300"/></clipPath></defs>
+        <circle class="iris-ring iris-ring--outer" cx="500" cy="500" r="352"/>
+        <circle class="iris-ring" cx="500" cy="500" r="300"/>
+        <g clip-path="url(#irisClip)">
+            <g class="blade" style="--b:0"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:1"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:2"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:3"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:4"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:5"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:6"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:7"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+        </g>
+    </svg>
+</div>
+
+<div class="rail" aria-hidden="true"><div class="rail-fill" id="railFill"></div></div>
+
+<nav class="nav" id="nav">
+    <a class="logo" href="index.html" aria-label="Timekeepers Production">TI<svg class="mark" viewBox="0 0 64 100" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z"/></svg>EKEEPERS</a>
+
+    <button class="nav-toggle lang-aria" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks"
+            data-en="Menu" data-he="תפריט" data-ru="Меню" aria-label="Menu">
+        <span></span><span></span>
+    </button>
+
+    <!-- Site menu: one entry per page, or per anchor on the home page.
+         To add a page, follow README.md and add its link here on every page.
+         The current page is marked by site.js (aria-current="page"). -->
+    <div class="nav-links" id="navLinks">
+        <a href="index.html" class="lang" data-en="Home" data-he="בית" data-ru="Главная">Home</a>
+        <a href="works.html" class="lang" data-en="Work" data-he="עבודות" data-ru="Работы">Work</a>
+        <a href="packages.html" class="lang" data-en="Packages" data-he="חבילות" data-ru="Пакеты">Packages</a>
+        <a href="weddings.html" class="lang" data-en="Weddings" data-he="חתונות" data-ru="Свадьбы">Weddings</a>
+        <a href="index.html#ratecard" class="lang" data-en="Rate Card" data-he="מחירון" data-ru="Прайс">Rate Card</a>
+        <a href="#contact" class="lang" data-en="Contact" data-he="צור קשר" data-ru="Контакты">Contact</a>
+        <select class="lang-switch lang-aria" id="langSwitch" onchange="changeLanguage(this.value)"
+                data-en="Language" data-he="שפה" data-ru="Язык" aria-label="Language">
+            <option value="en">English</option>
+            <option value="he">עברית</option>
+            <option value="ru">Русский</option>
+        </select>
+    </div>
+</nav>
+
+<main id="main">
+
+<!-- ══════════ THE SHOWCASE ══════════ -->
+<section class="band band--page" id="weddings">
+    <div class="wrap">
+        <div class="head" data-reveal>
+            <h1 class="lang" data-split data-en="Wedding Collections" data-he="חבילות חתונה" data-ru="Свадебные коллекции">Wedding Collections</h1>
+            <p class="lede fade lang" style="--lag:200ms"
+               data-en="Cinematic photo &amp; video coverage created to preserve the story of your wedding day."
+               data-he="צילום וידאו וסטילס קולנועי שנועד לשמר את הסיפור של יום החתונה שלכם."
+               data-ru="Кинематографическая фото- и видеосъёмка, созданная, чтобы сохранить историю вашего свадебного дня.">Cinematic photo &amp; video coverage created to preserve the story of your wedding day.</p>
+        </div>
+
+        <div class="premiere" data-reveal>
+            <div class="reel fade" role="tablist" aria-orientation="vertical" id="reel">
+                <button class="reel-tab lang" type="button" role="tab" id="tab-essential"
+                        aria-controls="panel-essential" aria-selected="true" tabindex="0"
+                        data-en="Essential" data-he="אסנשיאל" data-ru="Базовая">Essential</button>
+                <button class="reel-tab lang" type="button" role="tab" id="tab-signature"
+                        aria-controls="panel-signature" aria-selected="false" tabindex="-1"
+                        data-en="Signature" data-he="סיגנצ'ר" data-ru="Расширенная">Signature</button>
+                <button class="reel-tab lang" type="button" role="tab" id="tab-cinematic"
+                        aria-controls="panel-cinematic" aria-selected="false" tabindex="-1"
+                        data-en="Cinematic" data-he="סינמטיק" data-ru="Кинематографическая">Cinematic</button>
+            </div>
+
+            <div class="reels fade" style="--i:1">
+                <div class="reel-panel" role="tabpanel" id="panel-essential" aria-labelledby="tab-essential" tabindex="0">
+                    <div class="panel-media stage" style="--i:0;--blur:url('data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADQAwCdASoNABgAPu1iqk4ppaQiMAgBMB2JZACdOUAAeEddrLz2ypAA/t+q8v+5OmAZTbvxJqhxAhmL3sk6KQYN7af7q1oiqH0R0D6+tO/FvjrV+AAAAA==')" data-video="assets/weddings/essential.mp4" aria-hidden="true">
+                        <img src="assets/weddings/essential.webp" width="540" height="960" alt="" loading="lazy" decoding="async">
+                        <video muted playsinline loop preload="none" tabindex="-1"></video>
+                    </div>
+                    <div class="panel-text">
+                    <div class="panel-price stage" style="--i:1"><span class="cur">₪</span>7,500</div>
+                    <p class="panel-desc stage lang" style="--i:2" data-en="Focused coverage of the wedding celebration itself." data-he="כיסוי ממוקד של חגיגת החתונה עצמה." data-ru="Сфокусированная съёмка самого свадебного торжества.">Focused coverage of the wedding celebration itself.</p>
+                    <ul class="incl panel-list stage" style="--i:3">
+                        <li class="lang" data-en="Up to 6 Hours Coverage" data-he="עד 6 שעות כיסוי" data-ru="До 6 часов съёмки">Up to 6 Hours Coverage</li>
+                        <li class="lang" data-en="1 Videographer" data-he="צלם וידאו אחד" data-ru="1 видеограф">1 Videographer</li>
+                        <li class="lang" data-en="1 Photographer" data-he="צלם סטילס אחד" data-ru="1 фотограф">1 Photographer</li>
+                        <li class="lang" data-en="Wedding Highlight Film" data-he="סרט היילייטס מהחתונה" data-ru="Highlight-фильм со свадьбы">Wedding Highlight Film</li>
+                        <li class="lang" data-en="1 Social Reel" data-he="ריל אחד לרשתות" data-ru="1 Reels для соцсетей">1 Social Reel</li>
+                        <li class="lang" data-en="50+ Edited Photos" data-he="מעל 50 תמונות ערוכות" data-ru="50+ обработанных фото">50+ Edited Photos</li>
+                    </ul>
+                    </div>
+                </div>
+
+                <div class="reel-panel" role="tabpanel" id="panel-signature" aria-labelledby="tab-signature" tabindex="0" hidden>
+                    <div class="panel-media stage" style="--i:0;--blur:url('data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAABwBACdASoYAA4APu1krU6ppaSiMAgBMB2JYgCdMoMYAEEV/ieh9AFtMgcIHAD19tGruP9MnJUEMtK0Rkc20eqbzqYL7HBkfFJ+oRe2Dv/XF/Xy4JbkUv/y8y+8cvmG/cGqEKjrcFaBQAAA')" data-video="assets/weddings/signature.mp4" aria-hidden="true">
+                        <img src="assets/weddings/signature.webp" width="1702" height="960" alt="" loading="lazy" decoding="async">
+                        <video muted playsinline loop preload="none" tabindex="-1"></video>
+                    </div>
+                    <div class="panel-text">
+                    <div class="panel-price stage" style="--i:1"><span class="cur">₪</span>10,000</div>
+                    <p class="panel-desc stage lang" style="--i:2" data-en="Expanded multi-camera coverage for a fuller wedding story." data-he="כיסוי מורחב במספר מצלמות לסיפור חתונה מלא יותר." data-ru="Расширенная многокамерная съёмка для более полной истории свадьбы.">Expanded multi-camera coverage for a fuller wedding story.</p>
+                    <ul class="incl panel-list stage" style="--i:3">
+                        <li class="lang" data-en="Up to 10 Hours Coverage" data-he="עד 10 שעות כיסוי" data-ru="До 10 часов съёмки">Up to 10 Hours Coverage</li>
+                        <li class="lang" data-en="2 Videographers" data-he="2 צלמי וידאו" data-ru="2 видеографа">2 Videographers</li>
+                        <li class="lang" data-en="1 Photographer" data-he="צלם סטילס אחד" data-ru="1 фотограф">1 Photographer</li>
+                        <li class="lang" data-en="Wedding Film" data-he="סרט חתונה" data-ru="Свадебный фильм">Wedding Film</li>
+                        <li class="lang" data-en="3 Social Reels" data-he="3 רילסים לרשתות" data-ru="3 Reels для соцсетей">3 Social Reels</li>
+                        <li class="lang" data-en="100+ Edited Photos" data-he="מעל 100 תמונות ערוכות" data-ru="100+ обработанных фото">100+ Edited Photos</li>
+                    </ul>
+                    </div>
+                </div>
+
+                <div class="reel-panel" role="tabpanel" id="panel-cinematic" aria-labelledby="tab-cinematic" tabindex="0" hidden>
+                    <div class="panel-media stage" style="--i:0;--blur:url('data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAwBACdASoYAA4APu1iqk4ppaQiMAgBMB2JYgCdMoADg/o8jYxr74xt4AAA/mRg/JcfIiYE6Jyy0iWZI+2C7HqdcxdXaWFMlYrItGCiauMVt2hS6VZp3kvU/LtkZ73wAAA=')" data-video="assets/weddings/cinematic.mp4" aria-hidden="true">
+                        <img src="assets/weddings/cinematic.webp" width="854" height="480" alt="" loading="lazy" decoding="async">
+                        <video muted playsinline loop preload="none" tabindex="-1"></video>
+                    </div>
+                    <div class="panel-text">
+                    <div class="panel-price stage" style="--i:1"><span class="cur">₪</span>14,000+</div>
+                    <p class="panel-desc stage lang" style="--i:2" data-en="Full-day cinematic production from preparations through the celebration." data-he="הפקה קולנועית ליום שלם — מההכנות ועד סוף החגיגה." data-ru="Полнодневное кинематографическое производство — от сборов до конца праздника.">Full-day cinematic production from preparations through the celebration.</p>
+                    <ul class="incl panel-list stage" style="--i:3">
+                        <li class="lang" data-en="Full Wedding Day Coverage" data-he="כיסוי יום חתונה מלא" data-ru="Съёмка полного свадебного дня">Full Wedding Day Coverage</li>
+                        <li class="lang" data-en="Bride &amp; Groom Preparations" data-he="הכנות כלה וחתן" data-ru="Сборы невесты и жениха">Bride &amp; Groom Preparations</li>
+                        <li class="lang" data-en="2 Videographers" data-he="2 צלמי וידאו" data-ru="2 видеографа">2 Videographers</li>
+                        <li class="lang" data-en="2 Photographers" data-he="2 צלמי סטילס" data-ru="2 фотографа">2 Photographers</li>
+                        <li class="lang" data-en="Cinematic Wedding Film" data-he="סרט חתונה קולנועי" data-ru="Кинематографический свадебный фильм">Cinematic Wedding Film</li>
+                        <li class="lang" data-en="3 Social Reels" data-he="3 רילסים לרשתות" data-ru="3 Reels для соцсетей">3 Social Reels</li>
+                        <li class="lang" data-en="Drone Coverage" data-he="צילומי רחפן" data-ru="Съёмка с дрона">Drone Coverage</li>
+                        <li class="lang" data-en="Additional Production Equipment" data-he="ציוד הפקה נוסף" data-ru="Дополнительное производственное оборудование">Additional Production Equipment</li>
+                        <li class="lang" data-en="300+ Edited Photos" data-he="מעל 300 תמונות ערוכות" data-ru="300+ обработанных фото">300+ Edited Photos</li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="note lang fade" data-reveal
+           data-en="Wedding collections are based on standard production requirements. Additional hours, locations, crew, travel or special production requirements are quoted separately."
+           data-he="חבילות החתונה מבוססות על דרישות הפקה סטנדרטיות. שעות נוספות, לוקיישנים, צוות, נסיעות או דרישות הפקה מיוחדות מתומחרים בנפרד."
+           data-ru="Свадебные коллекции рассчитаны на стандартные производственные требования. Дополнительные часы, локации, команда, поездки или особые требования оцениваются отдельно.">Wedding collections are based on standard production requirements. Additional hours, locations, crew, travel or special production requirements are quoted separately.</p>
+    </div>
+</section>
+
+<!-- ══════════ THE CLOSING — house lights up ══════════ -->
+<section class="band sec--light" id="contact">
+    <div class="wrap" data-reveal>
+        <h2 class="closing-head lang" data-split data-en="Let's Start Working" data-he="בואו נתחיל לעבוד" data-ru="Давайте работать">Let's Start Working</h2>
+
+        <div class="closing-grid">
+            <div class="contact-info fade" style="--i:1;--lag:200ms">
+                <a href="tel:+972532219255" dir="ltr">+972 53 221 9255</a>
+                <a href="mailto:timekeepersproduction.co.il@gmail.com" dir="ltr">timekeepersproduction.co.il@gmail.com</a>
+                <a href="https://instagram.com/timekeepers_production" target="_blank" rel="noopener" dir="ltr">@timekeepers_production</a>
+            </div>
+
+            <form class="fade" style="--i:2;--lag:200ms" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="field">
+                    <label class="vh lang" for="f-name" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">Your Name</label>
+                    <input id="f-name" type="text" name="name" required placeholder="Your Name" class="lang-placeholder" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">
+                </div>
+                <div class="field">
+                    <label class="vh lang" for="f-email" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">Your Email</label>
+                    <input id="f-email" type="email" name="email" required placeholder="Your Email" class="lang-placeholder" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">
+                </div>
+                <div class="field">
+                    <label class="vh lang" for="f-msg" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте...">Tell us about your project...</label>
+                    <textarea id="f-msg" name="message" rows="4" required placeholder="Tell us about your project..." class="lang-placeholder" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-solid lang" data-en="Send Message" data-he="שליחת הודעה" data-ru="Отправить сообщение">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="band sec--light site-footer">
+    <div class="wrap">
+        <div class="footer-meta">
+            <p class="lang" data-en="Timekeepers Production / 2026 — Prices exclude VAT." data-he="Timekeepers Production / 2026 — המחירים אינם כוללים מע״מ." data-ru="Timekeepers Production / 2026 — цены указаны без НДС.">Timekeepers Production / 2026 — Prices exclude VAT.</p>
+        </div>
+    </div>
+    <div class="endmark" aria-hidden="true"><span>TI<svg class="mark" viewBox="0 0 64 100" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z"/></svg>EKEEPERS</span></div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

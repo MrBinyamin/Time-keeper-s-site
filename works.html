@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Work | Timekeepers</title>
+<meta name="description" content="Timekeepers Production work by category — weddings, podcasts, interviews, travel, documentary, food, family, events, music videos, business, personal films and concerts.">
+<meta name="theme-color" content="#08090a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2308090a'/%3E%3Cpath transform='translate(17 8) scale(.47)' fill='%23f4f2ee' fill-rule='evenodd' d='M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z'/%3E%3C/svg%3E">
+
+<!-- Gates every entrance animation. Without JS the page renders complete
+     and static, never stranded at opacity 0. -->
+<script>document.documentElement.className += ' js';</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Rubik:wght@400;500;700&family=Syne:wght@700;800&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<a class="skip lang" href="#main" data-en="Skip to content" data-he="דילוג לתוכן" data-ru="Перейти к содержанию">Skip to content</a>
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="aperture" aria-hidden="true">
+    <div class="pulse" style="--n:0"></div>
+    <div class="pulse" style="--n:1"></div>
+    <div class="pulse" style="--n:2"></div>
+    <svg class="iris" viewBox="0 0 1000 1000" focusable="false">
+        <defs><clipPath id="irisClip"><circle cx="500" cy="500" r="300"/></clipPath></defs>
+        <circle class="iris-ring iris-ring--outer" cx="500" cy="500" r="352"/>
+        <circle class="iris-ring" cx="500" cy="500" r="300"/>
+        <g clip-path="url(#irisClip)">
+            <g class="blade" style="--b:0"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:1"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:2"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:3"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:4"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:5"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:6"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:7"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+        </g>
+    </svg>
+</div>
+
+<div class="rail" aria-hidden="true"><div class="rail-fill" id="railFill"></div></div>
+
+<nav class="nav" id="nav">
+    <a class="logo" href="index.html" aria-label="Timekeepers Production">TI<svg class="mark" viewBox="0 0 64 100" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z"/></svg>EKEEPERS</a>
+
+    <button class="nav-toggle lang-aria" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks"
+            data-en="Menu" data-he="תפריט" data-ru="Меню" aria-label="Menu">
+        <span></span><span></span>
+    </button>
+
+    <!-- Site menu: one entry per page, or per anchor on the home page.
+         To add a page, follow README.md and add its link here on every page.
+         The current page is marked by site.js (aria-current="page"). -->
+    <div class="nav-links" id="navLinks">
+        <a href="index.html" class="lang" data-en="Home" data-he="בית" data-ru="Главная">Home</a>
+        <a href="works.html" class="lang" data-en="Work" data-he="עבודות" data-ru="Работы">Work</a>
+        <a href="packages.html" class="lang" data-en="Packages" data-he="חבילות" data-ru="Пакеты">Packages</a>
+        <a href="weddings.html" class="lang" data-en="Weddings" data-he="חתונות" data-ru="Свадьбы">Weddings</a>
+        <a href="index.html#ratecard" class="lang" data-en="Rate Card" data-he="מחירון" data-ru="Прайс">Rate Card</a>
+        <a href="#contact" class="lang" data-en="Contact" data-he="צור קשר" data-ru="Контакты">Contact</a>
+        <select class="lang-switch lang-aria" id="langSwitch" onchange="changeLanguage(this.value)"
+                data-en="Language" data-he="שפה" data-ru="Язык" aria-label="Language">
+            <option value="en">English</option>
+            <option value="he">עברית</option>
+            <option value="ru">Русский</option>
+        </select>
+    </div>
+</nav>
+
+<main id="main">
+
+<!-- ══════════ WORKS — every project type, one section each ══════════ -->
+<section class="band band--page band--works" id="works">
+    <div class="wrap">
+        <div class="head" data-reveal>
+            <h1 class="lang" data-split data-en="Our Work" data-he="העבודות שלנו" data-ru="Наши работы">Our Work</h1>
+            <p class="lede fade lang" style="--lag:160ms"
+               data-en="Every kind of project we shoot, by category. Pick one to browse it on its own, or scroll through them all."
+               data-he="כל סוגי הפרויקטים שאנחנו מצלמים, לפי קטגוריה. בחרו אחת כדי לעיין בה בנפרד, או גללו דרך כולן."
+               data-ru="Все типы проектов, которые мы снимаем, по категориям. Выберите одну или пролистайте все.">Every kind of project we shoot, by category. Pick one to browse it on its own, or scroll through them all.</p>
+        </div>
+    </div>
+
+    <!-- Filter bar. Each chip is a plain hash link: site.js turns the hash into a
+         filter (client-side routing, shareable URLs), and without JS every category
+         simply shows. Chip hashes (#podcasts) deliberately differ from section ids
+         (#cat-podcasts) so the browser never jumps on click. -->
+    <div class="filter" id="filter" data-reveal>
+        <div class="wrap filter-wrap fade">
+            <span class="filter-label" aria-hidden="true">REC ● <span class="lang" data-en="CATEGORY" data-he="קטגוריה" data-ru="КАТЕГОРИЯ">CATEGORY</span></span>
+            <nav class="chips lang-aria" aria-label="Project categories" data-en="Project categories" data-he="קטגוריות פרויקטים" data-ru="Категории проектов">
+            <a class="chip lang" href="#all" data-cat="all" data-en="All" data-he="הכל" data-ru="Все">All</a>
+            <a class="chip lang" href="#weddings" data-cat="weddings" data-en="Weddings" data-he="חתונות" data-ru="Свадьбы">Weddings</a>
+            <a class="chip lang" href="#podcasts" data-cat="podcasts" data-en="Podcasts" data-he="פודקאסטים" data-ru="Подкасты">Podcasts</a>
+            <a class="chip lang" href="#interviews" data-cat="interviews" data-en="Interviews" data-he="ראיונות" data-ru="Интервью">Interviews</a>
+            <a class="chip lang" href="#travel" data-cat="travel" data-en="Travel with a Videographer" data-he="טיולים עם וידאוגרף" data-ru="Путешествия с видеографом">Travel with a Videographer</a>
+            <a class="chip lang" href="#documentary" data-cat="documentary" data-en="Documentary Films" data-he="סרטים דוקומנטריים" data-ru="Документальное кино">Documentary Films</a>
+            <a class="chip lang" href="#food" data-cat="food" data-en="Food Content" data-he="תוכן אוכל" data-ru="Фуд контент">Food Content</a>
+            <a class="chip lang" href="#family" data-cat="family" data-en="Family Videos" data-he="סרטוני משפחה" data-ru="Семейные видео">Family Videos</a>
+            <a class="chip lang" href="#events" data-cat="events" data-en="Events" data-he="אירועים" data-ru="Мероприятия">Events</a>
+            <a class="chip lang" href="#music" data-cat="music" data-en="Music Videos" data-he="קליפים" data-ru="Музыкальные клипы">Music Videos</a>
+            <a class="chip lang" href="#business" data-cat="business" data-en="Business Videos" data-he="סרטונים לעסקים" data-ru="Видео для бизнеса">Business Videos</a>
+            <a class="chip lang" href="#personal" data-cat="personal" data-en="Personal Videos" data-he="סרטונים אישיים" data-ru="Персональные видео">Personal Videos</a>
+            <a class="chip lang" href="#concerts" data-cat="concerts" data-en="Concerts" data-he="הופעות" data-ru="Концерты">Concerts</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="cats" id="cats">
+    <section class="cat" id="cat-weddings" data-cat="weddings" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">01</span><span class="lang" data-en="Weddings" data-he="חתונות" data-ru="Свадьбы">Weddings</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">WED 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">WED 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">WED 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-podcasts" data-cat="podcasts" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">02</span><span class="lang" data-en="Podcasts" data-he="פודקאסטים" data-ru="Подкасты">Podcasts</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">POD 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">POD 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">POD 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-interviews" data-cat="interviews" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">03</span><span class="lang" data-en="Interviews" data-he="ראיונות" data-ru="Интервью">Interviews</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">INT 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">INT 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">INT 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-travel" data-cat="travel" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">04</span><span class="lang" data-en="Travel with a Videographer" data-he="טיולים עם וידאוגרף" data-ru="Путешествия с видеографом">Travel with a Videographer</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">TRV 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">TRV 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">TRV 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-documentary" data-cat="documentary" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">05</span><span class="lang" data-en="Documentary Films" data-he="סרטים דוקומנטריים" data-ru="Документальное кино">Documentary Films</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">DOC 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">DOC 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">DOC 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-food" data-cat="food" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">06</span><span class="lang" data-en="Food Content" data-he="תוכן אוכל" data-ru="Фуд контент">Food Content</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">FOOD 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">FOOD 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">FOOD 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-family" data-cat="family" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">07</span><span class="lang" data-en="Family Videos" data-he="סרטוני משפחה" data-ru="Семейные видео">Family Videos</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">FAM 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">FAM 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">FAM 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-events" data-cat="events" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">08</span><span class="lang" data-en="Events" data-he="אירועים" data-ru="Мероприятия">Events</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">EVT 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">EVT 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">EVT 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-music" data-cat="music" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">09</span><span class="lang" data-en="Music Videos" data-he="קליפים" data-ru="Музыкальные клипы">Music Videos</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">MV 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">MV 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">MV 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-business" data-cat="business" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">10</span><span class="lang" data-en="Business Videos" data-he="סרטונים לעסקים" data-ru="Видео для бизнеса">Business Videos</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">BIZ 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">BIZ 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">BIZ 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-personal" data-cat="personal" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">11</span><span class="lang" data-en="Personal Videos" data-he="סרטונים אישיים" data-ru="Персональные видео">Personal Videos</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">PRS 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">PRS 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">PRS 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="cat" id="cat-concerts" data-cat="concerts" data-reveal>
+        <div class="wrap">
+            <h2 class="cat-head"><span class="cat-num" aria-hidden="true">12</span><span class="lang" data-en="Concerts" data-he="הופעות" data-ru="Концерты">Concerts</span></h2>
+            <div class="slots">
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:1">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">LIVE 01</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 9 / 16 vertical reel. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--v fade" style="--i:2">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">LIVE 02</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+                <!-- 16 / 9 cinematic. To fill: add data-video="assets/works/FILE.mp4" to the article,
+                     put <img src="assets/works/FILE.webp" alt="" loading="lazy"> before the video,
+                     and set the title on .slot-title (data-en / data-he / data-ru). -->
+                <article class="slot slot--c fade" style="--i:3">
+                    <div class="slot-media">
+                        <video muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+                        <span class="slot-empty lang" data-en="Coming soon" data-he="בקרוב" data-ru="Скоро">Coming soon</span>
+                    </div>
+                    <div class="slot-cap"><span class="slot-idx" aria-hidden="true">LIVE 03</span><span class="slot-title lang" data-en="Untitled" data-he="ללא שם" data-ru="Без названия">Untitled</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+    </div>
+
+    <div class="wrap">
+        <p class="note lang fade" data-reveal
+           data-en="Muted previews of selected pieces. Full films are shared on request, or on Instagram."
+           data-he="תצוגות מקדימות ללא קול של עבודות נבחרות. סרטים מלאים נשלחים לפי בקשה, או באינסטגרם."
+           data-ru="Беззвучные превью избранных работ. Полные фильмы — по запросу или в Instagram.">Muted previews of selected pieces. Full films are shared on request, or on Instagram.</p>
+    </div>
+</section>
+
+<!-- ══════════ THE CLOSING — house lights up ══════════ -->
+<section class="band sec--light" id="contact">
+    <div class="wrap" data-reveal>
+        <h2 class="closing-head lang" data-split data-en="Let's Start Working" data-he="בואו נתחיל לעבוד" data-ru="Давайте работать">Let's Start Working</h2>
+
+        <div class="closing-grid">
+            <div class="contact-info fade" style="--i:1;--lag:200ms">
+                <a href="tel:+972532219255" dir="ltr">+972 53 221 9255</a>
+                <a href="mailto:timekeepersproduction.co.il@gmail.com" dir="ltr">timekeepersproduction.co.il@gmail.com</a>
+                <a href="https://instagram.com/timekeepers_production" target="_blank" rel="noopener" dir="ltr">@timekeepers_production</a>
+            </div>
+
+            <form class="fade" style="--i:2;--lag:200ms" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="field">
+                    <label class="vh lang" for="f-name" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">Your Name</label>
+                    <input id="f-name" type="text" name="name" required placeholder="Your Name" class="lang-placeholder" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">
+                </div>
+                <div class="field">
+                    <label class="vh lang" for="f-email" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">Your Email</label>
+                    <input id="f-email" type="email" name="email" required placeholder="Your Email" class="lang-placeholder" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">
+                </div>
+                <div class="field">
+                    <label class="vh lang" for="f-msg" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте...">Tell us about your project...</label>
+                    <textarea id="f-msg" name="message" rows="4" required placeholder="Tell us about your project..." class="lang-placeholder" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-solid lang" data-en="Send Message" data-he="שליחת הודעה" data-ru="Отправить сообщение">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="band sec--light site-footer">
+    <div class="wrap">
+        <div class="footer-meta">
+            <p class="lang" data-en="Timekeepers Production / 2026 — Prices exclude VAT." data-he="Timekeepers Production / 2026 — המחירים אינם כוללים מע״מ." data-ru="Timekeepers Production / 2026 — цены указаны без НДС.">Timekeepers Production / 2026 — Prices exclude VAT.</p>
+        </div>
+    </div>
+    <div class="endmark" aria-hidden="true"><span>TI<svg class="mark" viewBox="0 0 64 100" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z"/></svg>EKEEPERS</span></div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

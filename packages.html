@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Packages | Timekeepers</title>
+<meta name="description" content="Timekeepers content packages — Starter, Business and Brand: ready-to-go video and photo production for brands, businesses and social content.">
+<meta name="theme-color" content="#08090a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2308090a'/%3E%3Cpath transform='translate(17 8) scale(.47)' fill='%23f4f2ee' fill-rule='evenodd' d='M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z'/%3E%3C/svg%3E">
+
+<!-- Gates every entrance animation. Without JS the page renders complete
+     and static, never stranded at opacity 0. -->
+<script>document.documentElement.className += ' js';</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Rubik:wght@400;500;700&family=Syne:wght@700;800&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<a class="skip lang" href="#main" data-en="Skip to content" data-he="דילוג לתוכן" data-ru="Перейти к содержанию">Skip to content</a>
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="aperture" aria-hidden="true">
+    <div class="pulse" style="--n:0"></div>
+    <div class="pulse" style="--n:1"></div>
+    <div class="pulse" style="--n:2"></div>
+    <svg class="iris" viewBox="0 0 1000 1000" focusable="false">
+        <defs><clipPath id="irisClip"><circle cx="500" cy="500" r="300"/></clipPath></defs>
+        <circle class="iris-ring iris-ring--outer" cx="500" cy="500" r="352"/>
+        <circle class="iris-ring" cx="500" cy="500" r="300"/>
+        <g clip-path="url(#irisClip)">
+            <g class="blade" style="--b:0"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:1"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:2"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:3"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:4"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:5"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:6"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+            <g class="blade" style="--b:7"><path class="blade-body" d="M800 500L-200 500-200 1300 1300 1300 1300 500Z"/></g>
+        </g>
+    </svg>
+</div>
+
+<div class="rail" aria-hidden="true"><div class="rail-fill" id="railFill"></div></div>
+
+<nav class="nav" id="nav">
+    <a class="logo" href="index.html" aria-label="Timekeepers Production">TI<svg class="mark" viewBox="0 0 64 100" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z"/></svg>EKEEPERS</a>
+
+    <button class="nav-toggle lang-aria" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks"
+            data-en="Menu" data-he="תפריט" data-ru="Меню" aria-label="Menu">
+        <span></span><span></span>
+    </button>
+
+    <!-- Site menu: one entry per page, or per anchor on the home page.
+         To add a page, follow README.md and add its link here on every page.
+         The current page is marked by site.js (aria-current="page"). -->
+    <div class="nav-links" id="navLinks">
+        <a href="index.html" class="lang" data-en="Home" data-he="בית" data-ru="Главная">Home</a>
+        <a href="works.html" class="lang" data-en="Work" data-he="עבודות" data-ru="Работы">Work</a>
+        <a href="packages.html" class="lang" data-en="Packages" data-he="חבילות" data-ru="Пакеты">Packages</a>
+        <a href="weddings.html" class="lang" data-en="Weddings" data-he="חתונות" data-ru="Свадьбы">Weddings</a>
+        <a href="index.html#ratecard" class="lang" data-en="Rate Card" data-he="מחירון" data-ru="Прайс">Rate Card</a>
+        <a href="#contact" class="lang" data-en="Contact" data-he="צור קשר" data-ru="Контакты">Contact</a>
+        <select class="lang-switch lang-aria" id="langSwitch" onchange="changeLanguage(this.value)"
+                data-en="Language" data-he="שפה" data-ru="Язык" aria-label="Language">
+            <option value="en">English</option>
+            <option value="he">עברית</option>
+            <option value="ru">Русский</option>
+        </select>
+    </div>
+</nav>
+
+<main id="main">
+
+<!-- ══════════ CONTENT PACKAGES ══════════ -->
+<section class="band band--page" id="content">
+    <div class="wrap">
+        <div class="head" data-reveal>
+            <h1 class="lang" data-split data-en="Content Packages" data-he="חבילות תוכן" data-ru="Пакеты контента">Content Packages</h1>
+            <p class="lede fade lang" style="--lag:160ms"
+               data-en="Ready-to-go production solutions for brands, businesses and social content."
+               data-he="פתרונות הפקה מוכנים למותגים, לעסקים ולתוכן לרשתות החברתיות."
+               data-ru="Готовые продакшн-решения для брендов, бизнеса и контента для соцсетей.">Ready-to-go production solutions for brands, businesses and social content.</p>
+        </div>
+
+        <div class="rows">
+            <article class="row fade" data-reveal>
+                <div>
+                    <h2 class="row-name lang" data-en="Starter Content" data-he="תוכן סטארטר" data-ru="Стартовый контент">Starter Content</h2>
+                    <p class="row-desc lang" data-en="A simple, efficient content session for everyday social media." data-he="יום צילום פשוט ויעיל לתוכן שוטף לרשתות החברתיות." data-ru="Простая и эффективная съёмка контента для повседневных соцсетей.">A simple, efficient content session for everyday social media.</p>
+                </div>
+                <ul class="incl">
+                    <li class="lang" data-en="Up to 4 Hours Production" data-he="עד 4 שעות הפקה" data-ru="До 4 часов съёмки">Up to 4 Hours Production</li>
+                    <li class="lang" data-en="Up to 3 Reels" data-he="עד 3 רילסים" data-ru="До 3 Reels">Up to 3 Reels</li>
+                    <li class="lang" data-en="Basic Content Planning" data-he="תכנון תוכן בסיסי" data-ru="Базовое планирование контента">Basic Content Planning</li>
+                    <li class="lang" data-en="Basic Editing — Clean Cuts &amp; Music" data-he="עריכה בסיסית — חיתוכים ומוזיקה" data-ru="Базовый монтаж — склейки и музыка">Basic Editing — Clean Cuts &amp; Music</li>
+                    <li class="lang" data-en="Basic Subtitles" data-he="כתוביות בסיסיות" data-ru="Базовые субтитры">Basic Subtitles</li>
+                    <li class="lang" data-en="Color Correction" data-he="תיקוני צבע" data-ru="Цветокоррекция">Color Correction</li>
+                </ul>
+                <div class="row-price"><span class="cur">₪</span>2,500</div>
+            </article>
+
+            <article class="row fade" data-reveal>
+                <div>
+                    <h2 class="row-name lang" data-en="Business Content" data-he="תוכן עסקי" data-ru="Бизнес-контент">Business Content</h2>
+                    <p class="row-desc lang" data-en="A full content session built for consistent business communication." data-he="יום הפקה מלא שנבנה לתקשורת עסקית עקבית." data-ru="Полноценная съёмка для последовательной бизнес-коммуникации.">A full content session built for consistent business communication.</p>
+                </div>
+                <ul class="incl">
+                    <li class="lang" data-en="Up to 7 Hours Production" data-he="עד 7 שעות הפקה" data-ru="До 7 часов съёмки">Up to 7 Hours Production</li>
+                    <li class="lang" data-en="Up to 5 Reels" data-he="עד 5 רילסים" data-ru="До 5 Reels">Up to 5 Reels</li>
+                    <li class="lang" data-en="Content Planning" data-he="תכנון תוכן" data-ru="Планирование контента">Content Planning</li>
+                    <li class="lang" data-en="Professional Editing" data-he="עריכה מקצועית" data-ru="Профессиональный монтаж">Professional Editing</li>
+                    <li class="lang" data-en="Subtitles" data-he="כתוביות" data-ru="Субтитры">Subtitles</li>
+                    <li class="lang" data-en="Color Grading" data-he="גריידינג צבע" data-ru="Цветокоррекция (grading)">Color Grading</li>
+                    <li class="lang" data-en="Sound Design" data-he="סאונד דיזיין" data-ru="Саунд-дизайн">Sound Design</li>
+                </ul>
+                <div class="row-price"><span class="cur">₪</span>5,000</div>
+            </article>
+
+            <article class="row fade" data-reveal>
+                <div>
+                    <h2 class="row-name lang" data-en="Brand Package" data-he="חבילת מותג" data-ru="Бренд-пакет">Brand Package</h2>
+                    <p class="row-desc lang" data-en="A complete visual production for brands that need a stronger presence." data-he="הפקה ויזואלית מלאה למותגים שצריכים נוכחות חזקה יותר." data-ru="Полное визуальное производство для брендов, которым нужно более сильное присутствие.">A complete visual production for brands that need a stronger presence.</p>
+                </div>
+                <ul class="incl">
+                    <li class="lang" data-en="Up to 8 Hours Production" data-he="עד 8 שעות הפקה" data-ru="До 8 часов съёмки">Up to 8 Hours Production</li>
+                    <li class="lang" data-en="Brand Film" data-he="סרט מותג" data-ru="Имиджевый фильм бренда">Brand Film</li>
+                    <li class="lang" data-en="Up to 3 Reels" data-he="עד 3 רילסים" data-ru="До 3 Reels">Up to 3 Reels</li>
+                    <li class="lang" data-en="Photographer" data-he="צלם סטילס" data-ru="Фотограф">Photographer</li>
+                    <li class="lang" data-en="20 Edited Photos" data-he="20 תמונות ערוכות" data-ru="20 обработанных фото">20 Edited Photos</li>
+                    <li class="lang" data-en="Creative Development" data-he="פיתוח קריאייטיבי" data-ru="Разработка креатива">Creative Development</li>
+                    <li class="lang" data-en="Professional Editing" data-he="עריכה מקצועית" data-ru="Профессиональный монтаж">Professional Editing</li>
+                    <li class="lang" data-en="Color Grading &amp; Sound Design" data-he="גריידינג צבע וסאונד דיזיין" data-ru="Цветокоррекция и саунд-дизайн">Color Grading &amp; Sound Design</li>
+                </ul>
+                <div class="row-price"><span class="cur">₪</span>7,000+</div>
+            </article>
+        </div>
+
+        <p class="note lang fade" data-reveal
+           data-en="Packages are designed for standard content production. Complex concepts, additional locations, crew, equipment or production requirements are quoted separately."
+           data-he="החבילות מיועדות להפקת תוכן סטנדרטית. קונספטים מורכבים, לוקיישנים נוספים, צוות, ציוד או דרישות הפקה נוספות מתומחרים בנפרד."
+           data-ru="Пакеты рассчитаны на стандартное производство контента. Сложные концепции, дополнительные локации, команда, оборудование или производственные требования оцениваются отдельно.">Packages are designed for standard content production. Complex concepts, additional locations, crew, equipment or production requirements are quoted separately.</p>
+    </div>
+</section>
+
+<!-- ══════════ THE CLOSING — house lights up ══════════ -->
+<section class="band sec--light" id="contact">
+    <div class="wrap" data-reveal>
+        <h2 class="closing-head lang" data-split data-en="Let's Start Working" data-he="בואו נתחיל לעבוד" data-ru="Давайте работать">Let's Start Working</h2>
+
+        <div class="closing-grid">
+            <div class="contact-info fade" style="--i:1;--lag:200ms">
+                <a href="tel:+972532219255" dir="ltr">+972 53 221 9255</a>
+                <a href="mailto:timekeepersproduction.co.il@gmail.com" dir="ltr">timekeepersproduction.co.il@gmail.com</a>
+                <a href="https://instagram.com/timekeepers_production" target="_blank" rel="noopener" dir="ltr">@timekeepers_production</a>
+            </div>
+
+            <form class="fade" style="--i:2;--lag:200ms" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="field">
+                    <label class="vh lang" for="f-name" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">Your Name</label>
+                    <input id="f-name" type="text" name="name" required placeholder="Your Name" class="lang-placeholder" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">
+                </div>
+                <div class="field">
+                    <label class="vh lang" for="f-email" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">Your Email</label>
+                    <input id="f-email" type="email" name="email" required placeholder="Your Email" class="lang-placeholder" data-en="Your Email" data-he="האימייל שלך" data-ru="Ваш Email">
+                </div>
+                <div class="field">
+                    <label class="vh lang" for="f-msg" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте...">Tell us about your project...</label>
+                    <textarea id="f-msg" name="message" rows="4" required placeholder="Tell us about your project..." class="lang-placeholder" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-solid lang" data-en="Send Message" data-he="שליחת הודעה" data-ru="Отправить сообщение">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="band sec--light site-footer">
+    <div class="wrap">
+        <div class="footer-meta">
+            <p class="lang" data-en="Timekeepers Production / 2026 — Prices exclude VAT." data-he="Timekeepers Production / 2026 — המחירים אינם כוללים מע״מ." data-ru="Timekeepers Production / 2026 — цены указаны без НДС.">Timekeepers Production / 2026 — Prices exclude VAT.</p>
+        </div>
+    </div>
+    <div class="endmark" aria-hidden="true"><span>TI<svg class="mark" viewBox="0 0 64 100" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M4 5Q32-3 60 5V100L32 85 4 100ZM10 14h9v10h-9zM45 14h9v10h-9zM10 33h9v10h-9zM45 33h9v10h-9zM10 52h9v10h-9zM45 52h9v10h-9zM10 71h9v10h-9zM45 71h9v10h-9z"/></svg>EKEEPERS</span></div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>
