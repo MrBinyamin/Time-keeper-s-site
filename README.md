@@ -3,7 +3,7 @@
 Static, multi-page site. No build step: Render serves the files as they are.
 
 ```
-index.html          Home: hero, What We Do, Selected Work, Rate Card, Contact
+index.html          Home: hero, What We Do, Selected Work, Rate Card, Packages link, Weddings link, Contact
 packages.html       Content Packages
 weddings.html       Wedding Collections
 works.html          Our Work: 12 project categories, hash-filtered (works.html#podcasts)
