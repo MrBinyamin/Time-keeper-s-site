@@ -323,7 +323,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 .display {
     /* Scales against height as well as width, so the lede and the calls
        to action are never pushed out of a short viewport. */
-    /* 12vw: "Timekeepers" (about 6.6em in Syne 800) must fit a 320px phone */
+    /* "Timekeepers" runs about 10em in Syne 800; on small screens the
+       size is derived from the available width instead (see RESPONSIVE). */
     font-size: clamp(2.4rem, min(12vw, 14vh), 10.5rem);
     font-weight: 800;
     line-height: 0.9;
@@ -684,6 +685,70 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
 }
 .hero-ctl[aria-pressed="true"] .ico::after { display: none; }
 
+/* ═══════════════════════════════════════════════════════════
+   TICKER — the recording light between What We Do and the work:
+   a full-width band, a viewfinder frame, and the studio name
+   running past like a slate. Pure CSS: two identical runs, the
+   track slides by exactly one of them and snaps back unseen.
+   ═══════════════════════════════════════════════════════════ */
+.ticker {
+    --rec: #e5322d;
+    position: relative;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    background:
+        radial-gradient(60% 120% at 50% 50%, var(--gold-wash), transparent 70%),
+        var(--surface);
+    direction: ltr; unicode-bidi: isolate;
+    user-select: none;
+}
+/* Corner brackets, as on an empty frame in the works grid */
+.ticker::before {
+    content: ""; position: absolute; inset: 9px; pointer-events: none; z-index: 1;
+    background:
+        linear-gradient(var(--gold-line), var(--gold-line)) left top / 16px 1px no-repeat,
+        linear-gradient(var(--gold-line), var(--gold-line)) left top / 1px 16px no-repeat,
+        linear-gradient(var(--gold-line), var(--gold-line)) right top / 16px 1px no-repeat,
+        linear-gradient(var(--gold-line), var(--gold-line)) right top / 1px 16px no-repeat,
+        linear-gradient(var(--gold-line), var(--gold-line)) left bottom / 16px 1px no-repeat,
+        linear-gradient(var(--gold-line), var(--gold-line)) left bottom / 1px 16px no-repeat,
+        linear-gradient(var(--gold-line), var(--gold-line)) right bottom / 16px 1px no-repeat,
+        linear-gradient(var(--gold-line), var(--gold-line)) right bottom / 1px 16px no-repeat;
+}
+.ticker-viewport {
+    overflow: hidden;
+    padding: clamp(1rem, 2.4vw, 1.75rem) 0;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+.ticker-track {
+    display: flex; width: max-content;
+    animation: ticker 32s linear infinite;
+    will-change: transform;
+}
+.ticker-run { display: flex; flex: none; align-items: center; }
+.ticker-word {
+    font-family: 'Bebas Neue', var(--font-display); font-weight: 400;
+    font-size: clamp(2.25rem, 5.5vw, 4.75rem); line-height: 1;
+    letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap;
+    color: var(--text); opacity: 0.82;
+    padding-inline: clamp(1.25rem, 3vw, 2.5rem);
+}
+.ticker-rec {
+    display: inline-flex; align-items: center; gap: 0.55em;
+    font-family: var(--font-mono); font-size: clamp(0.75rem, 1.4vw, 0.9375rem);
+    letter-spacing: 0.16em; color: var(--gold); white-space: nowrap;
+    padding-inline: clamp(1rem, 2.5vw, 2rem);
+}
+.ticker-rec::before, .ticker-rec::after { color: var(--faint); }
+.rec-dot {
+    width: 0.6em; height: 0.6em; border-radius: 50%; flex: none;
+    background: var(--rec);
+    box-shadow: 0 0 0 2px rgba(229, 50, 45, 0.18), 0 0 12px rgba(229, 50, 45, 0.7);
+    animation: rec-blink 1.2s steps(1, end) infinite;
+}
+@keyframes ticker { to { transform: translate3d(-50%, 0, 0); } }
+@keyframes rec-blink { 50% { opacity: 0.12; box-shadow: none; } }
+
 /* The strip: a run of film — frames at one height, widths by aspect */
 .band--work { padding-bottom: clamp(3.5rem, 7vw, 6rem); }
 .strip-shell { position: relative; }
@@ -777,6 +842,16 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
     .lang-switch { margin-top: 1.25rem; width: 100%; }
 }
 
+/* Phones: the brand name is one unbreakable word about 10em wide in
+   Syne 800, so its size follows the width the wrap leaves it. Desktop
+   keeps the rule above. */
+@media (max-width: 768px) {
+    .display {
+        font-size: clamp(1.5rem, min(calc((100vw - 2 * var(--pad)) / 10.4), 14vh), 6rem);
+        letter-spacing: -0.05em;
+    }
+}
+
 @media (max-width: 620px) {
     .hero-actions .btn { flex: 1 1 auto; }
     /* A wide frame is centre-cropped on a phone rather than becoming a panorama */
@@ -801,6 +876,7 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
     .js [data-reveal] [data-split] .w > i,
     .js .reel-panel .stage { opacity: 1; transform: none; transition: none; }
     .hero-light, .hero-hud .dot { animation: none; }
+    .ticker-track, .rec-dot { animation: none; }
     .frame img, .frame:hover img { transform: none; transition: none; }
     .blade-body { animation: none; transform: rotate(24deg); }
     .pulse { display: none; }
