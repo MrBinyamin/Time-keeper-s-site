@@ -88,63 +88,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ═══════════════════════════════════════════════════════════
-   APERTURE — a stylised iris breathing behind the whole page,
-   with pulses of light leaving the lens. Fixed, behind everything,
-   never interactive. The blades live in one small SVG (its repaint
-   is local); the pulses are plain composited divs, so their motion
-   is transform + opacity only.
-   ═══════════════════════════════════════════════════════════ */
-.aperture {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -1; pointer-events: none; overflow: hidden;
-    transform: translateZ(0);
-}
-.iris {
-    position: absolute; left: 50%; top: 50%;
-    width: 118vmin; height: 118vmin;
-    transform: translate(-50%, -50%) translateZ(0);
-    will-change: transform;
-}
-.iris-ring { fill: none; stroke: #6b727a; stroke-opacity: 0.2; stroke-width: 1.2; }
-.iris-ring--outer { stroke-opacity: 0.11; }
-.blade { transform-box: view-box; transform-origin: 500px 500px; transform: rotate(calc(var(--b) * 45deg)); }
-/* Each blade pivots on the ring; the opening is what the eight edges leave */
-.blade-body {
-    fill: #5a6068; fill-opacity: 0.014;
-    stroke: #6b727a; stroke-opacity: 0.22; stroke-width: 1.4;
-    transform-box: view-box; transform-origin: 800px 500px;
-    animation: iris 11s cubic-bezier(.45, 0, .55, 1) infinite;
-}
-@keyframes iris {
-    0%, 100% { transform: rotate(9deg); }
-    50%      { transform: rotate(40deg); }
-}
-.pulse {
-    position: absolute; left: 50%; top: 50%;
-    width: 160vmax; height: 160vmax; margin: -80vmax 0 0 -80vmax;
-    border-radius: 50%;
-    border: 1.5px solid rgba(77, 238, 234, 0.85);
-    box-shadow: 0 0 46px rgba(0, 210, 255, 0.22), inset 0 0 46px rgba(0, 210, 255, 0.16);
-    opacity: 0;
-    transform: scale(0.02) translateZ(0);
-    will-change: transform, opacity;
-    animation: pulse 9s cubic-bezier(.2, .7, .3, 1) infinite;
-    animation-delay: calc(var(--n) * -3s);
-}
-@keyframes pulse {
-    0%   { transform: scale(0.02) translateZ(0); opacity: 0; }
-    10%  { opacity: 0.3; }
-    100% { transform: scale(1) translateZ(0); opacity: 0; }
-}
-/* Phones and tablets: three viewport-sized blurred circles plus the blade
-   animation repainting every frame is more than a mobile compositor keeps
-   up with — Chrome drops text tiles and pops them back in. display:none
-   also stops the animations, so the effect costs nothing here. */
-@media (max-width: 899px), (hover: none) and (pointer: coarse) {
-    .aperture { display: none; }
-}
-
-/* ═══════════════════════════════════════════════════════════
    LAYOUT SHELL
    ═══════════════════════════════════════════════════════════ */
 .band { padding: clamp(5rem, 11vw, 9.5rem) 0; scroll-margin-top: var(--nav-h); position: relative; }
@@ -878,8 +821,6 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
     .hero-light, .hero-hud .dot { animation: none; }
     .ticker-track, .rec-dot { animation: none; }
     .frame img, .frame:hover img { transform: none; transition: none; }
-    .blade-body { animation: none; transform: rotate(24deg); }
-    .pulse { display: none; }
     .btn::before { display: none; }
     * { transition-duration: 0.01ms !important; }
 }
