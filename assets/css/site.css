@@ -701,6 +701,7 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
 .strip-shell { position: relative; }
 .strip {
     --edge: max(var(--pad), calc((100% - var(--maxw)) / 2 + var(--pad)));
+    --frame-h: clamp(300px, 56vh, 560px);
     display: flex; gap: 6px; align-items: stretch;
     overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
     scroll-snap-type: x proximity; scroll-padding-inline: var(--edge);
@@ -715,7 +716,7 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
 .strip:focus-visible { outline-offset: -3px; }
 .frame {
     position: relative; flex: none; isolation: isolate;
-    height: clamp(300px, 56vh, 560px); aspect-ratio: var(--ar);
+    height: var(--frame-h); aspect-ratio: var(--ar);
     scroll-snap-align: start; overflow: hidden; border-radius: 2px;
     background: var(--blur) center / cover no-repeat;
     color: var(--text); text-decoration: none;
@@ -831,8 +832,8 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
 
 /* ═══════════════════════════════════════════════════════════
    WORKS — a category filter that reads like a viewfinder, then
-   one grid per category. Slots hold 9:16 reels or 16:9 films and
-   draw themselves as empty frames until media is dropped in.
+   one film strip per category, built exactly like the home
+   page's Selected Work run (.strip / .frame, above).
    ═══════════════════════════════════════════════════════════ */
 .band--works { padding-bottom: clamp(3.5rem, 7vw, 6rem); }
 .band--works > .wrap > .head { margin-bottom: 0; border-bottom: 0; }
@@ -872,35 +873,27 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
     border-bottom: 1px solid var(--line);
 }
 .cat-num { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 400; letter-spacing: 0.08em; color: var(--gold); direction: ltr; }
-
-.slots {
-    display: grid; gap: 6px;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr));
-    grid-auto-flow: dense;
+/* On the Works page a frame grows under the pointer (or keyboard focus) so the
+   piece can actually be watched. --grow is the factor; the strip pads itself
+   by exactly the extra height so the enlarged frame is never clipped, and the
+   first / last frame grow away from the strip's edge rather than off it. */
+.cat .strip { --grow: 1.2; padding-block: calc(20px + var(--frame-h) * (var(--grow) - 1) / 2); }
+.cat .frame { cursor: default; transition: transform 0.45s var(--e-out); }
+.cat .frame:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.cat .frame:hover, .cat .frame:focus-visible { transform: scale(var(--grow)); z-index: 2; }
+.cat .frame:first-child { transform-origin: 0 50%; }
+.cat .frame:last-child { transform-origin: 100% 50%; }
+[dir="rtl"] .cat .frame:first-child { transform-origin: 100% 50%; }
+[dir="rtl"] .cat .frame:last-child { transform-origin: 0 50%; }
+/* Touch screens have no hover, and a sticky :hover after a tap would leave one frame enlarged */
+@media (hover: none) {
+    .cat .strip { padding-block: 20px; }
+    .cat .frame:hover { transform: none; }
 }
-/* A category with four reels and no film: exactly four columns, so the
-   auto-fill grid never leaves a stray empty column beside them. The phone
-   rule further down brings this back to two columns, i.e. a 2 x 2 block. */
-.slots--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.slot { position: relative; isolation: isolate; color: var(--text); text-decoration: none; }
-.slot--v .slot-media { aspect-ratio: 9 / 16; }
-/* Three columns of 16:9 stand almost exactly as tall as one column of 9:16,
-   so films and reels share a row without a gap under the film. */
-.slot--c { grid-column: span 3; }
-.slot--c .slot-media { aspect-ratio: 16 / 9; }
-.slot-media {
-    position: relative; overflow: hidden; border-radius: 2px; background: var(--surface);
-    border: 1px solid var(--line-soft);
-}
-.slot-media img, .slot-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.slot-media img { transform: scale(1.02); transition: transform 1.4s var(--e-out); }
-.slot:hover img, .slot:focus-visible img { transform: scale(1.07); }
-.slot-media video { opacity: 0; transition: opacity 0.6s var(--e-out); }
-.slot.playing video { opacity: 1; }
 
-/* Empty frame: viewfinder corner brackets and a readout. Both vanish
-   the moment the slot gets its data-video. */
-.slot-media::before {
+/* Empty frame: viewfinder corner brackets and a readout, until media is dropped in */
+.frame--empty { background: var(--surface); border: 1px solid var(--line-soft); }
+.frame--empty::before {
     content: ""; position: absolute; inset: 10px; pointer-events: none;
     background:
         linear-gradient(var(--gold-line), var(--gold-line)) left top / 14px 1px no-repeat,
@@ -912,18 +905,13 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
         linear-gradient(var(--gold-line), var(--gold-line)) right bottom / 14px 1px no-repeat,
         linear-gradient(var(--gold-line), var(--gold-line)) right bottom / 1px 14px no-repeat;
 }
-.slot-empty {
+.frame-empty {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
     font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--faint);
     text-transform: uppercase;
 }
-.slot[data-video] .slot-media::before, .slot[data-video] .slot-empty { display: none; }
-
-.slot-cap { display: flex; align-items: baseline; gap: 0.6rem; padding: 0.55rem 0.15rem 0; font-size: 0.8125rem; line-height: 1.35; color: var(--muted); }
-.slot-idx { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--gold); direction: ltr; white-space: nowrap; }
 
 @media (max-width: 620px) {
-    .slots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .slot--c { grid-column: 1 / -1; }
     .filter-label { display: none; }
+}
 }

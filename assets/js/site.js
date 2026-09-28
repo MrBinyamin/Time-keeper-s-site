@@ -370,11 +370,19 @@ function mediaSrc(url) {
         document.addEventListener('visibilitychange', function () { if (document.hidden) heroVideo.pause(); else heroPlay(); });
     }
 
-    /* The strip (home only) */
-    var strip = document.getElementById('strip');
-    if (strip) {
-    var frames = Array.prototype.slice.call(strip.querySelectorAll('.frame'));
+    /* Strips: the Selected Work run on the home page and one per category on
+       the Works page. Each .strip-shell owns its own bar, counter and buttons. */
+    function setupStrip(strip) {
+    var shell = strip.parentNode;
+    var frames = Array.prototype.slice.call(strip.querySelectorAll('.frame[data-video]'));
     var stripSeen = false;
+
+    // A frame that is not a link still previews on focus, so it must be reachable by keyboard
+    frames.forEach(function (f) {
+        if (f.tagName !== 'A' && !f.hasAttribute('tabindex')) f.tabIndex = 0;
+        var v = f.querySelector('video');
+        if (v) v.addEventListener('error', function () { f.classList.remove('playing'); });
+    });
 
     if (hoverable) {
         frames.forEach(function (f) {
@@ -403,27 +411,31 @@ function mediaSrc(url) {
         }, { threshold: 0.1 }).observe(strip);
     }
 
-    var stripFill = document.getElementById('stripFill');
-    var stripIdx = document.getElementById('stripIdx');
+    var stripFill = shell.querySelector('.strip-bar i');
+    var stripIdx = shell.querySelector('.strip-count span');
+    var total = strip.querySelectorAll('.frame').length;
     var stripRaf = null;
     function stripFrame() {
         stripRaf = null;
         var max = strip.scrollWidth - strip.clientWidth;
         var frac = max > 0 ? Math.min(1, Math.abs(strip.scrollLeft) / max) : 0;
-        stripFill.style.transform = 'scaleX(' + frac + ')';
-        var n = Math.round(frac * (frames.length - 1)) + 1;
-        stripIdx.textContent = n < 10 ? '0' + n : '' + n;
+        if (stripFill) stripFill.style.transform = 'scaleX(' + frac + ')';
+        var n = Math.round(frac * (total - 1)) + 1;
+        if (stripIdx) stripIdx.textContent = n < 10 ? '0' + n : '' + n;
     }
     strip.addEventListener('scroll', function () { if (stripRaf === null) stripRaf = requestAnimationFrame(stripFrame); }, { passive: true });
+    window.addEventListener('resize', function () { if (stripRaf === null) stripRaf = requestAnimationFrame(stripFrame); }, { passive: true });
     stripFrame();
 
     function stripStep(sign) {
         var dirSign = root.getAttribute('dir') === 'rtl' ? -1 : 1;
         strip.scrollBy({ left: sign * dirSign * strip.clientWidth * 0.7, behavior: reduce ? 'auto' : 'smooth' });
     }
-    document.getElementById('stripPrev').addEventListener('click', function () { stripStep(-1); });
-    document.getElementById('stripNext').addEventListener('click', function () { stripStep(1); });
-    } // strip
+    var prev = shell.querySelector('.strip-btn--prev'), next = shell.querySelector('.strip-btn:not(.strip-btn--prev)');
+    if (prev) prev.addEventListener('click', function () { stripStep(-1); });
+    if (next) next.addEventListener('click', function () { stripStep(1); });
+    } // setupStrip
+    Array.prototype.slice.call(document.querySelectorAll('.strip')).forEach(setupStrip);
 
     /* Showcase panels (weddings page only) */
     var panelsSeen = true;
@@ -451,8 +463,8 @@ function mediaSrc(url) {
 })();
 
 /* ═════════════════════════════════════════════════════════════
-   Works page: hash routing for the category filter, and hover /
-   in-view playback for any slot that has media.
+   Works page: hash routing for the category filter. The strips
+   themselves are wired by setupStrip above, like the home page.
    ═════════════════════════════════════════════════════════════ */
 (function () {
     'use strict';
@@ -488,47 +500,6 @@ function mediaSrc(url) {
         if (window.scrollY > top) window.scrollTo({ top: top, behavior: 'auto' });
     });
 
-    /* Playback: same rules as the home strip — hover on a desktop,
-       mostly-in-view on touch. Slots without data-video are inert. */
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var canAuto = !reduce && !(navigator.connection && navigator.connection.saveData);
-    var hoverable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    var slots = Array.prototype.slice.call(cats.querySelectorAll('.slot[data-video]'));
-    // A filled slot previews on focus too, so it must be reachable by keyboard
-    slots.forEach(function (s) { if (!s.hasAttribute('tabindex') && s.tagName !== 'A') s.tabIndex = 0; });
-    // A stream that cannot load (a Drive file that is not shared, a bad link) keeps
-    // its poster instead of a blank frame: the slot simply stops "playing".
-    slots.forEach(function (s) {
-        var v = s.querySelector('video');
-        if (v) v.addEventListener('error', function () { s.classList.remove('playing'); });
-    });
-
-    function playIn(holder) {
-        if (!canAuto) return;
-        var v = holder.querySelector('video'); if (!v) return;
-        if (!v.getAttribute('src')) { v.src = mediaSrc(holder.getAttribute('data-video')); v.load(); }
-        var p = v.play(); if (p && p.catch) p.catch(function () {});
-        holder.classList.add('playing');
-    }
-    function stopIn(holder) {
-        var v = holder.querySelector('video');
-        if (v && v.getAttribute('src')) v.pause();
-        holder.classList.remove('playing');
-    }
-
-    if (hoverable) {
-        slots.forEach(function (s) {
-            s.addEventListener('pointerenter', function () { playIn(s); });
-            s.addEventListener('pointerleave', function () { stopIn(s); });
-            s.addEventListener('focus', function () { playIn(s); });
-            s.addEventListener('blur', function () { stopIn(s); });
-        });
-    } else if (canAuto && 'IntersectionObserver' in window) {
-        var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (e) { e.isIntersecting ? playIn(e.target) : stopIn(e.target); });
-        }, { threshold: 0.6 });
-        slots.forEach(function (s) { io.observe(s); });
-    }
 })();
 
 /* ═════════════════════════════════════════════════════════════
