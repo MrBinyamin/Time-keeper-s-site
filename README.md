@@ -73,12 +73,12 @@ with its own progress bar, counter and prev / next buttons. A frame is a piece o
 - The video plays muted on hover (desktop) or when mostly in view (touch), exactly like the home strip.
   A frame without `data-video` and with `class="frame frame--empty"` draws itself as a "Coming soon" viewfinder.
 - Update the `NN` in `<span class="strip-count">01 / NN</span>` when you add or remove frames.
-- On the Works page each category's row is scaled so its frames fill the width exactly (bigger when
-  there are few, smaller when there are many); no video is ever repeated. Where that would make the
-  frames too small (phones), the row scrolls sideways instead, with the arrows and counter.
-- The home page's Selected Work strip is an endless loop: `site.js` copies its frames to both sides and
+- Every strip (home and Works) is an endless loop: `site.js` copies the frames to both sides and
   quietly re-centres the scroll when it comes to rest. Write each frame once; the copies are hidden
   from screen readers and the tab order.
+- On the Works page a row too short to fill the screen is padded with "Coming soon" frames before it
+  is looped, so the same video never appears twice on screen. They are added by the script, not in
+  the HTML, and disappear by themselves as real pieces are added.
 - To link a piece out (Instagram, YouTube), change `<article>` to `<a href="…" target="_blank" rel="noopener">`.
 - The previews live in `assets/works/<category>/<category>-NN.mp4` with a `.webp` poster beside each
   (about 0.5–1.3 MB per clip). They were cut from the masters with ffmpeg (`winget install Gyan.FFmpeg`);

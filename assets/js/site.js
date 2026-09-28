@@ -382,11 +382,10 @@ function mediaSrc(url) {
     var count = originals.length;
     if (!count) return;
     var stripSeen = false, inStrip = null;
-    var clones = [], k = 0, setW = 0, rel = [], built = false, looping = false;
-    // Works categories never repeat a video. Their row is scaled to fill the
-    // width exactly; only where that would make the frames too small (phones)
-    // does it fall back to a plain sideways scroll.
-    var canFit = !!strip.closest('.cat');
+    var clones = [], fillers = [], k = 0, setW = 0, rel = [], built = false, looping = false;
+    // Works categories: a row too short to fill the screen is padded with
+    // "Coming soon" frames, so the loop never shows the same video twice at once.
+    var canPad = !!strip.closest('.cat');
 
     // A frame that is not a link still previews on focus, so it must be reachable by keyboard
     originals.forEach(function (f) {
@@ -434,7 +433,7 @@ function mediaSrc(url) {
     // Where the view is within one copy, 0 .. setW. A hair short of a full copy
     // (sub-pixel scroll positions) counts as the start, not the end.
     function phase() {
-        if (!looping) return pos();
+        if (!looping) return 0;
         if (!setW) return 0;
         var q = (((pos() - k * setW) % setW) + setW) % setW;
         return setW - q < 2 ? 0 : q;
@@ -442,7 +441,7 @@ function mediaSrc(url) {
 
     function cloneSet() {
         var frag = document.createDocumentFragment();
-        originals.forEach(function (f) {
+        originals.concat(fillers).forEach(function (f) {
             var c = f.cloneNode(true);
             c.classList.remove('playing');
             c.classList.add('frame--clone');
@@ -457,41 +456,50 @@ function mediaSrc(url) {
         return frag;
     }
 
+    function makeFiller() {
+        var lang = root.getAttribute('lang') || 'en';
+        var f = document.createElement('article');
+        f.className = 'frame frame--empty frame--filler';
+        f.style.setProperty('--ar', '720/1280');
+        f.setAttribute('aria-hidden', 'true');
+        var t = document.createElement('span');
+        t.className = 'frame-empty lang';
+        t.setAttribute('data-en', 'Coming soon');
+        t.setAttribute('data-he', 'בקרוב');
+        t.setAttribute('data-ru', 'Скоро');
+        t.textContent = t.getAttribute('data-' + lang) || 'Coming soon';
+        f.appendChild(t);
+        return f;
+    }
+
     function build() {
         var cw = strip.clientWidth;
         if (!cw) return;                       // hidden (a filtered-out category): try again when shown
         var was = looping && setW ? phase() / setW : 0;
         looping = false;
         clones.forEach(function (c) { if (inStrip) inStrip.unobserve(c); c.remove(); });
-        clones = [];
-        strip.style.removeProperty('--frame-h');
-        strip.classList.remove('strip--fit');
-        shell.classList.remove('strip-shell--fit');
-        var cs = getComputedStyle(strip);
-        var gap = parseFloat(cs.columnGap) || 0;
+        fillers.forEach(function (f) { f.remove(); });
+        clones = []; fillers = [];
+        var gap = parseFloat(getComputedStyle(strip).columnGap) || 0;
         // offsetWidth is the layout width, so a frame enlarged on hover does not skew it
         setW = 0; rel = [];
         originals.forEach(function (f) { rel.push(setW); setW += f.offsetWidth + gap; });
         if (!setW) return;
         built = true;
 
-        if (canFit) {
-            var avail = cw - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-            var baseH = originals[0].offsetHeight;
-            var framesW = setW - count * gap;
-            // Height and width scale together, so nothing is cropped; flex-grow
-            // then spreads any width left over by rounding or the height cap.
-            var scale = Math.min((avail - (count - 1) * gap) / framesW, 1.6, (window.innerHeight * 0.72) / baseH);
-            k = 0; strip.scrollLeft = 0;
-            if (baseH * scale >= 240) {
-                strip.style.setProperty('--frame-h', Math.floor(baseH * scale) + 'px');
-                strip.classList.add('strip--fit');
-                shell.classList.add('strip-shell--fit');
-            } else {
-                stripFrame();                  // plain scroll: the real frames, once each
+        // Pad a short row with "Coming soon" frames until one pass of it is wider
+        // than the screen (plus half a frame), so no video can meet its own copy.
+        if (canPad) {
+            var last = originals[count - 1];
+            while (setW < cw + 120 && fillers.length < 40) {
+                var f = makeFiller();
+                strip.insertBefore(f, last.nextSibling);
+                last = f;
+                fillers.push(f);
+                setW += f.offsetWidth + gap;
             }
-            return;
         }
+
         looping = true;
         // Enough copies on each side to cover the view plus a button step either way
         k = Math.ceil((cw * 1.8) / setW) + 1;
@@ -515,13 +523,8 @@ function mediaSrc(url) {
         stripRaf = null;
         if (!setW) return;
         var q = phase(), n = 0, best = Infinity;
-        if (!looping) {
-            // Plain scroll: at the far end the last frame counts, even if it never reaches the start
-            var max = strip.scrollWidth - strip.clientWidth;
-            if (max > 0 && q >= max - 2) q = rel[count - 1];
-        }
         rel.forEach(function (r, i) {
-            var d = looping ? Math.min(Math.abs(q - r), Math.abs(q - r - setW)) : Math.abs(q - r);
+            var d = Math.min(Math.abs(q - r), Math.abs(q - r - setW));
             if (d < best) { best = d; n = i; }
         });
         if (stripFill) stripFill.style.transform = 'scaleX(' + ((n + 1) / count) + ')';

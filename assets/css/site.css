@@ -322,48 +322,16 @@ ul { margin: 0; padding: 0; list-style: none; }
 .btn-line:hover, .btn-line:focus-visible { border-color: var(--gold-line); }
 
 /* ═══════════════════════════════════════════════════════════
-   WHAT WE DO — title and statement side by side, then the four
-   lines of work spread across the page like a credits row
+   WHAT WE DO — title and statement side by side
    ═══════════════════════════════════════════════════════════ */
 .wwd-head { display: grid; gap: 1.25rem; }
 .wwd-head h2 { font-size: clamp(2rem, 5vw, 4.25rem); }
 .wwd-lede { color: var(--muted); font-size: clamp(1.0625rem, 1.5vw, 1.375rem); line-height: 1.55; max-width: 40ch; margin: 0; }
 
-.wwd-list {
-    list-style: none; margin: clamp(2.5rem, 5vw, 4.5rem) 0 0; padding: 0;
-    display: grid; grid-template-columns: minmax(0, 1fr);
-    border-top: 1px solid var(--line);
-}
-.wwd-item {
-    position: relative; display: grid; gap: 0.6rem; height: 100%;
-    padding: 1.5rem 0 1.75rem; color: inherit; text-decoration: none;
-    border-bottom: 1px solid var(--line);
-}
-/* A gold rule draws across the top of the line under the pointer */
-.wwd-item::before {
-    content: ""; position: absolute; inset-inline: 0; top: -1px; height: 1px;
-    background: var(--gold); transform: scaleX(0); transform-origin: inline-start;
-    transition: transform 0.6s var(--e-out);
-}
-.wwd-item:hover::before, .wwd-item:focus-visible::before { transform: scaleX(1); }
-.wwd-num { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold); direction: ltr; justify-self: start; }
-.wwd-item h3 { font-size: clamp(1.375rem, 2.2vw, 1.875rem); transition: color var(--d-fast) var(--e-out); }
-.wwd-item p { margin: 0; color: var(--muted); max-width: 30ch; }
-.wwd-item:hover h3, .wwd-item:focus-visible h3 { color: var(--gold); }
-
-@media (min-width: 620px) {
-    .wwd-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
-}
 @media (min-width: 900px) {
     /* Title on one side, statement on the other, sharing a baseline */
     .wwd-head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; column-gap: clamp(2rem, 6vw, 6rem); }
     .wwd-lede { justify-self: end; }
-    /* Four columns divided by hairlines, each line of work with room to breathe */
-    .wwd-list { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 0; }
-    .wwd-item { border-bottom: 0; padding: 2rem clamp(1rem, 2vw, 2rem) 0.5rem; min-height: 15rem; align-content: start; }
-    .wwd-list li + li .wwd-item { border-inline-start: 1px solid var(--line); }
-    .wwd-list li:first-child .wwd-item { padding-inline-start: 0; }
-    .wwd-num { margin-bottom: 2.5rem; }
 }
 
 /* Editorial rows used further down the home page (Packages, Weddings links) */
@@ -929,12 +897,6 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
 .cat .frame { cursor: default; transition: transform 0.45s var(--e-out); }
 .cat .frame:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
 .cat .frame:hover, .cat .frame:focus-visible { transform: scale(var(--grow)); z-index: 2; }
-/* Works categories: the row is scaled so its frames fill the width exactly
-   (site.js sets --frame-h), never repeating a video; flex-grow spreads any
-   width left over, and there is nothing to scroll, so no arrows. */
-.strip--fit { justify-content: stretch; }
-.strip--fit .frame { flex: 1 1 auto; }
-.strip-shell--fit .strip-foot { display: none; }
 /* Touch screens have no hover, and a sticky :hover after a tap would leave one frame enlarged */
 @media (hover: none) {
     .cat .strip { padding-block: 20px; }
@@ -963,5 +925,4 @@ form .btn { width: fit-content; margin-top: 0.5rem; }
 
 @media (max-width: 620px) {
     .filter-label { display: none; }
-}
 }
