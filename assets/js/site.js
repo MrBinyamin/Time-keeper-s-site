@@ -371,64 +371,183 @@ function mediaSrc(url) {
     }
 
     /* Strips: the Selected Work run on the home page and one per category on
-       the Works page. Each .strip-shell owns its own bar, counter and buttons. */
+       the Works page. Each .strip-shell owns its own bar, counter and buttons.
+       Every strip is an endless loop: the real frames sit in the middle of
+       copies of themselves (aria-hidden, out of the tab order), and once the
+       scroll comes to rest it is moved by whole copies back to the middle,
+       which looks identical, so the run never reaches an end either way. */
     function setupStrip(strip) {
     var shell = strip.parentNode;
-    var frames = Array.prototype.slice.call(strip.querySelectorAll('.frame[data-video]'));
-    var stripSeen = false;
+    var originals = Array.prototype.slice.call(strip.querySelectorAll('.frame'));
+    var count = originals.length;
+    if (!count) return;
+    var stripSeen = false, inStrip = null;
+    var clones = [], k = 0, setW = 0, rel = [], built = false, looping = false;
+    // Works categories never repeat a video. Their row is scaled to fill the
+    // width exactly; only where that would make the frames too small (phones)
+    // does it fall back to a plain sideways scroll.
+    var canFit = !!strip.closest('.cat');
 
     // A frame that is not a link still previews on focus, so it must be reachable by keyboard
-    frames.forEach(function (f) {
-        if (f.tagName !== 'A' && !f.hasAttribute('tabindex')) f.tabIndex = 0;
-        var v = f.querySelector('video');
-        if (v) v.addEventListener('error', function () { f.classList.remove('playing'); });
+    originals.forEach(function (f) {
+        if (f.hasAttribute('data-video') && f.tagName !== 'A' && !f.hasAttribute('tabindex')) f.tabIndex = 0;
     });
 
+    /* Playback, delegated so the loop's copies behave exactly like the originals */
+    function frameOf(el) {
+        var f = el && el.closest ? el.closest('.frame[data-video]') : null;
+        return f && strip.contains(f) ? f : null;
+    }
     if (hoverable) {
-        frames.forEach(function (f) {
-            f.addEventListener('pointerenter', function () { playIn(f); });
-            f.addEventListener('pointerleave', function () { stopIn(f); });
-            f.addEventListener('focus', function () { playIn(f); });
-            f.addEventListener('blur', function () { stopIn(f); });
-        });
+        strip.addEventListener('pointerover', function (e) { var f = frameOf(e.target); if (f && !f.contains(e.relatedTarget)) playIn(f); });
+        strip.addEventListener('pointerout', function (e) { var f = frameOf(e.target); if (f && !f.contains(e.relatedTarget)) stopIn(f); });
+        strip.addEventListener('focusin', function (e) { var f = frameOf(e.target); if (f) playIn(f); });
+        strip.addEventListener('focusout', function (e) { var f = frameOf(e.target); if (f) stopIn(f); });
     } else if (canAuto && 'IntersectionObserver' in window) {
         // Touch: the frames mostly in view play by themselves; the rest rest
-        var inStrip = new IntersectionObserver(function (entries) {
+        inStrip = new IntersectionObserver(function (entries) {
             entries.forEach(function (e) {
                 e.target.inView = e.isIntersecting;
                 if (e.isIntersecting && stripSeen) playIn(e.target); else stopIn(e.target);
             });
         }, { root: strip, threshold: 0.6 });
-        frames.forEach(function (f) { inStrip.observe(f); });
     }
+    // A stream that cannot load keeps its poster instead of a blank frame
+    strip.addEventListener('error', function (e) { var f = frameOf(e.target); if (f) f.classList.remove('playing'); }, true);
+    function watch(f) { if (inStrip && f.hasAttribute('data-video')) inStrip.observe(f); }
+    originals.forEach(watch);
+
     if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (entries) {
             stripSeen = entries[0].isIntersecting;
-            frames.forEach(function (f) {
+            strip.querySelectorAll('.frame[data-video]').forEach(function (f) {
                 if (stripSeen && f.inView && !hoverable) playIn(f);
                 else if (!stripSeen) stopIn(f);
             });
         }, { threshold: 0.1 }).observe(strip);
     }
 
+    /* The loop */
+    function rtl() { return root.getAttribute('dir') === 'rtl'; }
+    function pos() { return Math.abs(strip.scrollLeft); }
+    function setPos(p) { strip.scrollLeft = rtl() ? -p : p; }
+    // Where the view is within one copy, 0 .. setW. A hair short of a full copy
+    // (sub-pixel scroll positions) counts as the start, not the end.
+    function phase() {
+        if (!looping) return pos();
+        if (!setW) return 0;
+        var q = (((pos() - k * setW) % setW) + setW) % setW;
+        return setW - q < 2 ? 0 : q;
+    }
+
+    function cloneSet() {
+        var frag = document.createDocumentFragment();
+        originals.forEach(function (f) {
+            var c = f.cloneNode(true);
+            c.classList.remove('playing');
+            c.classList.add('frame--clone');
+            c.setAttribute('aria-hidden', 'true');
+            c.setAttribute('tabindex', '-1');
+            var v = c.querySelector('video');
+            if (v) v.removeAttribute('src');
+            frag.appendChild(c);
+            clones.push(c);
+            watch(c);
+        });
+        return frag;
+    }
+
+    function build() {
+        var cw = strip.clientWidth;
+        if (!cw) return;                       // hidden (a filtered-out category): try again when shown
+        var was = looping && setW ? phase() / setW : 0;
+        looping = false;
+        clones.forEach(function (c) { if (inStrip) inStrip.unobserve(c); c.remove(); });
+        clones = [];
+        strip.style.removeProperty('--frame-h');
+        strip.classList.remove('strip--fit');
+        shell.classList.remove('strip-shell--fit');
+        var cs = getComputedStyle(strip);
+        var gap = parseFloat(cs.columnGap) || 0;
+        // offsetWidth is the layout width, so a frame enlarged on hover does not skew it
+        setW = 0; rel = [];
+        originals.forEach(function (f) { rel.push(setW); setW += f.offsetWidth + gap; });
+        if (!setW) return;
+        built = true;
+
+        if (canFit) {
+            var avail = cw - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+            var baseH = originals[0].offsetHeight;
+            var framesW = setW - count * gap;
+            // Height and width scale together, so nothing is cropped; flex-grow
+            // then spreads any width left over by rounding or the height cap.
+            var scale = Math.min((avail - (count - 1) * gap) / framesW, 1.6, (window.innerHeight * 0.72) / baseH);
+            k = 0; strip.scrollLeft = 0;
+            if (baseH * scale >= 240) {
+                strip.style.setProperty('--frame-h', Math.floor(baseH * scale) + 'px');
+                strip.classList.add('strip--fit');
+                shell.classList.add('strip-shell--fit');
+            } else {
+                stripFrame();                  // plain scroll: the real frames, once each
+            }
+            return;
+        }
+        looping = true;
+        // Enough copies on each side to cover the view plus a button step either way
+        k = Math.ceil((cw * 1.8) / setW) + 1;
+        for (var i = 0; i < k; i++) strip.insertBefore(cloneSet(), originals[0]);
+        for (i = 0; i < k; i++) strip.appendChild(cloneSet());
+        setPos(k * setW + was * setW);
+        stripFrame();
+    }
+
+    function normalize() {
+        if (!looping || !setW) { stripFrame(); return; }
+        var want = k * setW + phase();
+        if (Math.abs(want - pos()) > 1) setPos(want);
+        stripFrame();
+    }
+
     var stripFill = shell.querySelector('.strip-bar i');
     var stripIdx = shell.querySelector('.strip-count span');
-    var total = strip.querySelectorAll('.frame').length;
-    var stripRaf = null;
+    var stripRaf = null, idle = null;
     function stripFrame() {
         stripRaf = null;
-        var max = strip.scrollWidth - strip.clientWidth;
-        var frac = max > 0 ? Math.min(1, Math.abs(strip.scrollLeft) / max) : 0;
-        if (stripFill) stripFill.style.transform = 'scaleX(' + frac + ')';
-        var n = Math.round(frac * (total - 1)) + 1;
-        if (stripIdx) stripIdx.textContent = n < 10 ? '0' + n : '' + n;
+        if (!setW) return;
+        var q = phase(), n = 0, best = Infinity;
+        if (!looping) {
+            // Plain scroll: at the far end the last frame counts, even if it never reaches the start
+            var max = strip.scrollWidth - strip.clientWidth;
+            if (max > 0 && q >= max - 2) q = rel[count - 1];
+        }
+        rel.forEach(function (r, i) {
+            var d = looping ? Math.min(Math.abs(q - r), Math.abs(q - r - setW)) : Math.abs(q - r);
+            if (d < best) { best = d; n = i; }
+        });
+        if (stripFill) stripFill.style.transform = 'scaleX(' + ((n + 1) / count) + ')';
+        if (stripIdx) stripIdx.textContent = n + 1 < 10 ? '0' + (n + 1) : '' + (n + 1);
     }
-    strip.addEventListener('scroll', function () { if (stripRaf === null) stripRaf = requestAnimationFrame(stripFrame); }, { passive: true });
-    window.addEventListener('resize', function () { if (stripRaf === null) stripRaf = requestAnimationFrame(stripFrame); }, { passive: true });
-    stripFrame();
+    strip.addEventListener('scroll', function () {
+        if (stripRaf === null) stripRaf = requestAnimationFrame(stripFrame);
+        clearTimeout(idle);
+        idle = setTimeout(normalize, 180);
+    }, { passive: true });
+
+    if ('ResizeObserver' in window) {
+        var lastW = 0;
+        new ResizeObserver(function () {
+            // Only a change of width matters; the first sighting builds the row
+            if (strip.clientWidth !== lastW || !built) { lastW = strip.clientWidth; build(); }
+        }).observe(strip);
+    } else {
+        window.addEventListener('resize', build, { passive: true });
+        build();
+    }
+    langHooks.push(function () { setW = 0; built = false; build(); });   // a direction change mirrors the strip
 
     function stripStep(sign) {
-        var dirSign = root.getAttribute('dir') === 'rtl' ? -1 : 1;
+        normalize();
+        var dirSign = rtl() ? -1 : 1;
         strip.scrollBy({ left: sign * dirSign * strip.clientWidth * 0.7, behavior: reduce ? 'auto' : 'smooth' });
     }
     var prev = shell.querySelector('.strip-btn--prev'), next = shell.querySelector('.strip-btn:not(.strip-btn--prev)');
@@ -474,6 +593,34 @@ function mediaSrc(url) {
     if (!filter || !cats) return;
 
     var chips = Array.prototype.slice.call(filter.querySelectorAll('.chip'));
+
+    /* Arrows for the category bar: shown only when there is more in their direction */
+    var bar = filter.querySelector('.chips'), scroller = filter.querySelector('.chips-scroller');
+    var chipPrev = filter.querySelector('.chips-btn--prev'), chipNext = filter.querySelector('.chips-btn--next');
+    if (bar && scroller && chipPrev && chipNext) {
+        var chipRaf = null;
+        var chipState = function () {
+            chipRaf = null;
+            var max = bar.scrollWidth - bar.clientWidth;
+            var at = Math.abs(bar.scrollLeft);          // RTL scrolls in negatives
+            var hasPrev = max > 1 && at > 1, hasNext = max > 1 && at < max - 1;
+            chipPrev.hidden = !hasPrev; chipNext.hidden = !hasNext;
+            scroller.classList.toggle('has-prev', hasPrev);
+            scroller.classList.toggle('has-next', hasNext);
+        };
+        var chipQueue = function () { if (chipRaf === null) chipRaf = requestAnimationFrame(chipState); };
+        var chipStep = function (sign) {
+            var dir = document.documentElement.getAttribute('dir') === 'rtl' ? -1 : 1;
+            var reduceNow = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            bar.scrollBy({ left: sign * dir * bar.clientWidth * 0.7, behavior: reduceNow ? 'auto' : 'smooth' });
+        };
+        chipPrev.addEventListener('click', function () { chipStep(-1); });
+        chipNext.addEventListener('click', function () { chipStep(1); });
+        bar.addEventListener('scroll', chipQueue, { passive: true });
+        window.addEventListener('resize', chipQueue, { passive: true });
+        if ('ResizeObserver' in window) new ResizeObserver(chipQueue).observe(bar);
+        chipState();
+    }
     var sections = Array.prototype.slice.call(cats.querySelectorAll('.cat'));
     var known = sections.map(function (s) { return s.getAttribute('data-cat'); });
 

@@ -73,6 +73,10 @@
     <div class="filter" id="filter" data-reveal>
         <div class="wrap filter-wrap fade">
             <span class="filter-label" aria-hidden="true">REC ● <span class="lang" data-en="CATEGORY" data-he="קטגוריה" data-ru="КАТЕГОРИЯ">CATEGORY</span></span>
+            <!-- Arrows scroll the category bar when it is wider than the screen; site.js hides
+                 each one when there is nothing more in its direction. -->
+            <div class="chips-scroller">
+            <button class="chips-btn chips-btn--prev lang-aria" type="button" aria-label="Previous categories" data-en="Previous categories" data-he="הקטגוריות הקודמות" data-ru="Предыдущие категории" hidden><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <nav class="chips lang-aria" aria-label="Project categories" data-en="Project categories" data-he="קטגוריות פרויקטים" data-ru="Категории проектов">
             <a class="chip lang" href="#all" data-cat="all" data-en="All" data-he="הכל" data-ru="Все">All</a>
             <a class="chip lang" href="#weddings" data-cat="weddings" data-en="Weddings" data-he="חתונות" data-ru="Свадьбы">Weddings</a>
@@ -88,6 +92,8 @@
             <a class="chip lang" href="#sports" data-cat="sports" data-en="Sports" data-he="ספורט" data-ru="Спорт">Sports</a>
             <a class="chip lang" href="#concerts" data-cat="concerts" data-en="Concerts" data-he="הופעות" data-ru="Концерты">Concerts</a>
             </nav>
+            <button class="chips-btn chips-btn--next lang-aria" type="button" aria-label="More categories" data-en="More categories" data-he="קטגוריות נוספות" data-ru="Ещё категории" hidden><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
         </div>
     </div>
 
