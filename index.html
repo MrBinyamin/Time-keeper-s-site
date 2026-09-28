@@ -58,8 +58,12 @@
 <!-- ══════════ THE OPENING ══════════ -->
 <header class="hero" id="about" data-reveal>
     <div class="hero-film" aria-hidden="true" style="--blur:url('data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAAAQBQCdASogABIAPtlcpE2oJaOiN/qoAQAbCWUAyJgh3zMGT/QkCZG+dpV6yeWeTQUwAP7yrWieQgqw8s7Yq9uprFFBwVGXpaw4Xps3Y+eT28TZBw0U2niVSIQcwnF5yISYlYAA')">
+        <!-- Hero loop from Google Drive (one file for every viewport). site.js rewrites the /view
+             link to a download URL, but Drive refuses cross-site video streaming, so the poster shows
+             until these point at files in assets/hero/ again (see README, "Filling the Works page"). -->
         <video class="hero-video" id="heroVideo" muted playsinline loop preload="none" poster="assets/hero/poster.webp" width="1276" height="720"
-               data-src-lg="assets/hero/loop-1280.mp4" data-src-sm="assets/hero/loop-640.mp4" tabindex="-1"></video>
+               data-src-lg="https://drive.google.com/file/d/1wfvxnKaLFsf-i4CvZKGUDXIL4bMAy13u/view?usp=drivesdk"
+               data-src-sm="https://drive.google.com/file/d/1wfvxnKaLFsf-i4CvZKGUDXIL4bMAy13u/view?usp=drivesdk" tabindex="-1"></video>
     </div>
     <div class="hero-light" aria-hidden="true"></div>
     <div class="hero-vignette" aria-hidden="true"></div>
@@ -340,11 +344,13 @@
         <div class="closing-grid">
             <div class="contact-info fade" style="--i:1;--lag:200ms">
                 <a href="tel:+972532219255" dir="ltr">+972 53 221 9255</a>
-                <a href="mailto:timekeepersproduction.co.il@gmail.com" dir="ltr">timekeepersproduction.co.il@gmail.com</a>
+                <a href="mailto:timekeepersproduction@gmail.com" dir="ltr">timekeepersproduction@gmail.com</a>
                 <a href="https://instagram.com/timekeepers_production" target="_blank" rel="noopener" dir="ltr">@timekeepers_production</a>
             </div>
 
-            <form class="fade" style="--i:2;--lag:200ms" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <form class="fade contact-form" style="--i:2;--lag:200ms" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <input type="hidden" name="_subject" value="New enquiry from the Timekeepers site">
+                <div hidden><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
                 <div class="field">
                     <label class="vh lang" for="f-name" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">Your Name</label>
                     <input id="f-name" type="text" name="name" required placeholder="Your Name" class="lang-placeholder" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">
@@ -358,6 +364,7 @@
                     <textarea id="f-msg" name="message" rows="4" required placeholder="Tell us about your project..." class="lang-placeholder" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте..."></textarea>
                 </div>
                 <button type="submit" class="btn btn-solid lang" data-en="Send Message" data-he="שליחת הודעה" data-ru="Отправить сообщение">Send Message</button>
+                <p class="form-status" role="status" aria-live="polite" hidden></p>
             </form>
         </div>
     </div>

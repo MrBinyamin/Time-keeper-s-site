@@ -156,11 +156,13 @@
         <div class="closing-grid">
             <div class="contact-info fade" style="--i:1;--lag:200ms">
                 <a href="tel:+972532219255" dir="ltr">+972 53 221 9255</a>
-                <a href="mailto:timekeepersproduction.co.il@gmail.com" dir="ltr">timekeepersproduction.co.il@gmail.com</a>
+                <a href="mailto:timekeepersproduction@gmail.com" dir="ltr">timekeepersproduction@gmail.com</a>
                 <a href="https://instagram.com/timekeepers_production" target="_blank" rel="noopener" dir="ltr">@timekeepers_production</a>
             </div>
 
-            <form class="fade" style="--i:2;--lag:200ms" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <form class="fade contact-form" style="--i:2;--lag:200ms" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <input type="hidden" name="_subject" value="New enquiry from the Timekeepers site">
+                <div hidden><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
                 <div class="field">
                     <label class="vh lang" for="f-name" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">Your Name</label>
                     <input id="f-name" type="text" name="name" required placeholder="Your Name" class="lang-placeholder" data-en="Your Name" data-he="השם שלך" data-ru="Ваше имя">
@@ -174,6 +176,7 @@
                     <textarea id="f-msg" name="message" rows="4" required placeholder="Tell us about your project..." class="lang-placeholder" data-en="Tell us about your project..." data-he="ספרו לנו על הפרויקט שלכם..." data-ru="Расскажите о вашем проекте..."></textarea>
                 </div>
                 <button type="submit" class="btn btn-solid lang" data-en="Send Message" data-he="שליחת הודעה" data-ru="Отправить сообщение">Send Message</button>
+                <p class="form-status" role="status" aria-live="polite" hidden></p>
             </form>
         </div>
     </div>

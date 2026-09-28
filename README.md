@@ -6,12 +6,20 @@ Static, multi-page site. No build step: Render serves the files as they are.
 index.html          Home: hero, What We Do, Selected Work, Rate Card, Packages link, Weddings link, Contact
 packages.html       Content Packages
 weddings.html       Wedding Collections
-works.html          Our Work: 12 project categories, hash-filtered (works.html#podcasts)
+works.html          Our Work: 12 project categories, hash-filtered (works.html#sports)
 assets/css/site.css One stylesheet, shared by every page
 assets/js/site.js   One script, shared by every page (language switch, menu, motion, video)
 assets/…            Hero loop, work reels, wedding loops (mp4 + webp poster)
 docs/               Source PDFs the copy and prices come from
 ```
+
+## Contact form
+
+The form on every page posts to [Formspree](https://formspree.io). Create a form there, then
+replace `YOUR_FORM_ID` in the `<form action="https://formspree.io/f/YOUR_FORM_ID">` of all four
+pages with the ID Formspree gives you. `site.js` sends the message in the background and shows a
+status line in the visitor's language; until the ID is set, and if a send ever fails, it opens the
+visitor's own mail client addressed to the studio instead.
 
 ## Languages
 
@@ -64,6 +72,14 @@ placeholders (two 9:16 reels and one 16:9 film to start). A slot is empty until 
   the "Coming soon" readout disappear by themselves. The video plays muted on hover (desktop) or
   when mostly in view (touch), exactly like the home strip.
 - `slot--v` is a vertical reel, `slot--c` a cinematic 16:9 film (it spans three grid columns, full width on phones).
+- A category with four reels and no film gets `class="slots slots--4"` on the container: four columns
+  on desktop, 2 x 2 on phones (Food, Advertisement and Sports use it).
+- `data-video` (and the hero's `data-src-lg` / `data-src-sm`) may also be a Google Drive share link
+  (`https://drive.google.com/file/d/ID/view`), shared as "Anyone with the link". `site.js` rewrites it
+  to the file's download URL and `https://drive.google.com/thumbnail?id=ID&sz=w540` serves as the
+  poster `<img>`. Caveat: Google refuses to stream a Drive file to a `<video>` on another site
+  (it answers 403/503 to any cross-site request), so such a slot shows its poster only. For real
+  hover playback, download the mp4 into `assets/works/` and point `data-video` at that file.
 - To link a slot out (Instagram, YouTube), change `<article>` to `<a href="…" target="_blank" rel="noopener">`.
 - Add or remove slots freely; the grid packs itself. Renumber `--i` for the stagger if you care.
 - New category: copy a whole `<section class="cat">`, give it a new `id="cat-…"` and `data-cat="…"`,

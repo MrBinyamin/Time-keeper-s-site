@@ -1,3 +1,12 @@
+/* A data-video / data-src may be a Google Drive share link
+   (https://drive.google.com/file/d/ID/view). A <video> cannot play that page,
+   so it becomes the file's direct stream URL. The file must be shared as
+   "Anyone with the link". Local paths and other URLs pass through untouched. */
+function mediaSrc(url) {
+    var m = /drive\.google\.com\/file\/d\/([^/?#]+)/.exec(url || '');
+    return m ? 'https://drive.google.com/uc?export=download&id=' + m[1] : url;
+}
+
 (function () {
     'use strict';
 
@@ -309,7 +318,7 @@
 
     function attach(holder) {
         var v = holder.querySelector('video');
-        if (v && !v.getAttribute('src')) { v.src = holder.getAttribute('data-video'); v.load(); }
+        if (v && !v.getAttribute('src')) { v.src = mediaSrc(holder.getAttribute('data-video')); v.load(); }
         return v;
     }
     function playIn(holder) {
@@ -339,7 +348,7 @@
     function heroPlay() {
         if (!heroWanted || !heroSeen || document.hidden) return;
         if (!heroVideo.getAttribute('src')) {
-            heroVideo.src = window.matchMedia('(min-width: 900px)').matches ? heroVideo.getAttribute('data-src-lg') : heroVideo.getAttribute('data-src-sm');
+            heroVideo.src = mediaSrc(window.matchMedia('(min-width: 900px)').matches ? heroVideo.getAttribute('data-src-lg') : heroVideo.getAttribute('data-src-sm'));
             heroVideo.preload = 'auto';
         }
         var p = heroVideo.play(); if (p && p.catch) p.catch(function () {});
@@ -487,11 +496,17 @@
     var slots = Array.prototype.slice.call(cats.querySelectorAll('.slot[data-video]'));
     // A filled slot previews on focus too, so it must be reachable by keyboard
     slots.forEach(function (s) { if (!s.hasAttribute('tabindex') && s.tagName !== 'A') s.tabIndex = 0; });
+    // A stream that cannot load (a Drive file that is not shared, a bad link) keeps
+    // its poster instead of a blank frame: the slot simply stops "playing".
+    slots.forEach(function (s) {
+        var v = s.querySelector('video');
+        if (v) v.addEventListener('error', function () { s.classList.remove('playing'); });
+    });
 
     function playIn(holder) {
         if (!canAuto) return;
         var v = holder.querySelector('video'); if (!v) return;
-        if (!v.getAttribute('src')) { v.src = holder.getAttribute('data-video'); v.load(); }
+        if (!v.getAttribute('src')) { v.src = mediaSrc(holder.getAttribute('data-video')); v.load(); }
         var p = v.play(); if (p && p.catch) p.catch(function () {});
         holder.classList.add('playing');
     }
@@ -514,4 +529,106 @@
         }, { threshold: 0.6 });
         slots.forEach(function (s) { io.observe(s); });
     }
+})();
+
+/* ═════════════════════════════════════════════════════════════
+   Contact form: posts to Formspree in the background and reports
+   back in the visitor's language. Until a real form ID is set in
+   the form's action, and whenever the request fails, the visitor's
+   own mail client takes over instead, so a message is never lost.
+   ═════════════════════════════════════════════════════════════ */
+(function () {
+    'use strict';
+
+    var form = document.querySelector('.contact-form');
+    if (!form) return;
+
+    var root = document.documentElement;
+    var status = form.querySelector('.form-status');
+    var TO = 'timekeepersproduction@gmail.com';
+    var configured = form.action.indexOf('YOUR_FORM_ID') === -1;
+    var canPost = configured && 'fetch' in window && 'FormData' in window;
+
+    var MSG = {
+        en: {
+            sending: 'Sending…',
+            sent: 'Thank you — your message is on its way. We reply within one working day.',
+            error: 'The message could not be sent. Please email us directly at ',
+            mailto: 'Your mail app should open with the message ready to send. If it did not, email us at '
+        },
+        he: {
+            sending: 'שולח…',
+            sent: 'תודה — ההודעה בדרך. אנחנו עונים תוך יום עסקים אחד.',
+            error: 'ההודעה לא נשלחה. אפשר לכתוב לנו ישירות לכתובת ',
+            mailto: 'אפליקציית המייל שלכם אמורה להיפתח עם ההודעה מוכנה לשליחה. אם לא, כתבו לנו לכתובת '
+        },
+        ru: {
+            sending: 'Отправляем…',
+            sent: 'Спасибо — сообщение отправлено. Отвечаем в течение одного рабочего дня.',
+            error: 'Не удалось отправить сообщение. Напишите нам напрямую: ',
+            mailto: 'Должна открыться ваша почтовая программа с готовым письмом. Если нет, напишите нам: '
+        }
+    };
+    var SUBJECT = { en: 'Project enquiry — ', he: 'פנייה לגבי פרויקט — ', ru: 'Запрос по проекту — ' };
+
+    function lang() { return MSG[root.getAttribute('lang')] ? root.getAttribute('lang') : 'en'; }
+
+    /* The last message shown, so a language switch can restate it */
+    var shown = null;
+    function say(key, isError) {
+        shown = key;
+        status.textContent = MSG[lang()][key];
+        status.classList.toggle('is-error', !!isError);
+        if (key === 'error' || key === 'mailto') {
+            var a = document.createElement('a');
+            a.href = 'mailto:' + TO; a.textContent = TO; a.setAttribute('dir', 'ltr');
+            status.appendChild(a);
+            status.appendChild(document.createTextNode('.'));
+        }
+        status.hidden = false;
+    }
+    var prevChange = window.changeLanguage;
+    if (typeof prevChange === 'function') {
+        window.changeLanguage = function (l) {
+            prevChange(l);
+            if (shown) say(shown, status.classList.contains('is-error'));
+        };
+    }
+
+    function field(name) { var el = form.elements[name]; return el ? el.value.trim() : ''; }
+
+    /* Hand the message to the visitor's own mail client */
+    function viaMailClient() {
+        var name = field('name'), email = field('email'), message = field('message');
+        var body = message + '\n\n— ' + name + (email ? ' <' + email + '>' : '');
+        location.href = 'mailto:' + TO +
+            '?subject=' + encodeURIComponent(SUBJECT[lang()] + name) +
+            '&body=' + encodeURIComponent(body);
+        say('mailto');
+    }
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (form.checkValidity && !form.checkValidity()) {
+            if (form.reportValidity) form.reportValidity();
+            return;
+        }
+        if (!canPost) { viaMailClient(); return; }
+
+        form.classList.add('is-sending');
+        say('sending');
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' }
+        }).then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            form.reset();
+            say('sent');
+        }).catch(function () {
+            say('error', true);
+        }).then(function () {
+            form.classList.remove('is-sending');
+        });
+    });
 })();
