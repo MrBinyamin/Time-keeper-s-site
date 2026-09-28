@@ -74,6 +74,17 @@ placeholders (two 9:16 reels and one 16:9 film to start). A slot is empty until 
 - `slot--v` is a vertical reel, `slot--c` a cinematic 16:9 film (it spans three grid columns, full width on phones).
 - A category with four reels and no film gets `class="slots slots--4"` on the container: four columns
   on desktop, 2 x 2 on phones (Food, Advertisement and Sports use it).
+- The previews live in `assets/works/<category>/<category>-NN.mp4` with a `.webp` poster beside each
+  (about 0.5–1.3 MB per clip). They were cut from the masters with ffmpeg (`winget install Gyan.FFmpeg`);
+  to add one, run the same recipe and drop the two files in place:
+
+  ```
+  ffmpeg -i master.mp4 -t 20 -an -vf "scale='if(gt(iw,ih),-2,720)':'if(gt(iw,ih),720,-2)',fps=30,format=yuv420p" -c:v libx264 -preset slow -crf 27 -movflags +faststart food-05.mp4
+  ffmpeg -ss 1 -i master.mp4 -frames:v 1 -vf "scale='if(gt(iw,ih),-2,720)':'if(gt(iw,ih),720,-2)'" -c:v libwebp -q:v 72 food-05.webp
+  ```
+
+  Landscape masters belong in the `slot--c` film slot, portrait ones in `slot--v` reels; `object-fit: cover`
+  crops anything that does not match. The hero uses the same recipe at 1280 and 640 px wide.
 - `data-video` (and the hero's `data-src-lg` / `data-src-sm`) may also be a Google Drive share link
   (`https://drive.google.com/file/d/ID/view`), shared as "Anyone with the link". `site.js` rewrites it
   to the file's download URL and `https://drive.google.com/thumbnail?id=ID&sz=w540` serves as the
